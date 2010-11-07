@@ -2,8 +2,6 @@
 #+STARTUP: hidestars
 #+INFOJS_OPT: view:info toc:t
 #+OPTIONS: H:2 num:t toc:t
-
-
 #+TITLE: Test Post
 #+BEGIN_HTML
 ---
@@ -17,18 +15,13 @@ title: Welcome to CodeHerb
 This website is currently under construction. Please visit later for
 more goodies !
 
-* Some source code test2xx
-#+BEGIN_SRC c++
-class PenLift{
-
-public:
-  vector<Line> m_inLines;
-  set<Point> m_points; 
-  Graph<Point> m_graph;
-};
-#+END_SRC
 
 ** TOC MAYBE? 
+
+* image test
+  [[file:images/creategithubrepo.png]] This is testing writing next to an
+
+
 
 * doesn't look like it 
 
