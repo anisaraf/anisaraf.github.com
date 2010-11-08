@@ -1,0 +1,189 @@
+---
+layout: post
+title:  TopCoder SRM 144 PenLift Part 2
+---
+
+<p>
+As promised last week, lets look at each of the function calls in the
+numtimes method. Please read <a href="http://www.codeherb.com/topcoder-srm-144-penlift">PART I</a> of this post if you haven't done
+so already !  
+</p>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Private class level variable </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+
+
+<pre class="src src-c">vector&lt;Line&gt; m_inLines;
+set&lt;Point&gt; m_points; 
+Graph&lt;Point&gt; m_graph;
+
+</pre>
+
+
+
+<p>
+<b>minLines</b> stores the input data as Line Objects ( we'll explore the
+line class in the next blog post !) 
+</p>
+<p>
+<b>mpoints</b> stores all the unique points in our line segments - used
+primarily during intersection
+</p>
+<p>
+<b>mgraph</b> stores the graph formed by all our lines. We'll explore the
+graph class in another blog post as well   
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">void mergeLines(); </h2>
+<div class="outline-text-2" id="text-2">
+
+
+
+
+
+<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::mergeLines(){ 
+  <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>  = 0; i &lt; m_inLines.size(); ++i )
+    <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">j</span> = i+1; j &lt; m_inLines.size(); ++j)
+      <span class="org-keyword">if</span>(m_inLines[i].merge(m_inLines[j], m_inLines[i]))
+        {
+          m_inLines.erase(m_inLines.begin() + j);
+          i--;
+          <span class="org-keyword">break</span>;
+        }
+}
+</pre>
+
+
+
+
+<p>
+So in order to merge the lines we run an O(n<sup>2</sup>) algorithm. It takes a
+line and compares it to every other line after it.
+The merge function in the Line class looks like
+<b>bool Line::merge(const Line&amp; other, Line&amp; inLine)</b> - the new merged
+line is put in the second argument. So if there is a merge we replaces
+the first line with the new merged line and erases the second line 
+from  our vector.This in effect replaces the smaller lines with the new
+merged line.The key thing to note is that this new line could have
+been  merged with a line we had already seen and hence we decrement i
+and break out of the loop.This way we start by  looking at this newly
+merged line in the next iteration. And the end of this function call
+all line that could be merged are merged. The merge logic itself is
+handled by the Line class which we shall see next week. I wasn't too
+bothered with efficiency I didn't bother optimizing this - but do let
+me know if you come up with a more efficient way !  
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">void intersectLines(); </h2>
+<div class="outline-text-2" id="text-3">
+
+
+
+
+
+<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::intersectLines(){ 
+  <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>  = 0; i &lt; m_inLines.size(); ++i )
+    <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">j</span> = i+1; j &lt; m_inLines.size(); ++j)
+      {
+        <span class="org-type">Point</span> <span class="org-variable-name">newPoint</span>;
+        <span class="org-keyword">if</span>(m_inLines[i].intersection(m_inLines[j], newPoint))
+          m_points.insert(Point(newPoint));
+      }
+
+  <span class="org-keyword">for</span>(set&lt;Point&gt;::iterator it = m_points.begin() ; it != m_points.end() ; ++it)
+    splitLines(*it);
+}
+</pre>
+
+
+
+<p>
+Intersect lines works in an interesting way. What it does it first
+creates all the points of intersection (again an O(n<sup>2</sup>) algorithm) and
+stores them in m<sub>points</sub>. Then it uses these intersections to call a
+function to split our lines ! 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4">void splitLines(const Point&amp; point); </h2>
+<div class="outline-text-2" id="text-4">
+
+
+
+
+
+<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::splitLines(<span class="org-keyword">const</span> <span class="org-type">Point</span>&amp; point)
+{
+  <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span> = 0; i &lt; m_inLines.size() ; i++) 
+    <span class="org-keyword">if</span>(point != m_inLines[i].getStart() &amp;&amp; point != m_inLines[i].getEnd() &amp;&amp; m_inLines[i].isPointOnSegment(point)){
+      m_inLines.push_back (Line(point, m_inLines[i].getEnd()) );
+      m_inLines[i] = Line(point, m_inLines[i].getStart());
+    }
+}
+</pre>
+
+
+
+<p>
+As explained above it takes all the points and splits each line into
+that participates in the intersection into various different
+lines. There can be edge cases here where we don't always create 4 new
+lines. We could also intersect the same line multiple times at
+different points. That is why each point runs through all the lines
+splitting them if required and we don't stop after the first
+split. Read the function carefully to see how it splits the lines and
+handles various cases where there is an intersection but no new lines
+are created !
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5">void createGraph(); </h2>
+<div class="outline-text-2" id="text-5">
+
+
+
+
+
+<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::createGraph(){
+  <span class="org-keyword">for</span>(vector&lt;Line&gt;::iterator it = m_inLines.begin() ; it != m_inLines.end() ; ++it)
+    m_graph.insertEdge(it-&gt;getStart(), it-&gt;getEnd());
+}
+</pre>
+
+
+
+<p>
+This is a simple function which basically constructs a graph out of
+all the lines by inserting an edge between the start and end points of
+the line segment.
+</p>
+<p>
+This should give you an idea of the inner workings of the algorithms
+and how to intersect and merge all those lines. We'll explore the
+Graph, Line, and Point classes in future weeks ! 
+</p>
+<p>
+PS: I am trying out <a href="http://orgmode.org">emacs org mode</a> for my blogging needs ! I'll post
+about this soon. But let's just say I am becoming a fan of emacs org
+mode ! 
+</p>
+</div>
+</div>

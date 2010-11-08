@@ -1,0 +1,134 @@
+#+TITLE:    TopCoder SRM 144: PenLift Part 2
+#+AUTHOR:    Ani
+#+EMAIL:     anirudhsaraf@gmail.com
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:nil toc:t 
+#+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+BEGIN_HTML
+---
+layout: post
+title:  TopCoder SRM 144 PenLift Part 2
+---
+#+END_HTML
+
+As promised last week, lets look at each of the function calls in the
+numtimes method. Please read [[http://www.codeherb.com/topcoder-srm-144-penlift][PART I]] of this post if you haven't done
+so already !  
+
+* Private class level variable 
+
+#+BEGIN_SRC c
+
+  vector<Line> m_inLines;
+  set<Point> m_points; 
+  Graph<Point> m_graph;
+  
+#+END_SRC
+
+*minLines* stores the input data as Line Objects ( we'll explore the
+ line class in the next blog post !) 
+
+*mpoints* stores all the unique points in our line segments - used
+ primarily during intersection
+
+*mgraph* stores the graph formed by all our lines. We'll explore the
+ graph class in another blog post as well   
+
+* void mergeLines();  
+
+#+BEGIN_SRC c
+  void PenLift::mergeLines(){ 
+    for(int i  = 0; i < m_inLines.size(); ++i )
+      for(int j = i+1; j < m_inLines.size(); ++j)
+        if(m_inLines[i].merge(m_inLines[j], m_inLines[i]))
+          {
+            m_inLines.erase(m_inLines.begin() + j);
+            i--;
+            break;
+          }
+  }
+#+END_SRC 
+
+
+So in order to merge the lines we run an O(n^2) algorithm. It takes a
+line and compares it to every other line after it.
+The merge function in the Line class looks like
+*bool Line::merge(const Line& other, Line& inLine)* - the new merged
+line is put in the second argument. So if there is a merge we replaces
+the first line with the new merged line and erases the second line 
+from  our vector.This in effect replaces the smaller lines with the new
+merged line.The key thing to note is that this new line could have
+been  merged with a line we had already seen and hence we decrement i
+and break out of the loop.This way we start by  looking at this newly
+merged line in the next iteration. And the end of this function call
+all line that could be merged are merged. The merge logic itself is
+handled by the Line class which we shall see next week. I wasn't too
+bothered with efficiency I didn't bother optimizing this - but do let
+me know if you come up with a more efficient way !  
+
+* void intersectLines();
+
+#+BEGIN_SRC c
+void PenLift::intersectLines(){ 
+  for(int i  = 0; i < m_inLines.size(); ++i )
+    for(int j = i+1; j < m_inLines.size(); ++j)
+      {
+	Point newPoint;
+	if(m_inLines[i].intersection(m_inLines[j], newPoint))
+	  m_points.insert(Point(newPoint));
+      }
+  
+  for(set<Point>::iterator it = m_points.begin() ; it != m_points.end() ; ++it)
+    splitLines(*it);
+}
+#+END_SRC 
+
+Intersect lines works in an interesting way. What it does it first
+creates all the points of intersection (again an O(n^2) algorithm) and
+stores them in m_points. Then it uses these intersections to call a
+function to split our lines ! 
+
+* void splitLines(const Point& point);
+
+#+BEGIN_SRC c
+void PenLift::splitLines(const Point& point)
+{
+  for(int i = 0; i < m_inLines.size() ; i++) 
+    if(point != m_inLines[i].getStart() && point != m_inLines[i].getEnd() && m_inLines[i].isPointOnSegment(point)){
+      m_inLines.push_back (Line(point, m_inLines[i].getEnd()) );
+      m_inLines[i] = Line(point, m_inLines[i].getStart());
+    }
+}
+#+END_SRC 
+
+As explained above it takes all the points and splits each line into
+that participates in the intersection into various different
+lines. There can be edge cases here where we don't always create 4 new
+lines. We could also intersect the same line multiple times at
+different points. That is why each point runs through all the lines
+splitting them if required and we don't stop after the first
+split. Read the function carefully to see how it splits the lines and
+handles various cases where there is an intersection but no new lines
+are created !
+
+* void createGraph();
+
+#+BEGIN_SRC c
+void PenLift::createGraph(){
+  for(vector<Line>::iterator it = m_inLines.begin() ; it != m_inLines.end() ; ++it)
+    m_graph.insertEdge(it->getStart(), it->getEnd());
+}
+#+END_SRC 
+
+This is a simple function which basically constructs a graph out of
+all the lines by inserting an edge between the start and end points of
+the line segment.
+
+This should give you an idea of the inner workings of the algorithms
+and how to intersect and merge all those lines. We'll explore the
+Graph, Line, and Point classes in future weeks ! 
+
+PS: I am trying out [[http://orgmode.org][emacs org mode]] for my blogging needs ! I'll post
+about this soon. But let's just say I am becoming a fan of emacs org
+mode ! 
+
