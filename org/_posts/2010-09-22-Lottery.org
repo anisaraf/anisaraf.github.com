@@ -12,7 +12,7 @@ title:  TopCoder SRM 144 Lottery
 ---
 #+END_HTML
 *** Problem Statement  : [[http://www.topcoder.com/stat?c%3Dproblem_statement&amp%3Bpm%3D1659&amp%3Brd%3D4515][Lottery]] 
-*** Solution           : [[http://gist.github.com/592953][{C++}]] (GitHub)   
+*** Solution           : [[http://gist.github.com/592953][Lottery.cxx]]   
 *** Used As            : Division I Level Two    
 *** Categories         : Advanced Math     
 
