@@ -6,7 +6,7 @@ title:  TopCoder SRM 144 PenLift Part 2
 <p>
 As promised last week, lets look at each of the function calls in the
 numtimes method. Please read <a href="http://www.codeherb.com/topcoder-srm-144-penlift">PART I</a> of this post if you haven't done
-so already !  
+so already  
 </p>
 
 <div id="outline-container-1" class="outline-2">
@@ -27,7 +27,7 @@ so already !
 
 <p>
 <b>minLines</b> stores the input data as Line Objects ( we'll explore the
-line class in the next blog post !) 
+line class in the next blog post! ) 
 </p>
 <p>
 <b>mpoints</b> stores all the unique points in our line segments - used
@@ -79,7 +79,7 @@ merged line in the next iteration. And the end of this function call
 all line that could be merged are merged. The merge logic itself is
 handled by the Line class which we shall see next week. I wasn't too
 bothered with efficiency I didn't bother optimizing this - but do let
-me know if you come up with a more efficient way !  
+me know if you come up with a more efficient way!  
 </p>
 </div>
 
@@ -113,7 +113,7 @@ me know if you come up with a more efficient way !
 Intersect lines works in an interesting way. What it does it first
 creates all the points of intersection (again an O(n<sup>2</sup>) algorithm) and
 stores them in m<sub>points</sub>. Then it uses these intersections to call a
-function to split our lines ! 
+function to split our lines! 
 </p>
 </div>
 
@@ -148,7 +148,7 @@ different points. That is why each point runs through all the lines
 splitting them if required and we don't stop after the first
 split. Read the function carefully to see how it splits the lines and
 handles various cases where there is an intersection but no new lines
-are created !
+are created!
 </p>
 </div>
 
@@ -178,12 +178,12 @@ the line segment.
 <p>
 This should give you an idea of the inner workings of the algorithms
 and how to intersect and merge all those lines. We'll explore the
-Graph, Line, and Point classes in future weeks ! 
+Graph, Line, and Point classes in future weeks! 
 </p>
 <p>
-PS: I am trying out <a href="http://orgmode.org">emacs org mode</a> for my blogging needs ! I'll post
+PS: I am trying out <a href="http://orgmode.org">emacs org mode</a> for my blogging needs! I'll post
 about this soon. But let's just say I am becoming a fan of emacs org
-mode ! 
+mode! 
 </p>
 </div>
 </div>

@@ -5,8 +5,6 @@
 #+STARTUP: hidestars
 #+INFOJS_OPT: view:info toc:t
 #+OPTIONS: H:2 num:t toc:t
-
-#+TITLE: Source Code
 #+BEGIN_HTML
 ---
 layout: post
@@ -16,7 +14,7 @@ title:  TopCoder SRM 144 PenLift Part 2
 
 As promised last week, lets look at each of the function calls in the
 numtimes method. Please read [[http://www.codeherb.com/topcoder-srm-144-penlift][PART I]] of this post if you haven't done
-so already !  
+so already  
 
 * Private class level variable 
 
@@ -29,7 +27,7 @@ so already !
 #+END_SRC
 
 *minLines* stores the input data as Line Objects ( we'll explore the
- line class in the next blog post !) 
+ line class in the next blog post! ) 
 
 *mpoints* stores all the unique points in our line segments - used
  primarily during intersection
@@ -67,7 +65,7 @@ merged line in the next iteration. And the end of this function call
 all line that could be merged are merged. The merge logic itself is
 handled by the Line class which we shall see next week. I wasn't too
 bothered with efficiency I didn't bother optimizing this - but do let
-me know if you come up with a more efficient way !  
+me know if you come up with a more efficient way!  
 
 * void intersectLines();
 
@@ -89,7 +87,7 @@ void PenLift::intersectLines(){
 Intersect lines works in an interesting way. What it does it first
 creates all the points of intersection (again an O(n^2) algorithm) and
 stores them in m_points. Then it uses these intersections to call a
-function to split our lines ! 
+function to split our lines! 
 
 * void splitLines(const Point& point);
 
@@ -112,7 +110,7 @@ different points. That is why each point runs through all the lines
 splitting them if required and we don't stop after the first
 split. Read the function carefully to see how it splits the lines and
 handles various cases where there is an intersection but no new lines
-are created !
+are created!
 
 * void createGraph();
 
@@ -129,9 +127,9 @@ the line segment.
 
 This should give you an idea of the inner workings of the algorithms
 and how to intersect and merge all those lines. We'll explore the
-Graph, Line, and Point classes in future weeks ! 
+Graph, Line, and Point classes in future weeks! 
 
-PS: I am trying out [[http://orgmode.org][emacs org mode]] for my blogging needs ! I'll post
+PS: I am trying out [[http://orgmode.org][emacs org mode]] for my blogging needs! I'll post
 about this soon. But let's just say I am becoming a fan of emacs org
-mode ! 
+mode! 
 
