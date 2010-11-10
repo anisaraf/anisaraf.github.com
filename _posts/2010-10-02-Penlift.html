@@ -1,0 +1,186 @@
+---
+layout: post
+title:  TopCoder SRM 144 PenLift
+---
+
+<ul>
+<li id="sec-1">Problem Statement:  <a href="http://www.topcoder.com/stat?c=problem_statement&amp;amp;pm=1649">PenLift</a> (TopCoder - Registration) <a href="http://pastehtml.com/view/1bb694t.rtxt">PenLift</a> (No Registration) <br/>
+</li>
+<li id="sec-2">Solution: <a href="http://gist.github.com/608159">PenLift.cxx</a> Graph.h Line.h Point.h <br/>
+</li>
+<li id="sec-3">Used As : Division I Level Three <br/>
+</li>
+<li id="sec-4">Categories : Geometry, Graph Theory <br/>
+
+</li>
+</ul>
+
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1">Algorithm overview </h3>
+<div class="outline-text-3" id="text-1">
+
+
+<p>
+Reading this problem for the first time it is natural to feel
+overwhelmed. Take a deep breath, relax and think about <a href="http://www.mathopenref.com/coordintro.html">coordinate geometry</a>, <a href="http://en.wikipedia.org/wiki/Graph_theory">graph theory</a> and <a href="http://en.wikipedia.org/wiki/Eulerian_path">Eulerian paths</a>. Let's look at a sample
+input. 
+</p>
+
+
+   <center>
+<p>
+<img src="/images/penlift.png"  alt="/images/penlift.png" />
+   </center>
+
+Input = {"0 0 1 0", "2 0 4 0", "5 0 8 0", "9 0 13 0", "0 1 1 1", "2
+1 4 1", "5 1 8 1", "9 1 13 1", "0 0 0 1", "1 0 1 1", "2 0 2 1", "3
+0 3 1", "4 0 4 1", "5 0 5 1", "6 0 6 1", "7 0 7 1", "8 0 8 1", "9 0
+9 1", "10 0 10 1", "11 0 11 1", "12 0 12 1", "13 0 13 1"}
+</p>
+<p>
+Looking at the input and the picture, the first part of our
+algorithm becomes a little clearer - we need to use <b>coordinate    geometry to convert the input points</b> to accurately represent the
+picture. Once we have line segments representing the picture, it
+isn't too difficult to take the leap and see that we can <b>easily    translate that picture into a graph</b> where the points are vertexes
+and the line joining the points can be depicted as edges in the
+graph.
+</p>
+<p>
+Let's <b>rephrase the problem now - given a graph, how many paths are</b>
+<b>required to trace all the edges exactly once starting at any    vertex?</b> Luckily for us this is a standard graph theory problem with
+a known solution. The key takeaway here is getting to the point
+where you can rephrase the question. Even if you are haven't heard
+of Euler paths, a quick google search on the rephrased question
+should bring you enough articles to get you to the final solution!
+So your excuse that you are unfamiliar with advanced graph theory
+shouldn't be a total stumbling block.    
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-3">
+<h3 id="sec-2">Math </h3>
+<div class="outline-text-3" id="text-2">
+
+<p>Since the lines are horizontal and vertical, it is a lot simpler to
+use simple logic to find the points of intersection than go with
+the complex co-ordinate geometry equations. Of course, if you are
+interested, <a href="http://www.mathisfunforum.com/viewtopic.php?id=3301">these equations</a> can be pretty handy to know ! 
+</p>
+<p>
+After we have all the line segments, we get into the graph theory
+to see exactly how this leads us to our solution. For each
+<a href="http://en.wikipedia.org/wiki/Connected_component_(graph_theory)">connected component</a> in the graph, if ‘n’ (as specified in the
+problem) is even then each vertex in the graph will have an even
+number of edges and hence we can trace an Eulerian circuit. Thus we
+don’t need to lift our pen ! If however there are odd edges, there
+must be an even number of odd degrees. If we divide that number by
+2 we get the number of paths in the graph required to trace all the
+edges. This is equivalent to saying the number of PenLift’s
+required to trace each edge in the graph ! <b>Phew, stop</b>. Let that
+sink in.
+</p>
+
+
+   <center>
+<p>
+<img src="/images/stopthink.gif"  alt="/images/stopthink.gif" />
+   </center>
+</p>
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-3">
+<h3 id="sec-3">Coding </h3>
+<div class="outline-text-3" id="text-3">
+
+<p>Since the code in this blog is meant more for learning than just
+solving the problem - I am going to be breaking the code into
+various classes, and making it a lot more verbose than it needs to
+be for this particular problem. I am going to be writing different
+classes - namely <a href="http://gist.github.com/608159">PenLift</a>( containing the main algorithm) , Graph
+(to represent our graph), Line ( to represent the line segments)
+and Point ( to represent the endpoints of the line segment). The
+hope is that the Graph, Line, Point classes will be usable for
+future problems as well ! Lets get our hand's dirty now shall we 
+</p>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-3">
+<h3 id="sec-4">The Main Algorithm </h3>
+<div class="outline-text-3" id="text-4">
+
+
+
+
+
+<pre class="src src-c++"><span class="org-type">int</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">numTimes</span>(<span class="org-type">vector</span>&lt;<span class="org-type">string</span>&gt; <span class="org-variable-name">segments</span>, <span class="org-type">int</span> <span class="org-variable-name">n</span>) 
+{
+  transform(segments.begin(), segments.end(),
+              back_inserter(m_inLines), <span class="org-constant">PenLift</span>::getLine);
+  mergeLines();    
+  intersectLines();
+  createGraph();
+  <span class="org-type">vector</span>&lt; <span class="org-type">Graph</span>&lt;Point&gt; &gt; <span class="org-variable-name">g</span> = m_graph.getConnectedGraphs();
+  <span class="org-keyword">if</span>(n % 2 == 0)
+    <span class="org-keyword">return</span> (g.size() - 1);
+  <span class="org-type">int</span> <span class="org-variable-name">rValue</span> =0;
+  <span class="org-keyword">for</span>( <span class="org-constant">vector</span>&lt; <span class="org-type">Graph</span>&lt;Point&gt; &gt;::<span class="org-type">iterator</span> <span class="org-variable-name">it</span> = g.begin() ;
+          it != g.end(); ++it)
+    {
+      <span class="org-type">int</span> <span class="org-variable-name">odd</span> = it-&gt;numOddVertices()/2;
+      rValue +=  odd &gt; 0 ? odd:1; 
+    }
+  <span class="org-keyword">return</span> rValue - 1;
+}
+
+</pre>
+
+
+
+<p>
+Most of the heavy lifting in this function is done by calling other
+function's but reading it does outline all the blabbering I did above!
+The first thing we go is convert all the strings in the input to
+Line objects. Once we have these Line objects, we <b>merge all those line segments</b> which are adjacent to each other, thus removing redundant
+line segments. Think about it for a second - do we really need to
+remove the redundant lines? If we didn't wouldn't that just create
+extra vertices in our graph? Should that really affect our answer ?
+The answer is Yes it would - can you come up with a scenario before
+proceeding further?
+</p>
+
+<p>
+After we <b>merge the lines</b>, we must <b>intersect the lines</b> to create
+vertices at the point of intersections, or in effect break our long
+line segments into smaller pieces. After this step we should have all
+the line segments as drawn out in the input picture above. Now we call
+the function <b>createGraph()</b>, which basically converts all these line
+segments into a graph. We break this graph into a list of graphs of
+<a href="http://en.wikipedia.org/wiki/Connected_component_(graph_theory)">connected components</a> - do you see why we need that? Then for each of
+the components we calculate the PenLifts required, and return the sum
+of them - 1 . Do you see why we need to subtract one at the end? Do
+you see why we return the number of connected components when we have
+n as even? <b>Think about this. Let it marinate</b>. I'll be back next week
+with more Code and explanations for each of the above functions. In
+the meantime why don't you get your <b>hands dirty?</b>
+</p>
+
+
+   <center>
+<p>
+<img src="/images/handsdirty.jpg"  alt="/images/handsdirty.jpg" />
+   </center>
+
+
+See you next weekend !
+</p></div>
+</div>

@@ -1,9 +1,12 @@
 #+TITLE:    TopCoder SRM 144: PenLift Part 2
 #+AUTHOR:    Ani
 #+EMAIL:     anirudhsaraf@gmail.com
-#+LANGUAGE:  en
-#+OPTIONS:   H:3 num:nil toc:t 
-#+INFOJS_OPT: view:nil toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+INFOJS_OPT: view:info toc:t
+#+OPTIONS: H:2 num:t toc:t
+
+#+TITLE: Source Code
 #+BEGIN_HTML
 ---
 layout: post
@@ -17,7 +20,7 @@ so already !
 
 * Private class level variable 
 
-#+BEGIN_SRC c
+#+BEGIN_SRC c++
 
   vector<Line> m_inLines;
   set<Point> m_points; 
@@ -36,7 +39,7 @@ so already !
 
 * void mergeLines();  
 
-#+BEGIN_SRC c
+#+BEGIN_SRC c++
   void PenLift::mergeLines(){ 
     for(int i  = 0; i < m_inLines.size(); ++i )
       for(int j = i+1; j < m_inLines.size(); ++j)
@@ -68,7 +71,7 @@ me know if you come up with a more efficient way !
 
 * void intersectLines();
 
-#+BEGIN_SRC c
+#+BEGIN_SRC c++
 void PenLift::intersectLines(){ 
   for(int i  = 0; i < m_inLines.size(); ++i )
     for(int j = i+1; j < m_inLines.size(); ++j)
@@ -90,7 +93,7 @@ function to split our lines !
 
 * void splitLines(const Point& point);
 
-#+BEGIN_SRC c
+#+BEGIN_SRC c++
 void PenLift::splitLines(const Point& point)
 {
   for(int i = 0; i < m_inLines.size() ; i++) 
@@ -113,7 +116,7 @@ are created !
 
 * void createGraph();
 
-#+BEGIN_SRC c
+#+BEGIN_SRC c++
 void PenLift::createGraph(){
   for(vector<Line>::iterator it = m_inLines.begin() ; it != m_inLines.end() ; ++it)
     m_graph.insertEdge(it->getStart(), it->getEnd());

@@ -1,0 +1,122 @@
+#+TITLE:    TopCoder SRM 144: Lottery
+#+AUTHOR:    Ani
+#+EMAIL:     anirudhsaraf@gmail.com
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+INFOJS_OPT: view:info toc:t
+#+OPTIONS: H:2 num:t toc:t
+#+BEGIN_HTML
+---
+layout: post
+title:  TopCoder SRM 144 Lottery
+---
+#+END_HTML
+*** Problem Statement  : [[http://www.topcoder.com/stat?c%3Dproblem_statement&amp%3Bpm%3D1659&amp%3Brd%3D4515][Lottery]] 
+*** Solution           : [[http://gist.github.com/592953][{C++}]] (GitHub)   
+*** Used As            : Division I Level Two    
+*** Categories         : Advanced Math     
+
+
+** Math:
+
+Reading the problem statement it should be clear that generating all
+the possible lottery numbers and then verifying them is not an option. The
+most important thing is realizing that the question is in fact just asking
+you to [[http://www.mathsisfun.com/combinatorics/combinations-permutations.html][find combinations and permutations with and without
+repetitions]]. Equipped with the formulas, all that remains is
+parsing and final sorting of the results. Let's abstract away the fact
+that we need to do it for a vector. If we can calculate the odds for
+one string, then we can loop through and calculate the odds for n number of
+strings. So lets concentrate on calculating the odds for just one string
+
+** Parsing:
+We can use the [[http://www.cplusplus.com/reference/iostream/istringstream/][istringstream]] class to easily allow us
+to parse the string.
+
+#+BEGIN_SRC c++
+
+istringstream in(rule);   
+getline(in,szName, ':'); 
+in>>nChoices>>nBlanks>>cSorted>>cUnique; 
+
+#+END_SRC c++
+
+
+Yes its as simple as that ! Now on to calculating the Odds.
+
+** Calculating Odds:
+The key thing to note here is that we need to be using unsigned long
+long as the type since the numbers can get pretty big. We also don't 
+want to generate all the factorials and then divide, so we write two simple functions  
+
+*** *unsigned long long factorialDivide(int num, int den)* - This returns the results of num!/ div!  
+*** *unsigned long long factorial(int num)* - This just returns num!
+
+** 
+#+BEGIN_SRC c++
+
+//Unique Permutations: n!/(n -r)!
+ if(cUnique == 'T' &amp;&amp; cSorted=='F'){
+    return make_pair(factorialDivide(nChoices, nChoices - nBlanks),szName);
+ }
+
+//Non-Unique Permutations n ^ r
+ else if(cUnique == 'F'  &amp;&amp; cSorted == 'F'){
+    return make_pair(pow(nChoices, nBlanks), szName);
+ }
+
+//Unique Combinations: n! / r! (n-r)!
+ else if(cUnique=='T' &amp;&amp; cSorted=='T'){
+    unsigned long long temp = factorialDivide(nChoices, nChoices - nBlanks);
+    return make_pair(temp / factorial(nBlanks), szName);
+ }
+
+//Non-Unique Combinations: (n+r-1)! / r! (n-1)!
+ else if(cUnique=='F' &amp;&amp; cSorted=='T'){
+    unsigned long long temp = factorialDivide(nChoices + nBlanks - 1, nChoices - 1);
+    return make_pair(temp / factorial(nBlanks), szName);
+ }    
+
+#+END_SRC c++
+
+** Doing it for 'n' strings:
+This is the part where STL shines ! We
+will use the STL [[http://www.cplusplus.com/reference/algorithm/transform/][transform]] function to do this in one line.
+
+#+BEGIN_SRC c++
+
+typedef std::pair LotteryOdds<unsigned long long, string>;
+vector results <LotteryOdds>;
+transform(rules.begin(),rules.end(),
+inserter(results,results.begin()),Lottery::getOdds);
+
+#+END_SRC c++
+
+The transform function runs every  'rule' through the getOdds function which
+returns the LotteryOdds pairs. We store this in a vector.
+
+** Sorting:
+
+Now that we have all the results, we need to sort them. This
+is a little tricky since we can have equal odds. We can utilize the
+STL [[http://www.cplusplus.com/reference/algorithm/sort/][sort]] but we wil need to provide our own comparator function.
+
+#+BEGIN_SRC c++
+       struct LotteryOddsCompare{
+         bool operator()(const LotteryOdds&amp; left, const LotteryOdds right)
+          if(left.first == right.first)  // equal odds then compare names
+             return left.second &lt; right.second;
+          else
+             return left.first &lt; right.first;
+          }
+       };
+
+      sort(results.begin(), results.end(), LotteryOddsCompare());
+#+END_SRC c++
+
+Thats it. We have the sorted odds in the results vector! 
+
+
+New herbs/comments/suggestions/shout-out/tweets for the problem appreciated ! 
+
+

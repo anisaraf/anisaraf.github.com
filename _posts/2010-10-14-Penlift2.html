@@ -17,9 +17,9 @@ so already !
 
 
 
-<pre class="src src-c">vector&lt;Line&gt; m_inLines;
-set&lt;Point&gt; m_points; 
-Graph&lt;Point&gt; m_graph;
+<pre class="src src-c++"><span class="org-type">vector</span>&lt;Line&gt; <span class="org-variable-name">m_inLines</span>;
+<span class="org-type">set</span>&lt;Point&gt; <span class="org-variable-name">m_points</span>; 
+<span class="org-type">Graph</span>&lt;Point&gt; <span class="org-variable-name">m_graph</span>;
 
 </pre>
 
@@ -49,7 +49,7 @@ graph class in another blog post as well
 
 
 
-<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::mergeLines(){ 
+<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">mergeLines</span>(){ 
   <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>  = 0; i &lt; m_inLines.size(); ++i )
     <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">j</span> = i+1; j &lt; m_inLines.size(); ++j)
       <span class="org-keyword">if</span>(m_inLines[i].merge(m_inLines[j], m_inLines[i]))
@@ -93,7 +93,7 @@ me know if you come up with a more efficient way !
 
 
 
-<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::intersectLines(){ 
+<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">intersectLines</span>(){ 
   <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>  = 0; i &lt; m_inLines.size(); ++i )
     <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">j</span> = i+1; j &lt; m_inLines.size(); ++j)
       {
@@ -102,7 +102,7 @@ me know if you come up with a more efficient way !
           m_points.insert(Point(newPoint));
       }
 
-  <span class="org-keyword">for</span>(set&lt;Point&gt;::iterator it = m_points.begin() ; it != m_points.end() ; ++it)
+  <span class="org-keyword">for</span>(<span class="org-constant">set</span>&lt;<span class="org-type">Point</span>&gt;::<span class="org-type">iterator</span> <span class="org-variable-name">it</span> = m_points.begin() ; it != m_points.end() ; ++it)
     splitLines(*it);
 }
 </pre>
@@ -127,7 +127,7 @@ function to split our lines !
 
 
 
-<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::splitLines(<span class="org-keyword">const</span> <span class="org-type">Point</span>&amp; point)
+<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">splitLines</span>(<span class="org-keyword">const</span> <span class="org-type">Point</span>&amp; <span class="org-variable-name">point</span>)
 {
   <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span> = 0; i &lt; m_inLines.size() ; i++) 
     <span class="org-keyword">if</span>(point != m_inLines[i].getStart() &amp;&amp; point != m_inLines[i].getEnd() &amp;&amp; m_inLines[i].isPointOnSegment(point)){
@@ -162,8 +162,8 @@ are created !
 
 
 
-<pre class="src src-c"><span class="org-type">void</span> <span class="org-function-name">PenLift</span>::createGraph(){
-  <span class="org-keyword">for</span>(vector&lt;Line&gt;::iterator it = m_inLines.begin() ; it != m_inLines.end() ; ++it)
+<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">createGraph</span>(){
+  <span class="org-keyword">for</span>(<span class="org-constant">vector</span>&lt;Line&gt;::<span class="org-type">iterator</span> <span class="org-variable-name">it</span> = m_inLines.begin() ; it != m_inLines.end() ; ++it)
     m_graph.insertEdge(it-&gt;getStart(), it-&gt;getEnd());
 }
 </pre>

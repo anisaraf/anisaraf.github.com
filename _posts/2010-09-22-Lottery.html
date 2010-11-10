@@ -1,0 +1,182 @@
+---
+layout: post
+title:  TopCoder SRM 144 Lottery
+---
+<ul>
+<li id="sec-1">Problem Statement  : <a href="http://www.topcoder.com/stat?c=problem_statement&amp;amp;pm=1659&amp;amp;rd=4515">Lottery</a> <br/>
+</li>
+<li id="sec-2">Solution           : <a href="http://gist.github.com/592953">{C++}</a> (GitHub) <br/>
+</li>
+<li id="sec-3">Used As            : Division I Level Two <br/>
+</li>
+<li id="sec-4">Categories         : Advanced Math <br/>
+
+
+</li>
+</ul>
+
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1">Math: </h3>
+<div class="outline-text-3" id="text-1">
+
+
+<p>
+Reading the problem statement it should be clear that generating all
+the possible lottery numbers and then verifying them is not an option. The
+most important thing is realizing that the question is in fact just asking
+you to <a href="http://www.mathsisfun.com/combinatorics/combinations-permutations.html">find combinations and permutations with and without repetitions</a>. Equipped with the formulas, all that remains is
+parsing and final sorting of the results. Let's abstract away the fact
+that we need to do it for a vector. If we can calculate the odds for
+one string, then we can loop through and calculate the odds for n number of
+strings. So lets concentrate on calculating the odds for just one string
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-3">
+<h3 id="sec-2">Parsing: </h3>
+<div class="outline-text-3" id="text-2">
+
+<p>We can use the <a href="http://www.cplusplus.com/reference/iostream/istringstream/">istringstream</a> class to easily allow us
+to parse the string.
+</p>
+
+
+
+<pre class="src src-c++"><span class="org-type">istringstream</span> <span class="org-function-name">in</span>(rule);   
+getline(in,szName, <span class="org-string">':'</span>); 
+in&gt;&gt;nChoices&gt;&gt;nBlanks&gt;&gt;cSorted&gt;&gt;cUnique; 
+
+</pre>
+
+
+
+
+<p>
+Yes its as simple as that ! Now on to calculating the Odds.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-3">
+<h3 id="sec-3">Calculating Odds: </h3>
+<div class="outline-text-3" id="text-3">
+
+<p>The key thing to note here is that we need to be using unsigned long
+long as the type since the numbers can get pretty big. We also don't 
+want to generate all the factorials and then divide, so we write two simple functions  
+</p>
+<ul>
+<li id="sec-3_1"><b>unsigned long long factorialDivide(int num, int den)</b> - This returns the results of num!/ div! <br/>
+</li>
+<li id="sec-3_2"><b>unsigned long long factorial(int num)</b> - This just returns num! <br/>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-3">
+<h3 id="sec-4"></h3>
+<div class="outline-text-3" id="text-4">
+
+
+
+
+<pre class="src src-c++"><span class="org-comment-delimiter">//</span><span class="org-comment">Unique Permutations: n!/(n -r)!
+</span> <span class="org-keyword">if</span>(cUnique == <span class="org-string">'T'</span> &amp;amp;&amp;amp; cSorted==<span class="org-string">'F'</span>){
+    <span class="org-keyword">return</span> make_pair(factorialDivide(nChoices, nChoices - nBlanks),szName);
+ }
+
+<span class="org-comment-delimiter">//</span><span class="org-comment">Non-Unique Permutations n ^ r
+</span> <span class="org-keyword">else</span> <span class="org-keyword">if</span>(cUnique == <span class="org-string">'F'</span>  &amp;amp;&amp;amp; cSorted == <span class="org-string">'F'</span>){
+    <span class="org-keyword">return</span> make_pair(pow(nChoices, nBlanks), szName);
+ }
+
+<span class="org-comment-delimiter">//</span><span class="org-comment">Unique Combinations: n! / r! (n-r)!
+</span> <span class="org-keyword">else</span> <span class="org-keyword">if</span>(cUnique==<span class="org-string">'T'</span> &amp;amp;&amp;amp; cSorted==<span class="org-string">'T'</span>){
+    <span class="org-type">unsigned</span> <span class="org-type">long</span> <span class="org-type">long</span> <span class="org-variable-name">temp</span> = factorialDivide(nChoices, nChoices - nBlanks);
+    <span class="org-keyword">return</span> make_pair(temp / factorial(nBlanks), szName);
+ }
+
+<span class="org-comment-delimiter">//</span><span class="org-comment">Non-Unique Combinations: (n+r-1)! / r! (n-1)!
+</span> <span class="org-keyword">else</span> <span class="org-keyword">if</span>(cUnique==<span class="org-string">'F'</span> &amp;amp;&amp;amp; cSorted==<span class="org-string">'T'</span>){
+    <span class="org-type">unsigned</span> <span class="org-type">long</span> <span class="org-type">long</span> <span class="org-variable-name">temp</span> = factorialDivide(nChoices + nBlanks - 1, nChoices - 1);
+    <span class="org-keyword">return</span> make_pair(temp / factorial(nBlanks), szName);
+ }    
+
+</pre>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-3">
+<h3 id="sec-5">Doing it for 'n' strings: </h3>
+<div class="outline-text-3" id="text-5">
+
+<p>This is the part where STL shines ! We
+will use the STL <a href="http://www.cplusplus.com/reference/algorithm/transform/">transform</a> function to do this in one line.
+</p>
+
+
+
+<pre class="src src-c++"><span class="org-keyword">typedef</span> <span class="org-constant">std</span>::<span class="org-type">pair</span> <span class="org-type">LotteryOdds</span>&lt;<span class="org-type">unsigned</span> <span class="org-type">long</span> <span class="org-type">long</span>, <span class="org-type">string</span>&gt;;
+<span class="org-type">vector</span> <span class="org-type">results</span> &lt;LotteryOdds&gt;;
+transform(rules.begin(),rules.end(),
+inserter(results,results.begin()),<span class="org-constant">Lottery</span>::getOdds);
+
+</pre>
+
+
+
+<p>
+The transform function runs every  'rule' through the getOdds function which
+returns the LotteryOdds pairs. We store this in a vector.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-3">
+<h3 id="sec-6">Sorting: </h3>
+<div class="outline-text-3" id="text-6">
+
+
+<p>
+Now that we have all the results, we need to sort them. This
+is a little tricky since we can have equal odds. We can utilize the
+STL <a href="http://www.cplusplus.com/reference/algorithm/sort/">sort</a> but we wil need to provide our own comparator function.
+</p>
+
+
+
+<pre class="src src-c++"> <span class="org-keyword">struct</span> <span class="org-type">LotteryOddsCompare</span>{
+   <span class="org-type">bool</span> <span class="org-keyword">operator</span><span class="org-function-name">()</span>(<span class="org-keyword">const</span> <span class="org-type">LotteryOdds</span>&amp;<span class="org-variable-name">amp</span>; left, <span class="org-keyword">const</span> <span class="org-type">LotteryOdds</span> <span class="org-variable-name">right</span>)
+    <span class="org-keyword">if</span>(left.first == right.first)  <span class="org-comment-delimiter">// </span><span class="org-comment">equal odds then compare names
+</span>       <span class="org-keyword">return</span> left.second &amp;lt; right.second;
+    <span class="org-keyword">else</span>
+       <span class="org-keyword">return</span> left.first &amp;lt; right.first;
+    }
+ };
+
+sort(results.begin(), results.end(), LotteryOddsCompare());
+</pre>
+
+
+
+<p>
+Thats it. We have the sorted odds in the results vector! 
+</p>
+
+<p>
+New herbs/comments/suggestions/shout-out/tweets for the problem appreciated ! 
+</p>
+
+</div>
+</div>
