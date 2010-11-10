@@ -35,9 +35,9 @@ to parse the string.
 
 #+BEGIN_SRC c++
 
-istringstream in(rule);   
-getline(in,szName, ':'); 
-in>>nChoices>>nBlanks>>cSorted>>cUnique; 
+ istringstream in(rule);   
+ getline(in,szName, ':'); 
+ in>>nChoices>>nBlanks>>cSorted>>cUnique; 
 
 #+END_SRC c++
 
@@ -85,10 +85,10 @@ will use the STL [[http://www.cplusplus.com/reference/algorithm/transform/][tran
 
 #+BEGIN_SRC c++
 
-typedef std::pair LotteryOdds<unsigned long long, string>;
-vector results <LotteryOdds>;
-transform(rules.begin(),rules.end(),
-inserter(results,results.begin()),Lottery::getOdds);
+ typedef std::pair LotteryOdds<unsigned long long, string>;
+ vector results <LotteryOdds>;
+ transform(rules.begin(),rules.end(),
+ inserter(results,results.begin()),Lottery::getOdds);
 
 #+END_SRC c++
 
@@ -112,6 +112,7 @@ STL [[http://www.cplusplus.com/reference/algorithm/sort/][sort]] but we wil need
        };
 
       sort(results.begin(), results.end(), LotteryOddsCompare());
+
 #+END_SRC c++
 
 Thats it. We have the sorted odds in the results vector! 
