@@ -3,8 +3,10 @@ layout: default
 ---
 <div id="post">
   <div class="posttitle">
-    {{ page.title }}
+    {{ page.title }} <br/>
+
   </div>
+{{ post.date | date_to_string }} <br/>
 {{ content }}
 </div>
 
