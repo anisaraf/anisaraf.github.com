@@ -2,11 +2,9 @@
 layout: default
 ---
 <div id="post">
-  <div class="posttitle">
-    {{ page.title }} <br/>
-
-  </div>
-
+    <h2>{{ page.title }}
+    <div class="info">Published on: {{ page.date | date_to_string }} </div></h2>
+     
 {{ content }}
 </div>
 

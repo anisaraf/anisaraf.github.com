@@ -202,3 +202,10 @@ ul.posts {
   #related h2 {
     margin-bottom: 1em;
   }
+
+
+.info {
+	margin-top: 0.1em;
+	font-size: 80%;
+	color: #8085C1;
+}
