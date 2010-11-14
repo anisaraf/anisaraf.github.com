@@ -11,9 +11,10 @@ layout: post
 title:  Find primary key column names in SQL
 tags : SQL
 ---
+#+END_HTML
 
 To find the primary keys in a table through SQL we will utilize the
-[[http://dev.mysql.com/doc/refman/5.0/en/information-schema.html][information_schema]] tables provided in sql. First we will pull out the
+[[http://dev.mysql.com/doc/refman/5.0/en/information-schema.html][information schema]] tables provided in sql. First we will pull out the
 table schema using the following snippet of SQL
 
 #+BEGIN_SRC sql
@@ -28,10 +29,10 @@ the primary key columns in the table
   SELECT t.column_name FROM information_schema.table_constraints c 
   JOIN information_schema.key_column_usage t
   USING (constraint_name, table_schema, table_name)
-  WHERE c.constraint_type="PRIMARY KEY"
-  AND c.table_schema="<table schema here>"
-  AND c.table_name="<table name>";
+  WHERE c.constraint_type='PRIMARY KEY'
+  AND c.table_schema='<table schema here>'
+  AND c.table_name='<table name>';
 #+END_SRC
 
-You can obviously replace the contraint_type to be something different
+You can obviously replace the contraint type to be something different
 in order to list the columns with another constraint like UNIQUE.
