@@ -1,0 +1,39 @@
+---
+layout: post
+title:  Find primary key column names in SQL
+tags : SQL
+---
+
+To find the primary keys in a table through SQL we will utilize the
+[[http://dev.mysql.com/doc/refman/5.0/en/information-schema.html][information_schema]] tables provided in sql. First we will pull out the
+table schema using the following snippet of SQL
+
+
+#+BEGIN_HTML
+<pre class="src src-sql"><span class="org-keyword">SELECT</span> TABLE_SCHEMA <span class="org-keyword">FROM</span> information_schema.TABLES <span class="org-keyword">WHERE</span> <span class="org-keyword">table_name</span>=<span class="org-string">'&lt;table name&gt;'</span>;
+</pre>
+
+
+
+<p>
+Now that we have the schema we can execute the following sql by
+providing the table schema and the table name. This should list all
+the primary key columns in the table
+</p>
+
+
+
+<pre class="src src-sql"><span class="org-keyword">SELECT</span> t.column_name <span class="org-keyword">FROM</span> information_schema.table_constraints c 
+<span class="org-keyword">JOIN</span> information_schema.key_column_usage t
+<span class="org-keyword">USING</span> (<span class="org-keyword">constraint_name</span>, table_schema, <span class="org-keyword">table_name</span>)
+<span class="org-keyword">WHERE</span> c.constraint_type="<span class="org-keyword">PRIMARY</span> <span class="org-keyword">KEY</span>"
+<span class="org-keyword">AND</span> c.table_schema="&lt;<span class="org-keyword">table</span> <span class="org-keyword">schema</span> here&gt;"
+<span class="org-keyword">AND</span> c.table_name="&lt;<span class="org-keyword">table</span> <span class="org-keyword">name</span>&gt;";
+</pre>
+
+
+
+<p>
+You can obviously replace the contraint<sub>type</sub> to be something different
+in order to list the columns with another constraint like UNIQUE.
+</p>

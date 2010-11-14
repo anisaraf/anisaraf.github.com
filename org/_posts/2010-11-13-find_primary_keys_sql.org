@@ -9,6 +9,7 @@
 ---
 layout: post
 title:  Find primary key column names in SQL
+tags : SQL
 ---
 
 To find the primary keys in a table through SQL we will utilize the
