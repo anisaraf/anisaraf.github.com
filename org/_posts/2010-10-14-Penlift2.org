@@ -14,7 +14,7 @@ title:  TopCoder SRM 144 PenLift Part 2
 #+END_HTML
 
 As promised last week, lets look at each of the function calls in the
-numtimes method. Please read [[http://codeherb.com/Penlift.html][PART I]] of this post if you haven't done
+numtimes method. Please read [[http://codeherb.com/Penlift][PART I]] of this post if you haven't done
 so already  
 
 * Private class level variable 
