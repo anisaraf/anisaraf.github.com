@@ -1,0 +1,58 @@
+#+TITLE:    TopCoder SRM 488: TheBoredomDivTwo
+#+AUTHOR:    Ani
+#+EMAIL:     anirudhsaraf@gmail.com
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+INFOJS_OPT: view:info toc:t
+#+OPTIONS: H:2 num:t toc:t
+#+BEGIN_HTML
+---
+layout: post
+title:  TopCoder SRM 488 The BoredomDivTwo
+tags: TopCoder, Advanced Math
+---
+#+END_HTML
+
+*** Problem Statement: [[http://www.topcoder.com/stat?c=problem_statement&pm=11194&rd=14241][TheBoredomDivTwo]] (TC-Registration) [[http://pastehtml.com/view/1c0se0l.html][TheBoredomDivTwo]]
+*** Solution: [[http://gist.github.com/709104][TheBoredomDivTwo.cxx]]
+*** Used As: Division II Level One
+*** Categories: Advanced Math, Encryption/Compression
+
+* Solution :
+
+This is a soft ball for those who are in awe of  [[http://www.topcoder.com/tc][TopCoder]]. The only
+thing to this problem is wrapping your head around the fact
+that it is in fact so simple! All you need to decide is whether the
+j^th and b^th person were bored or not. If they were not bored we add
+one to the bored count. So without too much commentary here
+is the code
+
+#+BEGIN_SRC c++
+  class TheBoredomDivTwo { 
+  public:
+    int find(int n, int m, int j, int b);
+  };
+
+  int TheBoredomDivTwo::find(int n, int m,int j, int b){
+    int bored = n;
+    if( j > n ) bored++;
+    if( b > n) bored++;
+    return bored;
+  }
+#+END_SRC c++
+
+Just to make the solution a little more interesting you could also do
+this as a one liner!
+
+#+BEGIN_SRC c++
+class TheBoredomDivTwo { 
+public:
+  int find(int n, int m, int j, int b){
+   	return n + (j > n ) + (b > n) ;	
+   }	
+};	
+#+END_SRC c++
+
+This problem should convince you that you should give [[http://www.topcoder.com/tc][TopCoder]] a try
+as well. 
+

@@ -12,7 +12,7 @@ title:  TopCoder SRM 144 PenLift
 ---
 #+END_HTML
 
-*** Problem Statement:  [[http://www.topcoder.com/stat?c=problem_statement&amp;pm=1649][PenLift]] (TopCoder - Registration) [[http://pastehtml.com/view/1bb694t.rtxt][PenLift]] (No Registration)
+*** Problem Statement:  [[http://www.topcoder.com/stat?c=problem_statement&pm=1649][PenLift]] (TopCoder - Registration) [[http://pastehtml.com/view/1bb694t.rtxt][PenLift]] (No Registration)
 *** Solution: [[http://gist.github.com/608159][PenLift.cxx]] Graph.h Line.h Point.h
 *** Used As : Division I Level Three
 *** Categories : Geometry, Graph Theory

@@ -1,0 +1,72 @@
+---
+layout: post
+title:  TopCoder SRM 488 The Boredom
+tags: TopCoder, Advanced Math
+---
+
+<ul>
+<li id="sec-1">Problem Statement: <a href="http://www.topcoder.com/stat?c=problem_statement&amp;pm=11194&amp;rd=14241">TheBoredomDivTwo</a> (TC-Registration) <a href="http://pastehtml.com/view/1c0se0l.html">TheBoredomDivTwo</a> <br/>
+</li>
+<li id="sec-2">Solution: <a href="http://gist.github.com/709104">TheBoredomDivTwo.cxx</a> <br/>
+</li>
+<li id="sec-3">Used As: Division II Level One <br/>
+</li>
+<li id="sec-4">Categories: Advanced Math, Encryption/Compression <br/>
+
+</li>
+</ul>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Solution : </h2>
+<div class="outline-text-2" id="text-1">
+
+
+<p>
+This is a soft ball for those who are in awe of  <a href="http://www.topcoder.com/tc">TopCoder</a>. The only
+thing to this problem is wrapping your head around the fact
+that it is in fact so simple! All you need to decide is whether the
+j<sup>th</sup> and b<sup>th</sup> person were bored or not. If they were not bored we add
+one to the bored count. So without too much commentary here
+is the code
+</p>
+
+
+
+<pre class="src src-c++"><span class="org-keyword">class</span> <span class="org-type">TheBoredomDivTwo</span> { 
+<span class="org-keyword">public</span>:
+  <span class="org-type">int</span> <span class="org-function-name">find</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>, <span class="org-type">int</span> <span class="org-variable-name">m</span>, <span class="org-type">int</span> <span class="org-variable-name">j</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>);
+};
+
+<span class="org-type">int</span> <span class="org-constant">TheBoredomDivTwo</span>::<span class="org-function-name">find</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>, <span class="org-type">int</span> <span class="org-variable-name">m</span>,<span class="org-type">int</span> <span class="org-variable-name">j</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>){
+  <span class="org-type">int</span> <span class="org-variable-name">bored</span> = n;
+  <span class="org-keyword">if</span>( j &gt; n ) bored++;
+  <span class="org-keyword">if</span>( b &gt; n) bored++;
+  <span class="org-keyword">return</span> bored;
+}
+</pre>
+
+
+
+<p>
+Just to make the solution a little more interesting you could also do
+this as a one liner!
+</p>
+
+
+
+<pre class="src src-c++"><span class="org-keyword">class</span> <span class="org-type">TheBoredomDivTwo</span> { 
+<span class="org-keyword">public</span>:
+  <span class="org-type">int</span> <span class="org-function-name">find</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>, <span class="org-type">int</span> <span class="org-variable-name">m</span>, <span class="org-type">int</span> <span class="org-variable-name">j</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>){
+        <span class="org-keyword">return</span> n + (j &gt; n ) + (b &gt; n) ; 
+   }    
+};      
+</pre>
+
+
+
+<p>
+This problem should convince you that you should give <a href="http://www.topcoder.com/tc">TopCoder</a> a try
+as well. 
+</p>
+</div>
+</div>
