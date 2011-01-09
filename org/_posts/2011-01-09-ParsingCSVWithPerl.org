@@ -1,0 +1,137 @@
+#+TITLE:   Parsing CSV file with Perl
+#+AUTHOR:    Ani
+#+EMAIL:     anirudhsaraf@gmail.com
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+INFOJS_OPT: view:info toc:t
+#+OPTIONS: H:2 num:t toc:t
+#+BEGIN_HTML
+---
+layout: post
+title:  Parsing CSV file with Shell/Perl
+tags: Perl, CSV
+---
+#+END_HTML
+
+Perl is very handy for doing quick throwaway coding/scripting/prototyping. For one
+of my side projects - I needed to parse a CSV file and load it into a
+database. Now the CSV file had some 240 columns, while the database
+was broken into many tables. So I figured it would be a lot simpler if
+I could convert this CSV into [[http://www.cs.mcgill.ca/~abatko/computers/programming/perl/howto/hash/][perl hashes]] - where each hash
+corresponded to a table and contained an array of the required columns.
+
+One of the approaches to breaking a CSV file and loading it into
+hashes would be to use the [[http://perldoc.perl.org/functions/split.html][split]] command. 
+
+#+BEGIN_HTML: 
+   <center>
+#+END_HTML: 
+     [[/images/lazyProgrammer.jpg]]
+#+BEGIN_HTML: 
+   </center>
+#+END_HTML: 
+
+Now I was feeling particularly lazy so I decided to use some handy
+shell commands to quickly do what I needed to do without having to
+write and debug too much code. 
+
+
+#+begin_src perl
+  sub getColums($)
+  {
+      my $filename     = shift;
+      my $cols         = shift;
+      my $includeChars = shift || '[:digit:]\n.,';
+      my @records      = `tail --lines=+3 $fileName |
+                          cut -d ',' -f $cols |
+			  tr -c -d '$includeChars' `;
+      chomp(@records);
+      return \@records;
+  }
+  
+  sub getSpreadhsheet
+  {
+      my $fileName = shift;
+      my $hData    = ();
+      $hData->{SongMetadata}       = getColums( $fileName, '1', '[:alnum:]-\n., ' );
+      $hData->{Melody}             = getColums( $fileName, '2-4');
+      $hData->{TimeSignature}      = getColums( $fileName, '5-6');
+      $hData->{Rhythm}             = getColums( $fileName, '7-14');
+      $hData->{Tempo}              = getColums( $fileName, '15-17');
+      .....
+  }
+#+end_src
+
+Lets deconstuct the line where all the magic happens 
+#+begin_src perl
+   my @records = `tail --lines=+3 $fileName | 
+                  cut -d ',' -f $cols |
+		  tr -c -d '$includeChars' `;
+#+end_src
+
+First the [[http://articles.techrepublic.com.com/5100-10878_11-1050920.html][backticks]] execute the string between them and captures the
+STDOUT to the @records variable. 
+
+Now the tail --lines=+3 $filename gets rid of the top three lines (
+which was header information and not data). 
+
+The output ( CSV file without the headers) is then sent to the [[http://www.computerhope.com/unix/ucut.htm][cut]]
+command which gets the required columns and throws away everything
+else.
+
+Finally the output of cut ( all the required data) is piped to the [[http://www.computerhope.com/unix/utr.htm][tr]]
+command which sanitizes the data to ensure that only valid characters
+are allowed. 
+
+Thats it - this one line of code does everything you need to do to
+parse a csv file. There is no looping, parsing code
+involved. Obviously this might be a tad inefficient as opposed to
+reading the file once and parsing all the columns, but for my
+requirements it worked well.
+
+
+Example output:
+#+begin_src perl
+'SongMetadata' => [
+                   'Teri Ore - Singh is King',
+                   'Saawariya - Swades',
+                   'Yaa Ali - Gangster',
+                   'Beedi  - Omkara',
+                   'Behke Behke - Aisha',
+                   'Socha Hai - Rock On',
+                   'Pyar ke pal - KK',
+                   'Bhool Ja - Shaan',
+                   'Duur - Strings',
+                   'Give me some sunshine - 3 idiots'
+                  ],
+
+'Lyrics' => [
+              '7,0,0,0,0,0', #row 1
+              '7,0,0,0,0,0',
+              '6,0,8,0,0,4',
+              '6,0,0,0,0,0',
+              '5,5,0,0,0,0',
+              '8,1,0,0,0,0',
+              '8,0,0,0,0,0',
+              '8,0,0,0,0,0',
+              '8,0,0,0,0,0',
+              '7,7,0,0,0,0'  #row 10
+            ],
+'Influences' => [
+         '0,3,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3',
+         '8,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,3,4,0,0,0,2',
+         '0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,6,0,0,0,0,0,0,0,9,8,0,6,0,0,0,0,0',
+         '0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,9',
+         '0,0,0,0,3,0,0,0,0,0,0,0,0,0,7,0,0,0,0,6,0,0,0,0,0,6,0,0,0,0,0,0',
+         '0,0,0,9,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0',
+         '0,0,7,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,9,0,0',
+         '0,0,6,0,0,0,0,0,0,0,6,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0',
+         '7,0,6,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,7,0,0,0,5,0,0,0,0,0',
+         '0,0,6,5,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,8,0,0'
+       ],
+
+#+end_src
+
+Now as the spreadsheet format changes and evolves, all I do is change
+the column numbers expected for each hash. This makes it easy to load
+up different versions of the spreadsheet into my database! 

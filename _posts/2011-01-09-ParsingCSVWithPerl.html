@@ -1,0 +1,150 @@
+---
+layout: post
+title:  Parsing CSV file with Shell/Perl
+tags: Perl, CSV
+---
+
+<p>
+Perl is very handy for doing quick throwaway coding/scripting/prototyping. For one
+of my side projects - I needed to parse a CSV file and load it into a
+database. Now the CSV file had some 240 columns, while the database
+was broken into many tables. So I figured it would be a lot simpler if
+I could convert this CSV into <a href="http://www.cs.mcgill.ca/~abatko/computers/programming/perl/howto/hash/">perl hashes</a> - where each hash
+corresponded to a table and contained an array of the required columns.
+</p>
+<p>
+One of the approaches to breaking a CSV file and loading it into
+hashes would be to use the <a href="http://perldoc.perl.org/functions/split.html">split</a> command. 
+</p>
+
+
+   <center>
+<p>
+<img src="/images/lazyProgrammer.jpg"  alt="/images/lazyProgrammer.jpg" />
+   </center>
+
+Now I was feeling particularly lazy so I decided to use some handy
+shell commands to quickly do what I needed to do without having to
+write and debug too much code. 
+</p>
+
+
+
+
+<pre class="src src-perl"><span style="color: #00ffff;">sub</span> <span style="color: #87cefa;">getColums</span>($)
+{
+    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">filename</span>     = shift;
+    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">cols</span>         = shift;
+    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">includeChars</span> = shift || <span style="color: #ffa07a;">'[:digit:]\n.,'</span>;
+    <span style="color: #98fb98;">my</span> @<span style="color: #eedd82; text-decoration: underline;">records</span>      = <span style="color: #ffa07a;">`tail --lines=+3 $fileName |
+                        cut -d ',' -f $cols |
+                        tr -c -d '$includeChars' `</span>;
+    chomp(@<span style="color: #eedd82; text-decoration: underline;">records</span>);
+    <span style="color: #00ffff;">return</span> \@<span style="color: #eedd82; text-decoration: underline;">records</span>;
+}
+
+<span style="color: #00ffff;">sub</span> <span style="color: #87cefa;">getSpreadhsheet</span>
+{
+    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">fileName</span> = shift;
+    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">hData</span>    = ();
+    $<span style="color: #eedd82;">hData</span>-&gt;{SongMetadata}       = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'1'</span>, <span style="color: #ffa07a;">'[:alnum:]-\n., '</span> );
+    $<span style="color: #eedd82;">hData</span>-&gt;{Melody}             = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'2-4'</span>);
+    $<span style="color: #eedd82;">hData</span>-&gt;{TimeSignature}      = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'5-6'</span>);
+    $<span style="color: #eedd82;">hData</span>-&gt;{Rhythm}             = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'7-14'</span>);
+    $<span style="color: #eedd82;">hData</span>-&gt;{Tempo}              = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'15-17'</span>);
+    .....
+}
+</pre>
+
+
+
+<p>
+Lets deconstuct the line where all the magic happens 
+</p>
+
+
+<pre class="src src-perl"><span style="color: #98fb98;">my</span> @<span style="color: #eedd82; text-decoration: underline;">records</span> = <span style="color: #ffa07a;">`tail --lines=+3 $fileName | 
+               cut -d ',' -f $cols |
+               tr -c -d '$includeChars' `</span>;
+</pre>
+
+
+
+<p>
+First the <a href="http://articles.techrepublic.com.com/5100-10878_11-1050920.html">backticks</a> execute the string between them and captures the
+STDOUT to the @records variable. 
+</p>
+<p>
+Now the tail &ndash;lines=+3 $filename gets rid of the top three lines (
+which was header information and not data). 
+</p>
+<p>
+The output ( CSV file without the headers) is then sent to the <a href="http://www.computerhope.com/unix/ucut.htm">cut</a>
+command which gets the required columns and throws away everything
+else.
+</p>
+<p>
+Finally the output of cut ( all the required data) is piped to the <a href="http://www.computerhope.com/unix/utr.htm">tr</a>
+command which sanitizes the data to ensure that only valid characters
+are allowed. 
+</p>
+<p>
+Thats it - this one line of code does everything you need to do to
+parse a csv file. There is no looping, parsing code
+involved. Obviously this might be a tad inefficient as opposed to
+reading the file once and parsing all the columns, but for my
+requirements it worked well.
+</p>
+
+<p>
+Example output:
+</p>
+
+
+<pre class="src src-perl"><span style="color: #ffa07a;">'SongMetadata'</span> =&gt; [
+                   <span style="color: #ffa07a;">'Teri Ore - Singh is King'</span>,
+                   <span style="color: #ffa07a;">'Saawariya - Swades'</span>,
+                   <span style="color: #ffa07a;">'Yaa Ali - Gangster'</span>,
+                   <span style="color: #ffa07a;">'Beedi  - Omkara'</span>,
+                   <span style="color: #ffa07a;">'Behke Behke - Aisha'</span>,
+                   <span style="color: #ffa07a;">'Socha Hai - Rock On'</span>,
+                   <span style="color: #ffa07a;">'Pyar ke pal - KK'</span>,
+                   <span style="color: #ffa07a;">'Bhool Ja - Shaan'</span>,
+                   <span style="color: #ffa07a;">'Duur - Strings'</span>,
+                   <span style="color: #ffa07a;">'Give me some sunshine - 3 idiots'</span>
+                  ],
+
+<span style="color: #ffa07a;">'Lyrics'</span> =&gt; [
+              <span style="color: #ffa07a;">'7,0,0,0,0,0'</span>, <span style="color: #ff4500;">#row 1
+</span>              <span style="color: #ffa07a;">'7,0,0,0,0,0'</span>,
+              <span style="color: #ffa07a;">'6,0,8,0,0,4'</span>,
+              <span style="color: #ffa07a;">'6,0,0,0,0,0'</span>,
+              <span style="color: #ffa07a;">'5,5,0,0,0,0'</span>,
+              <span style="color: #ffa07a;">'8,1,0,0,0,0'</span>,
+              <span style="color: #ffa07a;">'8,0,0,0,0,0'</span>,
+              <span style="color: #ffa07a;">'8,0,0,0,0,0'</span>,
+              <span style="color: #ffa07a;">'8,0,0,0,0,0'</span>,
+              <span style="color: #ffa07a;">'7,7,0,0,0,0'</span>  <span style="color: #ff4500;">#row 10
+</span>            ],
+<span style="color: #ffa07a;">'Influences'</span> =&gt; [
+         <span style="color: #ffa07a;">'0,3,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3'</span>,
+         <span style="color: #ffa07a;">'8,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,3,4,0,0,0,2'</span>,
+         <span style="color: #ffa07a;">'0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,6,0,0,0,0,0,0,0,9,8,0,6,0,0,0,0,0'</span>,
+         <span style="color: #ffa07a;">'0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,9'</span>,
+         <span style="color: #ffa07a;">'0,0,0,0,3,0,0,0,0,0,0,0,0,0,7,0,0,0,0,6,0,0,0,0,0,6,0,0,0,0,0,0'</span>,
+         <span style="color: #ffa07a;">'0,0,0,9,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'</span>,
+         <span style="color: #ffa07a;">'0,0,7,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,9,0,0'</span>,
+         <span style="color: #ffa07a;">'0,0,6,0,0,0,0,0,0,0,6,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'</span>,
+         <span style="color: #ffa07a;">'7,0,6,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,7,0,0,0,5,0,0,0,0,0'</span>,
+         <span style="color: #ffa07a;">'0,0,6,5,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,8,0,0'</span>
+       ],
+
+</pre>
+
+
+
+<p>
+Now as the spreadsheet format changes and evolves, all I do is change
+the column numbers expected for each hash. This makes it easy to load
+up different versions of the spreadsheet into my database! 
+</p>
