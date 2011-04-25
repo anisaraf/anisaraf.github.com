@@ -8,51 +8,48 @@
 #+BEGIN_HTML
 ---
 layout: post
-title:  TopCoder SRM 488 The BoringStore
+title:  TopCoder SRM 488 The BoringStore (Working Draft)
 tags: TopCoder, Advanced Math
 ---
 #+END_HTML
 
 *** Problem Statement: [[http://www.topcoder.com/stat?c=problem_statement&pm=11194&rd=14241][TheBoredomDivTwo]] (TC-Registration) [[http://pastehtml.com/view/1c0se0l.html][TheBoredomDivTwo]]
 *** Solution: [[http://gist.github.com/709104][TheBoredomDivTwo.cxx]]
-*** Used As: Division II Level One
+*** Used As: Division II Level Two
 *** Categories: Advanced Math, Encryption/Compression
 
 * Solution :
+For people new to TopCoder (like me) I think it is natural to
+feel overwhelmed when you first read the problem statement. The
+important thing is to let that feeling pass, re-read the problem and
+not give up. 
 
-This is a soft ball for those who are in awe of  [[http://www.topcoder.com/tc][TopCoder]]. The only
-thing to this problem is wrapping your head around the fact
-that it is in fact so simple! All you need to decide is whether the
-j^th and b^th person were bored or not. If they were not bored we add
-one to the bored count. So without too much commentary here
-is the code
+Step 1) Feel overwhelmed 
+*insert picture here* 
 
-#+BEGIN_SRC c++
-  class TheBoredomDivTwo { 
-  public:
-    int find(int n, int m, int j, int b);
-  };
+Now that the initial feeling has passed, lets re-read the problem
+statement and understand it. Do not think of how you will solve it.I
+repeat - do not think in terms of coding yet. The best thing to do is
+print out the problem statement and sit with a pen and paper. Under no
+circumstance should you have your *emacs* window open! Since my primary
+goal is not competing against other contestants but to improve my
+coding, algorthimic and thinking skills I spend a significant amount
+of my time reflecting on *how I am doing things*. <insert another picture>
 
-  int TheBoredomDivTwo::find(int n, int m,int j, int b){
-    int bored = n;
-    if( j > n ) bored++;
-    if( b > n) bored++;
-    return bored;
-  }
-#+END_SRC c++
+Alright enough commentary. Time to dissect the problem statement
+now. As I have stated <earlier> it is important to get to a point where
+you understand the problem enough to rephrase it. If you are new, you
+should actually try writing the problem in as few and simple words as
+you can ( have a math background does help here :) ). 
 
-Just to make the solution a little more interesting you could also do
-this as a one liner!
-
-#+BEGIN_SRC c++
-class TheBoredomDivTwo { 
-public:
-  int find(int n, int m, int j, int b){
-   	return n + (j > n ) + (b > n) ;	
-   }	
-};	
-#+END_SRC c++
-
-This problem should convince you that you should give [[http://www.topcoder.com/tc][TopCoder]] a try
-as well. 
-
+So lets make an attempt at rephrasing: Given two string X and Y, find
+the longest possible string such that A + C = B + D (or A+D=B+C) where A,B are
+non-overlapping contiguous substrings of X and C,D are substrings of
+Y. I cannot stress enough the importance of rephrasing the
+problem. While the long winding TopCoder descriptions are important
+for understanding - the succint version is important to ensure that
+you have understood the problem! While my version is not
+completely correct and misses some finer points ( like how the
+'longest possible string' is defined), it gives me a good sense of my
+understanding of the problem. So stop, and if re-read and understand
+the problem till the rephrased version makes sense to you. 
