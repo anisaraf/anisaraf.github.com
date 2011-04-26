@@ -53,3 +53,25 @@ completely correct and misses some finer points ( like how the
 'longest possible string' is defined), it gives me a good sense of my
 understanding of the problem. So stop, and if re-read and understand
 the problem till the rephrased version makes sense to you. 
+
+Lets break the solution now:
+
+* finding all the non-overlapping contiguous string
+  How do we define two substrings? We pick four integers i,j,k,l where
+  i <=j < k <=l. Lets look at some code
+
+#+begin_src c++
+  int ijlen = sj.length(); // sj = input string
+  
+  for(int i = 0; i < ijlen ; ++i)
+    for(int j = i; j < ijlen; ++j)
+      for(int k = j+1; k < ijlen; ++k)
+        for(int l = k; l < ijlen; ++l)
+          {
+            string a = sj.substr(i,j-i+1);
+            string b = sj.substr(k,l-k+1);
+          }
+#+end_src
+	
+  The above code creates all the substring A,B for the first input
+  string.
