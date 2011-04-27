@@ -13,19 +13,25 @@ tags: TopCoder, Advanced Math
 ---
 #+END_HTML
 
-*** Problem Statement: [[http://www.topcoder.com/stat?c=problem_statement&pm=11194&rd=14241][TheBoredomDivTwo]] (TC-Registration) [[http://pastehtml.com/view/1c0se0l.html][TheBoredomDivTwo]]
-*** Solution: [[http://gist.github.com/709104][TheBoredomDivTwo.cxx]]
+*** Problem Statement: [[http://www.topcoder.com/stat?c%3Dproblem_statement&pm%3D11196][TheBoringStoreDivTwo]] (TC-Registration) [[http://pastehtml.com/view/1e9llc2.rtxt][TheBoringStoreDivTwo]]
+*** Solution: [[https://github.com/anisaraf/TopCoder/blob/master/srm488/d2l2TheBoringStore.cxx][TheBoringStore.cxx]]
 *** Used As: Division II Level Two
-*** Categories: Advanced Math, Encryption/Compression
+*** Categories: Dynamic Programming, String Manipulation
 
-* Solution :
+** Understanding the Problem :
 For people new to TopCoder(like me) I think it is natural to
 feel overwhelmed when you first read the problem statement. The
 important thing is to let that feeling pass, re-read the problem and
 not give up. 
 
 Step 1) Feel overwhelmed 
-*insert picture here* 
+#+BEGIN_HTML: 
+   <center>
+#+END_HTML: 
+   [[/images/overwhelmed.gif]]
+#+BEGIN_HTML: 
+   </center>
+#+END_HTML: 
 
 Now that the initial feeling has passed, lets re-read the problem
 statement and understand it. Do not think of how you will solve
@@ -34,11 +40,19 @@ with a pen and paper. Under no circumstance should you have your
 *emacs* window open! This problem took me a significant amount of time
 to solve (unfortunately I didn't time myself - but in future I plan on
 doing so). Don't be discouraged by the fact that you couldn't solve it
-in 15 mins. That comes with a LOT of practice!
+in 15 mins. That comes with a *LOT* of practice!
+
+#+BEGIN_HTML: 
+   <center>
+#+END_HTML: 
+   [[/images/practice.gif]]
+#+BEGIN_HTML: 
+   </center>
+#+END_HTML: 
 
 Alright enough commentary. Time to dissect the problem statement. As I
-have stated <earlier> it is important to get to a point where you
-understand the problem enough to rephrase it. If you are new, you
+have stated [[%20http://codeherb.com/Penlift][earlier]] it is important to get to a point where you
+*understand the problem enough to rephrase it*. If you are new, you
 should actually try writing the problem in as few and simple words as
 you can (having done/studied mathematical proofs can be of real help here).
 
@@ -51,16 +65,25 @@ for understanding - the 'self' version is important to ensure that
 you have understood the problem! While my version is not
 completely correct and misses some finer points ( like how the
 'longest possible string' is defined), it gives me a good sense of my
-understanding of the problem. So stop, and re-read and understand
-the problem till the rephrased version makes sense to you. 
+understanding of the problem. So stop,re-read and think till you understand
+the problem.
 
-Lets break the solution now:
+#+BEGIN_HTML: 
+   <center>
+#+END_HTML: 
+   [[/images/stopthink.gif]]
+#+BEGIN_HTML: 
+   </center>
+#+END_HTML: 
 
-* finding all the non-overlapping contiguous string
+Lets break the [[https://github.com/anisaraf/TopCoder/blob/master/srm488/d2l2TheBoringStore.cxx][solution]] into pieces now:
+
+** Finding all the non-overlapping contiguous string
   How do we define two substrings? We pick four integers i,j,k,l where
   i <=j < k <=l. Lets look at some code
 
 #+begin_src c++
+
   int ijlen = sj.length(); // sj = input string
   
   for(int i = 0; i < ijlen ; ++i)
@@ -71,6 +94,7 @@ Lets break the solution now:
             string a = sj.substr(i,j-i+1);
             string b = sj.substr(k,l-k+1);
           }
+
 #+end_src
 	
   The above code creates all the substrings A,B for the first input
@@ -78,20 +102,23 @@ Lets break the solution now:
   generated all the possible 'non-overlapping' contiguous substrings
   of sj and sb.
 
-* Given all the substrings - how can we process them?
+** Given all the substrings - how can we process them?
   First of all we know that A+C=B+D or A+D=B+C. Now looking at this it
   seems that we shouldn't really need to do these two separate
   checks. Since we are creating the substrings, without loss of
-  generality we can always say A < B and C < D. In code :
+  generality we can always say A < B and C < D.
 
 #+begin_src c++
+
   	    if (a.length() > b.length()) {
 	      swap(a,b);
 	    }
+
 #+end_src
+
  Now given the above constraint we can conclude that A + D = B + C for
  all valid strings. ( A + C = B + D is not possible since by the above
- constraint A+C must be smaller than B+D).
+ constraint A+C < B+D).
 
  Hmm... at this point it seems that we are storing a lot of substring
  for comparison. We know that A + D = B + C (where A,B are substrings
@@ -100,8 +127,8 @@ Lets break the solution now:
  should kind of jump out at us. Do you see something? Think.
 
  We know len(A) < len(B). This necessitates that A be a
- prefix of B if this pairing was to be valid. Similarily C must be a
- suffix of D. Now instead of storing all the pairs of substrings, we
+ *prefix* of B if this pairing was to be valid. Similarily C must be a
+ *suffix* of D. Now instead of storing all the pairs of substrings, we
  only need to store those substrings where A is a prefix of B and C is
  a suffix of D! Stop. Did that makes sense?
 
@@ -113,6 +140,7 @@ Lets break the solution now:
  work happening in the loop. Lets look at the code now:
 
 #+begin_src c++
+
   vector< pair<string, string> > jpairs; //(prefix, B')
   vector< pair<string, string> > bpairs; //(suffix, D')
   
@@ -122,7 +150,9 @@ Lets break the solution now:
   
   // if c is a suffix of d
   if(std::equal(c.rbegin(), c.rend(), d.rbegin())) 
-    bpairs.push_back( make_pair(c, d.substr(0,d.length() - c.length())));
+    bpairs.push_back( make_pair(c, d.substr(0,d.length() -
+  c.length())));
+
 #+end_src
  
  Using STL and some iterators it is pretty trivial to find whether a
@@ -136,6 +166,7 @@ Lets break the solution now:
  name!
 
 #+begin_src c++
+
   bool TheBoringStoreDivTwo::isBetter(const string& prev, const string& curr) const {
     return (prev.length() < curr.length() || 
             (prev.length() == curr.length() && curr.compare(prev) < 0));
@@ -148,8 +179,9 @@ Lets break the solution now:
         string curr = jpairs[i].first + bpairs[j].second + bpairs[j].first;
         result = isBetter(result, curr) ? curr : result;
       }
+
 #+end_src
  
  That's it! We walk through the pairs picking the best one. Our store
  finally has a name :) and we can go back to the drawing board and
- ponder how we can improve our solution!
+ ponder how we can improve our solution! 
