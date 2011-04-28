@@ -1,0 +1,220 @@
+---
+layout: post
+title:  TopCoder SRM 488 The BoringStore 
+tags:  Dynamic Programming, String Manipulation
+---
+
+<ul>
+<li id="sec-1">Problem Statement: <a href="http://www.topcoder.com/stat?c=problem_statement&amp;pm=11196">TheBoringStore</a>(TC) <a href="http://pastehtml.com/view/1e9llc2.rtxt">TheBoringStore</a> <br/>
+</li>
+<li id="sec-2">Solution: <a href="https://github.com/anisaraf/TopCoder/blob/master/srm488/d2l2TheBoringStore.cxx">TheBoringStore.cxx</a> <br/>
+</li>
+<li id="sec-3">Used As: Division II Level Two <br/>
+</li>
+<li id="sec-4">Categories: Dynamic Programming, String Manipulation <br/>
+
+</li>
+</ul>
+
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1">Understanding the Problem : </h3>
+<div class="outline-text-3" id="text-1">
+
+<p>For people new to TopCoder(like me) I think it is natural to
+feel overwhelmed when you first read the problem statement. The
+important thing is to let that feeling pass, re-read the problem and
+not give up. 
+</p>
+
+
+   <center>
+<p>
+<img src="/images/overwhelmed.gif"  alt="/images/overwhelmed.gif" />
+   </center>
+
+Now that the initial feeling has passed, lets re-read the problem
+statement and understand it. Do not think of how you will solve
+it. The best thing to do is print out the problem statement and sit
+with a pen and paper. Under no circumstance should you have your
+<b>emacs</b> window open! This problem took me a significant amount of time
+to solve (unfortunately I didn't time myself - but in future I plan on
+doing so). Don't be discouraged by the fact that you couldn't solve it
+in 15 mins. That comes with a <b>LOT</b> of practice!
+</p>
+
+
+   <center>
+<p>
+<img src="/images/practice.gif"  alt="/images/practice.gif" />
+   </center>
+
+Alright enough commentary. Time to dissect the problem statement. As I
+have stated <a href="#http://codeherb.com/Penlift">earlier</a> it is important to get to a point where you
+<b>understand the problem enough to rephrase it</b>. If you are new, you
+should actually try writing the problem in as few and simple words as
+you can (having done/studied mathematical proofs can be of real help here).
+</p>
+<p>
+So lets make an attempt at rephrasing: Given two string sj and sb, find
+the longest possible string such that A + C = B + D (or A+D=B+C) where A,B are
+non-overlapping contiguous substrings of sj and C,D are substrings of
+sb. I cannot stress enough the importance of rephrasing the
+problem. While the long winding TopCoder descriptions are important
+for understanding - the 'self' version is important to ensure that
+you have understood the problem! While my version is not
+completely correct and misses some finer points ( like how the
+'longest possible string' is defined), it gives me a good sense of my
+understanding of the problem. So stop,re-read and think till you understand
+the problem.
+</p>
+
+
+   <center>
+<p>
+<img src="/images/stopthink.gif"  alt="/images/stopthink.gif" />
+   </center>
+
+Lets break the <a href="https://github.com/anisaraf/TopCoder/blob/master/srm488/d2l2TheBoringStore.cxx">solution</a> into pieces now:
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-3">
+<h3 id="sec-2">Finding all the non-overlapping contiguous string </h3>
+<div class="outline-text-3" id="text-2">
+
+<p>How do we define two substrings? We pick four integers i,j,k,l where
+i &lt;=j &lt; k &lt;=l. Lets look at some code
+</p>
+
+
+
+<pre class="src src-c++"><span style="color: #cdcd00;">int</span> <span style="color: #cdcd00;">ijlen</span> = sj.length(); <span style="color: #cd0000;">// </span><span style="color: #cd0000;">sj = input string
+</span>
+<span style="color: #00cdcd;">for</span>(<span style="color: #cdcd00;">int</span> <span style="color: #cdcd00;">i</span> = 0; i &lt; ijlen ; ++i)
+  <span style="color: #00cdcd;">for</span>(<span style="color: #cdcd00;">int</span> <span style="color: #cdcd00;">j</span> = i; j &lt; ijlen; ++j)
+    <span style="color: #00cdcd;">for</span>(<span style="color: #cdcd00;">int</span> <span style="color: #cdcd00;">k</span> = j+1; k &lt; ijlen; ++k)
+      <span style="color: #00cdcd;">for</span>(<span style="color: #cdcd00;">int</span> <span style="color: #cdcd00;">l</span> = k; l &lt; ijlen; ++l)
+        {
+          <span style="color: #cdcd00;">string</span> <span style="color: #cdcd00;">a</span> = sj.substr(i,j-i+1);
+          <span style="color: #cdcd00;">string</span> <span style="color: #cdcd00;">b</span> = sj.substr(k,l-k+1);
+        }
+
+</pre>
+
+
+
+<p>
+The above code creates all the substrings A,B for the first input
+string. Similarily we can construct C and D. So now we have
+generated all the possible 'non-overlapping' contiguous substrings
+of sj and sb.
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-3">
+<h3 id="sec-3">Given all the substrings - how can we process them? </h3>
+<div class="outline-text-3" id="text-3">
+
+<p>First of all we know that A+C=B+D or A+D=B+C. Now looking at this it
+seems that we shouldn't really need to do these two separate
+checks. Since we are creating the substrings, without loss of
+generality we can always say A &lt; B and C &lt; D.
+</p>
+
+
+
+<pre class="src src-c++"><span style="color: #00cdcd;">if</span> (a.length() &gt; b.length()) {
+  swap(a,b);
+}
+
+</pre>
+
+
+
+<p>
+Now given the above constraint we can conclude that A + D = B + C for
+all valid strings. ( A + C = B + D is not possible since by the above
+constraint A+C &lt; B+D).
+</p>
+<p>
+Hmm&hellip; at this point it seems that we are storing a lot of substring
+for comparison. We know that A + D = B + C (where A,B are substrings
+of sj and len(A) &lt; len(B)). <b>Reiterating constrainsts helps in coming  up with better solutions</b>. Now looking at the constraints something
+should kind of jump out at us. Do you see something? Think.
+</p>
+<p>
+We know len(A) &lt; len(B). This necessitates that A be a
+<b>prefix</b> of B if this pairing was to be valid. Similarily C must be a
+<b>suffix</b> of D. Now instead of storing all the pairs of substrings, we
+only need to store those substrings where A is a prefix of B and C is
+a suffix of D! Stop. Did that makes sense?
+</p>
+<p>
+So now we can basically rewrite the equation as A + D' + C = B' + A +
+C where A is the prefix, B (A + B'), C is the suffix and
+D=(D'+C). Thus for each pair of substring A,B we store A and B', and
+similariy C and D'. Then we can just compare D' and B' to see if A+D
+= B+C! It seems like we managed to cut down a significant amount of
+work happening in the loop. Lets look at the code now:
+</p>
+
+
+
+<pre class="src src-c++"><span style="color: #cdcd00;">vector</span>&lt; <span style="color: #cdcd00;">pair</span>&lt;<span style="color: #cdcd00;">string</span>, <span style="color: #cdcd00;">string</span>&gt; &gt; <span style="color: #cdcd00;">jpairs</span>; <span style="color: #cd0000;">//</span><span style="color: #cd0000;">(prefix, B')
+</span><span style="color: #cdcd00;">vector</span>&lt; <span style="color: #cdcd00;">pair</span>&lt;<span style="color: #cdcd00;">string</span>, <span style="color: #cdcd00;">string</span>&gt; &gt; <span style="color: #cdcd00;">bpairs</span>; <span style="color: #cd0000;">//</span><span style="color: #cd0000;">(suffix, D')
+</span>
+<span style="color: #cd0000;">// </span><span style="color: #cd0000;">if a is a prefix of b
+</span><span style="color: #00cdcd;">if</span>(<span style="color: #00cdcd;">std</span>::equal(a.begin(), a.end(), b.begin())) 
+  jpairs.push_back( make_pair(a,b.substr(a.length())));
+
+<span style="color: #cd0000;">// </span><span style="color: #cd0000;">if c is a suffix of d
+</span><span style="color: #00cdcd;">if</span>(<span style="color: #00cdcd;">std</span>::equal(c.rbegin(), c.rend(), d.rbegin())) 
+  bpairs.push_back( make_pair(c, d.substr(0,d.length() -
+c.length())));
+
+</pre>
+
+
+
+<p>
+Using STL and some iterators it is pretty trivial to find whether a
+string is a prefix/suffix. Obviously for java users you get
+string.StartsWith() and string.EndsWith() - but where's the fun in
+that?
+</p>
+<p>
+At this point we basically have all the pairs of valid substrings
+which could potentially form a solution. Now all we need to do is run
+an 0(n<sup>2</sup>) loop where we compare each possible pair to pick the best
+name!
+</p>
+
+
+
+<pre class="src src-c++"><span style="color: #cdcd00;">bool</span> <span style="color: #00cdcd;">TheBoringStoreDivTwo</span>::<span style="color: #00cdcd;">isBetter</span>(<span style="color: #00cdcd;">const</span> <span style="color: #cdcd00;">string</span>&amp; <span style="color: #cdcd00;">prev</span>, <span style="color: #00cdcd;">const</span> <span style="color: #cdcd00;">string</span>&amp; <span style="color: #cdcd00;">curr</span>) <span style="color: #00cdcd;">const</span> {
+  <span style="color: #00cdcd;">return</span> (prev.length() &lt; curr.length() || 
+          (prev.length() == curr.length() &amp;&amp; curr.compare(prev) &lt; 0));
+}
+
+<span style="color: #cdcd00;">string</span> <span style="color: #cdcd00;">result</span>;
+<span style="color: #00cdcd;">for</span> (<span style="color: #cdcd00;">int</span> <span style="color: #cdcd00;">i</span> = 0; i &lt; jpairs.size(); ++i)
+  <span style="color: #00cdcd;">for</span> (<span style="color: #cdcd00;">int</span> <span style="color: #cdcd00;">j</span> = 0; j &lt; bpairs.size(); ++j)
+    <span style="color: #00cdcd;">if</span>(bpairs[j].second == jpairs[i].second) {
+      <span style="color: #cdcd00;">string</span> <span style="color: #cdcd00;">curr</span> = jpairs[i].first + bpairs[j].second + bpairs[j].first;
+      result = isBetter(result, curr) ? curr : result;
+    }
+
+</pre>
+
+
+
+<p>
+That's it! We walk through the pairs picking the best one. Our store
+finally has a name :) and we can go back to the drawing board and
+ponder how we can improve our solution! 
+</p></div>
+</div>
