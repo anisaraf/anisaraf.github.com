@@ -8,12 +8,12 @@
 #+BEGIN_HTML
 ---
 layout: post
-title:  TopCoder SRM 488 The BoringStore (Working Draft)
-tags: TopCoder, Advanced Math
+title:  TopCoder SRM 488 The BoringStore 
+tags:  Dynamic Programming, String Manipulation
 ---
 #+END_HTML
 
-*** Problem Statement: [[http://www.topcoder.com/stat?c%3Dproblem_statement&pm%3D11196][TheBoringStoreDivTwo]] (TC-Registration) [[http://pastehtml.com/view/1e9llc2.rtxt][TheBoringStoreDivTwo]]
+*** Problem Statement: [[http://www.topcoder.com/stat?c%3Dproblem_statement&pm%3D11196][TheBoringStore]](TC) [[http://pastehtml.com/view/1e9llc2.rtxt][TheBoringStore]]
 *** Solution: [[https://github.com/anisaraf/TopCoder/blob/master/srm488/d2l2TheBoringStore.cxx][TheBoringStore.cxx]]
 *** Used As: Division II Level Two
 *** Categories: Dynamic Programming, String Manipulation
@@ -24,7 +24,6 @@ feel overwhelmed when you first read the problem statement. The
 important thing is to let that feeling pass, re-read the problem and
 not give up. 
 
-Step 1) Feel overwhelmed 
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
