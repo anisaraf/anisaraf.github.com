@@ -117,8 +117,6 @@ A quick snapshot of the approximate number of LCA efilings for each year!
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-
-
 |------+---------|
 | Year | Filings |
 |------+---------|
@@ -133,10 +131,6 @@ A quick snapshot of the approximate number of LCA efilings for each year!
 | FY10 |  360375 |
 #+BEGIN_HTML: 
    </center>
-#+END_HTML: 
-
-#+BEGIN_HTML: 
-   <p><br><br><br><br>
 #+END_HTML: 
 
 As you can see from the graph and the data table, there was an
