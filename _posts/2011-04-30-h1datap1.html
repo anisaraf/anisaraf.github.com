@@ -1,0 +1,117 @@
+---
+layout: post
+title:    Analysing the H-1B Data - Part 1
+tags : SQL
+---
+
+<p>
+Recently I stumbled upon this <a href="http://www.flcdatacenter.com/CaseH1B.aspx">corpus</a> of H-1B data. Now it seemed like
+a good dataset to expore so I decided to download the H-1B iCert LCA
+Data files for the years 2002-2010. 
+</p>
+
+
+   <center>
+<p>
+<img src="/images/h1bvisa.jpg"  alt="/images/h1bvisa.jpg" />
+   </center>
+
+
+After downloading the first step was to try and load it into a mySQL
+database. While the downloading was effortless using <a href="http://linux.die.net/man/1/wget">wget</a>, loading the data into
+a mySQL database turned out to be a much bigger hassle than I
+anticipated - specially since some of the files had different headers
+than the other. Anyway to cut a long story short, I ended up writing
+this script to take a CSV file and create a table from the header! Now
+the table doesn't do the datatypes but it does give out the SQL /
+create the table so that you can edit the table datatypes either in
+text or using <a href="http://www.webyog.com/en/">SQLyog</a> <a href="http://code.google.com/p/sqlyog/downloads/list">Community Edition</a>. 
+</p>
+
+
+
+<pre class="src src-perl"> func getTableSQL($<span style="color: #ffff00;">header</span>, $<span style="color: #ffff00;">tableName</span>, :$<span style="color: #ffff00;">defaultLen</span>=100, :$<span style="color: #ffff00;">engine</span>=<span style="color: #ffff00;">"InnoDB"</span>, :$<span style="color: #ffff00;">dbh</span>=undef) {
+    <span style="color: #ffff00;">my</span> ($<span style="color: #ffff00;">rSql</span>, $<span style="color: #ffff00;">cols</span>);
+    <span style="color: #ffff00;">my</span> $<span style="color: #ffff00;">csv</span> = Text::CSV-&gt;new();
+    <span style="color: #00ffff;">if</span> ($<span style="color: #ffff00;">csv</span>-&gt;parse($<span style="color: #ffff00;">header</span>)) {
+        <span style="color: #00ffff;">foreach</span> ($<span style="color: #ffff00;">csv</span>-&gt;fields()){
+            $<span style="color: #ffff00;">cols</span> .= <span style="color: #ffff00;">"`$_` varchar($defaultLen) DEFAULT NULL, \n"</span>;
+        }
+        $<span style="color: #ffff00;">rSql</span> = <span style="color: #ffff00;">"CREATE TABLE `$tablename` ( $cols ) ENGINE=$engine DEFAULT CHARSET=latin1;"</span>;
+        substr $<span style="color: #ffff00;">rSql</span>, rindex($<span style="color: #ffff00;">rSql</span>,<span style="color: #ffff00;">','</span>), 1, <span style="color: #ffff00;">''</span>; <span style="color: #ff0000;">#replace last comma
+</span>    } <span style="color: #00ffff;">else</span> {
+        say <span style="color: #ffff00;">"Failed to parse line:"</span>.$<span style="color: #ffff00;">csv</span>-&gt;error_input;
+    }
+
+    <span style="color: #00ffff;">if</span>($<span style="color: #ffff00;">dbh</span>) {
+        <span style="color: #00ffff;">return</span> $<span style="color: #ffff00;">dbh</span>-&gt;<span style="color: #00ffff;">do</span>($<span style="color: #ffff00;">rSql</span>);
+    }
+    <span style="color: #00ffff;">else</span> {
+        <span style="color: #00ffff;">return</span> $<span style="color: #ffff00;">rSql</span>;
+    }
+}
+</pre>
+
+
+
+<p>
+The code is fed the header as a string, and it produces a CREATE TABLE
+command from the header. Optionally, if you provide it a database
+handle it will go ahead and create the table for you as well. I know a
+lot of people seem to think <a href="http://news.ycombinator.com/item?id=1906070">perl is ugly</a> yada yada yada, but its quick
+and <a href="http://www.cpan.org/index.html">CPAN</a> has a module for everything. So while it might not be as
+glamourous as Ruby, Python etc. it is kind of awesome in its own way
+</p>
+
+
+   <center>
+<p>
+<img src="/images/perlbuzz.jpg" alt="http://www.perlbuzz.come" title="www.perlbuzz.com" align="" />
+   </center>
+
+Anyway now that I had the tables ready to go I decided to load the
+data in using the the MySQL <a href="http://dev.mysql.com/doc/refman/5.0/en/load-data.html">LOAD DATA INFILE</a> command only to hit
+<a href="http://bugs.mysql.com/bug.php?id=39247">this unresolved bug</a>. Really MySQL - you can't load a freaking data
+file into the database! Anyways, after doing some more nifty perl
+coding (to come in a later post) I was finally able to get all the
+data loaded into the database. 
+</p>
+<p>
+A quick snapshot of the approximate number of LCA efilings for each year!
+</p>
+
+
+<p>
+<img src="/images/h1filings.png" style="float:left;margin:20px 20px 20px 0px;" alt="/images/h1filings.png" />
+   <center>
+
+
+</p><table  border="2" cellspacing="0" cellpadding="6" rules="groups" frame="all">
+<caption></caption>
+<colgroup><col align="left" /><col align="right" />
+</colgroup>
+<thead>
+<tr><th scope="col">Year</th><th scope="col">Filings</th></tr>
+</thead>
+<tbody>
+<tr><td>FY02</td><td>123712</td></tr>
+<tr><td>FY03</td><td>222789</td></tr>
+<tr><td>FY04</td><td>310008</td></tr>
+<tr><td>FY05</td><td>307499</td></tr>
+<tr><td>FY06</td><td>381513</td></tr>
+<tr><td>FY07</td><td>425396</td></tr>
+<tr><td>FY08</td><td>405940</td></tr>
+<tr><td>FY09</td><td>269641</td></tr>
+<tr><td>FY10</td><td>360375</td></tr>
+</tbody>
+</table>
+
+   </center>
+
+   <p><br><br><br><br>
+
+As you can see from the graph and the data table, there was an
+expexted dip in the H-1B filings during the recession(2009). I'll be
+doing some more analysis on the data soon so if there is anything in
+particular you will like to know about this data, leave some comments
+and I'll see what I can do!
