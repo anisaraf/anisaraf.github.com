@@ -99,7 +99,7 @@ A quick snapshot of the approximate number of LCA efilings for each year!
   set xtics rotate by -45
   set tic scale 0 
 
-  set title 'H-1B 2 Yearly Filings'
+  set title 'H-1B Yearly Filings'
   
   plot data using 2:xticlabels(1) w lp lw 2 notitle
 
