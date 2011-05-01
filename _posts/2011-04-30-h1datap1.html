@@ -1,12 +1,12 @@
 ---
 layout: post
-title:    Analysing the H-1B Data - Part 1
+title:    Analyzing the H-1B Data - Part 1
 tags : SQL
 ---
 
 <p>
 Recently I stumbled upon this <a href="http://www.flcdatacenter.com/CaseH1B.aspx">corpus</a> of H-1B data. Now it seemed like
-a good dataset to expore so I decided to download the H-1B iCert LCA
+a good data set to explore so I decided to download the H-1B iCert LCA
 Data files for the years 2002-2010. 
 </p>
 
@@ -23,8 +23,8 @@ a mySQL database turned out to be a much bigger hassle than I
 anticipated - specially since some of the files had different headers
 than the other. Anyway to cut a long story short, I ended up writing
 this script to take a CSV file and create a table from the header! Now
-the table doesn't do the datatypes but it does give out the SQL /
-create the table so that you can edit the table datatypes either in
+the table doesn't do the data types but it does give out the SQL /
+create the table so that you can edit the table data types either in
 text or using <a href="http://www.webyog.com/en/">SQLyog</a> <a href="http://code.google.com/p/sqlyog/downloads/list">Community Edition</a>. 
 </p>
 
@@ -60,7 +60,7 @@ command from the header. Optionally, if you provide it a database
 handle it will go ahead and create the table for you as well. I know a
 lot of people seem to think <a href="http://news.ycombinator.com/item?id=1906070">perl is ugly</a> yada yada yada, but its quick
 and <a href="http://www.cpan.org/index.html">CPAN</a> has a module for everything. So while it might not be as
-glamourous as Ruby, Python etc. it is kind of awesome in its own way
+glamorous as Ruby, Python etc. it is kind of awesome in its own way
 </p>
 
 
@@ -82,7 +82,7 @@ A quick snapshot of the approximate number of LCA efilings for each year!
 
 
 <p>
-<img src="/images/h1filings.png" style="float:left;margin:20px 20px 20px 0px;" alt="/images/h1filings.png" />
+<img src="/images/h1filings.png"  alt="/images/h1filings.png" />
    <center>
 
 
@@ -111,7 +111,7 @@ A quick snapshot of the approximate number of LCA efilings for each year!
    <p><br><br><br><br>
 
 As you can see from the graph and the data table, there was an
-expexted dip in the H-1B filings during the recession(2009). I'll be
+expected dip in the H-1B filings during the recession(2009). I'll be
 doing some more analysis on the data soon so if there is anything in
 particular you will like to know about this data, leave some comments
 and I'll see what I can do!
