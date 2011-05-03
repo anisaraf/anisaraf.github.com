@@ -122,6 +122,14 @@ ul.posts {
     color: #aaa;
   }
 
+
+  .sidebar {
+	width:45px;  /*can be anything you want*/
+	float:right;  /*can be any side you want*/
+	height:100%;
+	}
+
+
   .site .footer {
     font-size: 80%;
     color: #666;
@@ -209,3 +217,5 @@ ul.posts {
 	font-size: 80%;
 	color: #8085C1;
 }
+
+

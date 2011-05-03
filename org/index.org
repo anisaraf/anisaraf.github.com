@@ -11,6 +11,43 @@ title: Welcome to CodeHerb
 
 
 #+BEGIN_HTML
+
+<div class="sidebar">
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 4,
+  interval: 6000,
+  width: 250,
+  height: 300,
+  theme: {
+    shell: {
+      background: '#333333',
+      color: '#e6dfe6'
+    },
+    tweets: {
+      background: '#f2edf2',
+      color: '#000000',
+      links: '#2f9e00'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('CodeHerb').start();
+</script>
+</div>
+
+
+
 <div id="home">
   <h1>Blog Posts</h1>
   <ul class="posts">
@@ -27,5 +64,6 @@ title: Welcome to CodeHerb
   {% endfor %}
   </ul>
 {% endif %}
+
 
 #+END_HTML
