@@ -1,0 +1,129 @@
+#+TITLE:    Google CodeJam 2011: Problem A. Bot Trust
+#+AUTHOR:   Ani
+#+EMAIL:    anirudhsaraf@gmail.com
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+INFOJS_OPT: view:info toc:t
+#+OPTIONS: H:2 num:t toc:t ^:nil
+#+BEGIN_HTML
+---
+layout: post
+title:  Google CodeJam 2011 Problem A. Bot Trust
+---
+#+END_HTML
+
+*** Problem Statement:  [[http://code.google.com/codejam/contest/dashboard?c=975485#][Bot Trust]]
+*** Solution: [[https://github.com/anisaraf/TopCoder/raw/master/codejam/2011/botTrust/botTrust.cxx][BotTrust.cxx]]
+
+** Solution Analysis 
+   Lets list some important things about the problem:
+
+   - The buttons need to be pressed in order. 
+   - The Robots can move simultaneously (However given above condition they
+     will never press buttons simultaneously)
+   - Robots begin at position 1
+
+   We could do a brute-force solution where we store all the moves for
+   each robot. Then at any given point it is trivial to say what the
+   robot should do next. However we could just accumulate time for
+   the robot, and when it's his turn to press the button we could go
+   'back' in time, and move him appropriately. Lets look at some code
+
+#+begin_src c++
+class Robot {
+  int m_currPos;
+  int m_accumulatedSeconds;
+
+public:
+  Robot() : m_currPos(1), m_accumulatedSeconds(0) {} ;
+  int moveMe(int position) {
+    int requiredSeconds = abs(position - m_currPos) + 1 - m_accumulatedSeconds;
+    m_accumulatedSeconds = 0;
+    m_currPos = position;
+    return requiredSeconds > 0 ? requiredSeconds : 1;
+  }
+
+  int accumulateSeconds(int seconds){
+    m_accumulatedSeconds+=seconds;
+  }
+};
+#+end_src 
+
+
+So each Robot has two states - his current position and how much time
+he has accumulated since his last move. The key insight here is that
+the robot moves only when he needs to press the button. Otherwise we
+can just keep accumulating seconds. This saves us from needing to know
+each Robot's next move! We can defer the decision to move till we know
+where we need to move. Another nice thing about making this Robot
+class is that we can have more than two Robots, and our solution would
+work perfectly well. 
+
+Lets examine the logic in the MoveMe method a little in
+detail. Required seconds basically calculates how many seconds its
+going to take the Robot to press the button. abs(position - m_currPos)
+calcuates the number of seconds it requries to move and + 1 is for
+pressing the button. We then subtract the accumulated seconds the
+robot has, since he would have been moving towards the button in those
+seconds. We then reset the state of the robot as having no accumulated
+seconds and set his currenet position. We then return the total number
+of seconds it took to press the button so that other robots can
+accumulate time. Note that the minimum amount of time we return is 1
+since it always takes at least 1 second to press the button, even if
+the robot was already at the required position.
+
+#+BEGIN_HTML: 
+   <center>
+#+END_HTML: 
+   [[/images/robot.jpg]]
+#+BEGIN_HTML: 
+   </center>
+#+END_HTML: 
+
+Now lets look at the Game class which controls the movement of these
+robots 
+
+#+begin_src c++
+  class Game {  
+  public:
+    int move(Robot& rMove, Robot& rAccumulate, int pos)
+    {
+      int secs = rMove.moveMe(pos);
+      rAccumulate.accumulateSeconds(secs);
+      return secs;
+    }
+  
+    int start(const string& moves) { 
+      istringstream in(moves);
+      int nextPos, temp, totalSeconds=0;
+      char cNextRobot;
+      Robot ro, rb;
+  
+      in >> temp;
+      while(! in.eof()) {
+        in>>cNextRobot>>nextPos;
+        if(cNextRobot == 'O') 
+          totalSeconds += this->move(ro , rb, nextPos);     
+        else
+          totalSeconds += this->move(rb , ro, nextPos);
+      }
+      return totalSeconds;
+    }
+  };
+#+end_src
+
+The move method basically takes the Robot to move, along with the
+position to move him too and the Robot which
+will be accumulating the seconds. Then it simply calls the respective
+functions on for the Robots. The start function is mostly parsing code, and most of this should be
+self-explanatory. 
+
+*Disclaimer*: 
+As always, my goal of solving these problems is not to write quick
+unreadable code. Most of the solutions written by
+[[http://code.google.com/codejam/contest/scoreboard?c=975485#vf=1][top]] contestants at these competitions are obfusctated and difficult to
+understand. My goal is to write [[http://stack247.wordpress.com/2011/04/19/principles-of-human-readable-code/][human readable]] code which is open to
+changing specifications - like in the real world. Efficiency,
+performance and even correctness(some of these problems are tough!)
+are secondary goals. However comments for improving all aspects of the
+code are appreciated :)
