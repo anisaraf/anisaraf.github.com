@@ -1,0 +1,33 @@
+Learning to Learn:
+
+As software developers, we need to be rapidly taking in information
+and learning all the time. Therefore, it is essential that to become
+better we become better learners. Now, each person has his own unique
+learning style, and I feel it is important that they *consciously*
+discover what works for them. This post is not advice, but mostly self
+reflection, in an effort for me to optimize my own learning!
+
+
+
+* Some things I have noticed makes me an efficient learner
+
+** Be consciously learning all the time. 
+*** What do I mean by consciously learning? It means you need to make a conscious effort to learn, because otherwise you will stagnaate 
+
+
+
+** Don't ask for help
+
+** Learn how to recognize useful information. Read fast
+
+** Be helpful
+
+** Collect / blog / talk
+
+** Track - Time Management
+
+** Learn by doing, skim by reading
+
+** Quality over quantity
+
+** Do useless things

@@ -1,0 +1,65 @@
+xsLearning to Learn:
+
+As software developers, we need to be rapidly taking in information
+and learning all the time. Therefore, it is essential that to become
+better we become better learners. Now, each person has his own unique
+learning style, and I feel it is important that they *consciously*
+discover what works for them. This post is not advice, but mostly self
+reflection, in an effort for me to optimize my own learning!
+
+
+
+* Some things I have noticed makes me an efficient learner
+
+** Be consciously learning all the time. 
+   What do I mean by consciously learning? It means you need to make a
+   conscious effort to learn. Our brain resists change <link>, and
+   does what it knows how to do, even though it may not be
+   efficient. As software developers, you should shun manual
+   work. Write a script to do it, even if it takes longer! First you
+   get to learn, and second - when you have to do it again ( yes you
+   will need to sooner or later) you can just run your homebrew script :)
+   You must be constantly looking for opportunities to learn,
+   and questioning what you do.  For example: I recently needed to add
+   ssh keys to my github account. Now I could simply cat/open the public key file and
+   copy-paste it's contents using my mouse. I quickly thought that
+   what I am doing seems inefficient, and there must be better ways to
+   do it. A little bit of googling revealed the command pbcopy!
+   Bingo - I learnt something new, by doing a seemingly routine
+   task. Learn to recognize learning opportunities. Apart from
+   questioning what you ar doing, question how you are doing it? Could
+   you be doing it more efficiently? I bet you can. Invest time to
+   learn your tools. Now granted this is a trivial example, but if you
+   make it a habit to learn like this, you'll realize that you get
+   things done quicker than others! And you know what that means
+   right - yes more time on the beach - and of course more time to
+   learn new things, so you can be even more efficient at what you do!
+   It's a positive time-saving cycle! 
+
+** Don't ask for help
+   Yes. Repeat that. Don't ask for help. Google. Search. Read the
+   documentation. Even though it might take longer, the process of
+   searching and skimming through links teaches you 10 different
+   things. Suddenly you know a lot more about what you were
+   searching. If you had asked, you would have probably been handed
+   the answer, and never learned all these other wonderful things. It
+   is only after you have exhausted all you options, that you should
+   ask for help.
+
+** Learn how to recognize useful information. Read fast
+   Related to the above is learning to rapidly read and take in
+   information. Can you search efficiently <link>? Maybe devote some
+   time learning to speed read. Become good at recognizing *useful*
+   information. Do you ofen read 
+
+** Be helpful
+
+** Collect / blog / talk
+
+** Track - Time Management
+
+** Learn by doing, skim by reading
+
+** Quality over quantity
+
+** Do useless things
