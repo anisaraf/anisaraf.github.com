@@ -26,7 +26,7 @@ hashes would be to use the [[http://perldoc.perl.org/functions/split.html][split
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-     [[/images/lazyProgrammer.jpg]]
+     [[file:../images/lazyProgrammer.jpg]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 

@@ -6,10 +6,16 @@ tags: TopCoder, Advanced Math
 <ul>
 <li id="sec-1">Problem Statement  : <a href="http://www.topcoder.com/stat?c=problem_statement&amp;amp;pm=1659&amp;amp;rd=4515">Lottery</a> <br/>
 </li>
+</ul>
+<ul>
 <li id="sec-2">Solution           : <a href="http://gist.github.com/592953">Lottery.cxx</a> <br/>
 </li>
+</ul>
+<ul>
 <li id="sec-3">Used As            : Division I Level Two <br/>
 </li>
+</ul>
+<ul>
 <li id="sec-4">Categories         : Advanced Math <br/>
 
 
@@ -45,14 +51,16 @@ to parse the string.
 
 
 
-<pre class="src src-c++"><span class="org-type">istringstream</span> <span class="org-function-name">in</span>(rule);   
-getline(in,szName, <span class="org-string">':'</span>); 
+<pre class="src src-c++"><span style="color: #87ff87;">istringstream</span> <span style="color: #87d7ff;">in</span>(rule);   
+getline(in,szName, <span style="color: #ffaf87;">':'</span>); 
 in&gt;&gt;nChoices&gt;&gt;nBlanks&gt;&gt;cSorted&gt;&gt;cUnique; 
 
 </pre>
 
 
-
+<p>
+ c++
+</p>
 
 <p>
 Yes its as simple as that ! Now on to calculating the Odds.
@@ -70,9 +78,11 @@ long as the type since the numbers can get pretty big. We also don't
 want to generate all the factorials and then divide, so we write two simple functions  
 </p>
 <ul>
-<li id="sec-3_1"><b>unsigned long long factorialDivide(int num, int den)</b> - This returns the results of num!/ div! <br/>
+<li id="sec-3-1"><b>unsigned long long factorialDivide(int num, int den)</b> - This returns the results of num!/ div! <br/>
 </li>
-<li id="sec-3_2"><b>unsigned long long factorial(int num)</b> - This just returns num! <br/>
+</ul>
+<ul>
+<li id="sec-3-2"><b>unsigned long long factorial(int num)</b> - This just returns num! <br/>
 
 </li>
 </ul>
@@ -87,32 +97,34 @@ want to generate all the factorials and then divide, so we write two simple func
 
 
 
-<pre class="src src-c++"><span class="org-comment-delimiter">//</span><span class="org-comment">Unique Permutations: n!/(n -r)!
-</span> <span class="org-keyword">if</span>(cUnique == <span class="org-string">'T'</span> &amp;&amp; cSorted==<span class="org-string">'F'</span>){
-    <span class="org-keyword">return</span> make_pair(factorialDivide(nChoices, nChoices - nBlanks),szName);
+<pre class="src src-c++"><span style="color: #ff5f00;">//</span><span style="color: #ff5f00;">Unique Permutations: n!/(n -r)!</span>
+ <span style="color: #00cdcd;">if</span>(cUnique == <span style="color: #ffaf87;">'T'</span> &amp;&amp; cSorted==<span style="color: #ffaf87;">'F'</span>){
+    <span style="color: #00cdcd;">return</span> make_pair(factorialDivide(nChoices, nChoices - nBlanks),szName);
  }
 
-<span class="org-comment-delimiter">//</span><span class="org-comment">Non-Unique Permutations n ^ r
-</span> <span class="org-keyword">else</span> <span class="org-keyword">if</span>(cUnique == <span class="org-string">'F'</span>  &amp;&amp; cSorted == <span class="org-string">'F'</span>){
-    <span class="org-keyword">return</span> make_pair(pow(nChoices, nBlanks), szName);
+<span style="color: #ff5f00;">//</span><span style="color: #ff5f00;">Non-Unique Permutations n ^ r</span>
+ <span style="color: #00cdcd;">else</span> <span style="color: #00cdcd;">if</span>(cUnique == <span style="color: #ffaf87;">'F'</span>  &amp;&amp; cSorted == <span style="color: #ffaf87;">'F'</span>){
+    <span style="color: #00cdcd;">return</span> make_pair(pow(nChoices, nBlanks), szName);
  }
 
-<span class="org-comment-delimiter">//</span><span class="org-comment">Unique Combinations: n! / r! (n-r)!
-</span> <span class="org-keyword">else</span> <span class="org-keyword">if</span>(cUnique==<span class="org-string">'T'</span> &amp;&amp; cSorted==<span class="org-string">'T'</span>){
-    <span class="org-type">unsigned</span> <span class="org-type">long</span> <span class="org-type">long</span> <span class="org-variable-name">temp</span> = factorialDivide(nChoices, nChoices - nBlanks);
-    <span class="org-keyword">return</span> make_pair(temp / factorial(nBlanks), szName);
+<span style="color: #ff5f00;">//</span><span style="color: #ff5f00;">Unique Combinations: n! / r! (n-r)!</span>
+ <span style="color: #00cdcd;">else</span> <span style="color: #00cdcd;">if</span>(cUnique==<span style="color: #ffaf87;">'T'</span> &amp;&amp; cSorted==<span style="color: #ffaf87;">'T'</span>){
+    <span style="color: #87ff87;">unsigned</span> <span style="color: #87ff87;">long</span> <span style="color: #87ff87;">long</span> <span style="color: #ffd787;">temp</span> = factorialDivide(nChoices, nChoices - nBlanks);
+    <span style="color: #00cdcd;">return</span> make_pair(temp / factorial(nBlanks), szName);
  }
 
-<span class="org-comment-delimiter">//</span><span class="org-comment">Non-Unique Combinations: (n+r-1)! / r! (n-1)!
-</span> <span class="org-keyword">else</span> <span class="org-keyword">if</span>(cUnique==<span class="org-string">'F'</span> &amp;&amp; cSorted==<span class="org-string">'T'</span>){
-    <span class="org-type">unsigned</span> <span class="org-type">long</span> <span class="org-type">long</span> <span class="org-variable-name">temp</span> = factorialDivide(nChoices + nBlanks - 1, nChoices - 1);
-    <span class="org-keyword">return</span> make_pair(temp / factorial(nBlanks), szName);
+<span style="color: #ff5f00;">//</span><span style="color: #ff5f00;">Non-Unique Combinations: (n+r-1)! / r! (n-1)!</span>
+ <span style="color: #00cdcd;">else</span> <span style="color: #00cdcd;">if</span>(cUnique==<span style="color: #ffaf87;">'F'</span> &amp;&amp; cSorted==<span style="color: #ffaf87;">'T'</span>){
+    <span style="color: #87ff87;">unsigned</span> <span style="color: #87ff87;">long</span> <span style="color: #87ff87;">long</span> <span style="color: #ffd787;">temp</span> = factorialDivide(nChoices + nBlanks - 1, nChoices - 1);
+    <span style="color: #00cdcd;">return</span> make_pair(temp / factorial(nBlanks), szName);
  }    
 
 </pre>
 
 
-
+<p>
+ c++
+</p>
 </div>
 
 </div>
@@ -127,15 +139,17 @@ will use the STL <a href="http://www.cplusplus.com/reference/algorithm/transform
 
 
 
-<pre class="src src-c++"><span class="org-keyword">typedef</span> <span class="org-constant">std</span>::<span class="org-type">pair</span> <span class="org-type">LotteryOdds</span>&lt;<span class="org-type">unsigned</span> <span class="org-type">long</span> <span class="org-type">long</span>, <span class="org-type">string</span>&gt;;
-<span class="org-type">vector</span> <span class="org-type">results</span> &lt;LotteryOdds&gt;;
+<pre class="src src-c++"><span style="color: #00cdcd;">typedef</span> <span style="color: #87ffd7;">std</span>::<span style="color: #87ff87;">pair</span> <span style="color: #87ff87;">LotteryOdds</span>&lt;<span style="color: #87ff87;">unsigned</span> <span style="color: #87ff87;">long</span> <span style="color: #87ff87;">long</span>, <span style="color: #87ff87;">string</span>&gt;;
+<span style="color: #87ff87;">vector</span> <span style="color: #87ff87;">results</span> &lt;LotteryOdds&gt;;
 transform(rules.begin(),rules.end(),
-inserter(results,results.begin()),<span class="org-constant">Lottery</span>::getOdds);
+inserter(results,results.begin()),<span style="color: #87ffd7;">Lottery</span>::getOdds);
 
 </pre>
 
 
-
+<p>
+ c++
+</p>
 <p>
 The transform function runs every  'rule' through the getOdds function which
 returns the LotteryOdds pairs. We store this in a vector.
@@ -157,12 +171,12 @@ STL <a href="http://www.cplusplus.com/reference/algorithm/sort/">sort</a> but we
 
 
 
-<pre class="src src-c++"> <span class="org-keyword">struct</span> <span class="org-type">LotteryOddsCompare</span>{
-   <span class="org-type">bool</span> <span class="org-keyword">operator</span><span class="org-function-name">()</span>(<span class="org-keyword">const</span> <span class="org-type">LotteryOdds</span>&amp; <span class="org-variable-name">left</span>, <span class="org-keyword">const</span> <span class="org-type">LotteryOdds</span>&amp; <span class="org-variable-name">right</span>)
-    <span class="org-keyword">if</span>(left.first == right.first)  <span class="org-comment-delimiter">// </span><span class="org-comment">equal odds then compare names
-</span>       <span class="org-keyword">return</span> left.second &lt; right.second;
-    <span class="org-keyword">else</span>
-       <span class="org-keyword">return</span> left.first &lt; right.first;
+<pre class="src src-c++"> <span style="color: #00cdcd;">struct</span> <span style="color: #87ff87;">LotteryOddsCompare</span>{
+   <span style="color: #87ff87;">bool</span> <span style="color: #00cdcd;">operator</span><span style="color: #87d7ff;">()</span>(<span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">LotteryOdds</span>&amp; <span style="color: #ffd787;">left</span>, <span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">LotteryOdds</span>&amp; <span style="color: #ffd787;">right</span>)
+    <span style="color: #00cdcd;">if</span>(left.first == right.first)  <span style="color: #ff5f00;">// </span><span style="color: #ff5f00;">equal odds then compare names</span>
+       <span style="color: #00cdcd;">return</span> left.second &lt; right.second;
+    <span style="color: #00cdcd;">else</span>
+       <span style="color: #00cdcd;">return</span> left.first &lt; right.first;
     }
  };
 
@@ -171,7 +185,9 @@ sort(results.begin(), results.end(), LotteryOddsCompare());
 </pre>
 
 
-
+<p>
+ c++
+</p>
 <p>
 Thats it. We have the sorted odds in the results vector! 
 </p>

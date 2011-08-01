@@ -6,6 +6,8 @@ title:  Google CodeJam 2011 Problem A. Bot Trust
 <ul>
 <li id="sec-1">Problem Statement:  <a href="http://code.google.com/codejam/contest/dashboard?c=975485#">Bot Trust</a> <br/>
 </li>
+</ul>
+<ul>
 <li id="sec-2">Solution: <a href="https://github.com/anisaraf/TopCoder/raw/master/codejam/2011/botTrust/botTrust.cxx">BotTrust.cxx</a> <br/>
 
 </li>
@@ -15,49 +17,48 @@ title:  Google CodeJam 2011 Problem A. Bot Trust
 <h3 id="sec-1">Solution Analysis </h3>
 <div class="outline-text-3" id="text-1">
 
-<p>Lets list some important things about the problem:
+<p>   Lets list some important things about the problem:
 </p>
 <ul>
-<li>
-The buttons need to be pressed in order. 
+<li>The buttons need to be pressed in order. 
 </li>
-<li>
-The Robots can move simultaneously (However given above condition they
-will never press buttons simultaneously)
+<li>The Robots can move simultaneously (However given above condition they
+     will never press buttons simultaneously)
 </li>
-<li>
-Robots begin at position 1
-
+<li>Robots begin at position 1
 </li>
 </ul>
 
-<p>We could do a brute-force solution where we store all the moves for
-each robot. Then at any given point it is trivial to say what the
-robot should do next. However we could just accumulate time for
-the robot, and when it's his turn to press the button we could go
-'back' in time, and move him appropriately. Lets look at some code
+
+<p>
+   We could do a brute-force solution where we store all the moves for
+   each robot. Then at any given point it is trivial to say what the
+   robot should do next. However we could just accumulate time for
+   the robot, and when it's his turn to press the button we could go
+   'back' in time, and move him appropriately. Lets look at some code
 </p>
 
 
 
-<pre class="src src-c++"><span style="color: #00ffff;">class</span> <span style="color: #ffff00;">Robot</span> {
-  <span style="color: #ffff00;">int</span> <span style="color: #ffff00;">m_currPos</span>;
-  <span style="color: #ffff00;">int</span> <span style="color: #ffff00;">m_accumulatedSeconds</span>;
+<pre class="src src-c++"><span style="color: #00cdcd;">class</span> <span style="color: #87ff87;">Robot</span> {
+  <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">m_currPos</span>;
+  <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">m_accumulatedSeconds</span>;
 
-<span style="color: #00ffff;">public</span>:
-  <span style="color: #00ffff;">Robot</span>() : m_currPos(1), m_accumulatedSeconds(0) {} ;
-  <span style="color: #ffff00;">int</span> <span style="color: #00ffff;">moveMe</span>(<span style="color: #ffff00;">int</span> <span style="color: #ffff00;">position</span>) {
-    <span style="color: #ffff00;">int</span> <span style="color: #ffff00;">requiredSeconds</span> = abs(position - m_currPos) + 1 - m_accumulatedSeconds;
+<span style="color: #00cdcd;">public</span>:
+  <span style="color: #87d7ff;">Robot</span>() : m_currPos(1), m_accumulatedSeconds(0) {} ;
+  <span style="color: #87ff87;">int</span> <span style="color: #87d7ff;">moveMe</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">position</span>) {
+    <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">requiredSeconds</span> = abs(position - m_currPos) + 1 - m_accumulatedSeconds;
     m_accumulatedSeconds = 0;
     m_currPos = position;
-    <span style="color: #00ffff;">return</span> requiredSeconds &gt; 0 ? requiredSeconds : 1;
+    <span style="color: #00cdcd;">return</span> requiredSeconds &gt; 0 ? requiredSeconds : 1;
   }
 
-  <span style="color: #ffff00;">int</span> <span style="color: #00ffff;">accumulateSeconds</span>(<span style="color: #ffff00;">int</span> <span style="color: #ffff00;">seconds</span>){
+  <span style="color: #87ff87;">int</span> <span style="color: #87d7ff;">accumulateSeconds</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">seconds</span>){
     m_accumulatedSeconds+=seconds;
   }
 };
 </pre>
+
 
 
 
@@ -90,7 +91,7 @@ the robot was already at the required position.
 
    <center>
 <p>
-<img src="/images/robot.jpg"  alt="/images/robot.jpg" />
+   <img src="../images/robot.jpg"  alt="../images/robot.jpg" />
    </center>
 
 Now lets look at the Game class which controls the movement of these
@@ -99,33 +100,34 @@ robots
 
 
 
-<pre class="src src-c++"><span style="color: #00ffff;">class</span> <span style="color: #ffff00;">Game</span> {  
-<span style="color: #00ffff;">public</span>:
-  <span style="color: #ffff00;">int</span> <span style="color: #00ffff;">move</span>(<span style="color: #ffff00;">Robot</span>&amp; <span style="color: #ffff00;">rMove</span>, <span style="color: #ffff00;">Robot</span>&amp; <span style="color: #ffff00;">rAccumulate</span>, <span style="color: #ffff00;">int</span> <span style="color: #ffff00;">pos</span>)
+<pre class="src src-c++"><span style="color: #00cdcd;">class</span> <span style="color: #87ff87;">Game</span> {  
+<span style="color: #00cdcd;">public</span>:
+  <span style="color: #87ff87;">int</span> <span style="color: #87d7ff;">move</span>(<span style="color: #87ff87;">Robot</span>&amp; <span style="color: #ffd787;">rMove</span>, <span style="color: #87ff87;">Robot</span>&amp; <span style="color: #ffd787;">rAccumulate</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">pos</span>)
   {
-    <span style="color: #ffff00;">int</span> <span style="color: #ffff00;">secs</span> = rMove.moveMe(pos);
+    <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">secs</span> = rMove.moveMe(pos);
     rAccumulate.accumulateSeconds(secs);
-    <span style="color: #00ffff;">return</span> secs;
+    <span style="color: #00cdcd;">return</span> secs;
   }
 
-  <span style="color: #ffff00;">int</span> <span style="color: #00ffff;">start</span>(<span style="color: #00ffff;">const</span> <span style="color: #ffff00;">string</span>&amp; <span style="color: #ffff00;">moves</span>) { 
-    <span style="color: #ffff00;">istringstream</span> <span style="color: #ffff00;">in</span>(moves);
-    <span style="color: #ffff00;">int</span> <span style="color: #ffff00;">nextPos</span>, <span style="color: #ffff00;">temp</span>, <span style="color: #ffff00;">totalSeconds</span>=0;
-    <span style="color: #ffff00;">char</span> <span style="color: #ffff00;">cNextRobot</span>;
-    <span style="color: #ffff00;">Robot</span> <span style="color: #ffff00;">ro</span>, <span style="color: #ffff00;">rb</span>;
+  <span style="color: #87ff87;">int</span> <span style="color: #87d7ff;">start</span>(<span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">string</span>&amp; <span style="color: #ffd787;">moves</span>) { 
+    <span style="color: #87ff87;">istringstream</span> <span style="color: #ffd787;">in</span>(moves);
+    <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">nextPos</span>, <span style="color: #ffd787;">temp</span>, <span style="color: #ffd787;">totalSeconds</span>=0;
+    <span style="color: #87ff87;">char</span> <span style="color: #ffd787;">cNextRobot</span>;
+    <span style="color: #87ff87;">Robot</span> <span style="color: #ffd787;">ro</span>, <span style="color: #ffd787;">rb</span>;
 
     in &gt;&gt; temp;
-    <span style="color: #00ffff;">while</span>(! in.eof()) {
+    <span style="color: #00cdcd;">while</span>(! in.eof()) {
       in&gt;&gt;cNextRobot&gt;&gt;nextPos;
-      <span style="color: #00ffff;">if</span>(cNextRobot == <span style="color: #ffff00;">'O'</span>) 
-        totalSeconds += <span style="color: #00ffff;">this</span>-&gt;move(ro , rb, nextPos);     
-      <span style="color: #00ffff;">else</span>
-        totalSeconds += <span style="color: #00ffff;">this</span>-&gt;move(rb , ro, nextPos);
+      <span style="color: #00cdcd;">if</span>(cNextRobot == <span style="color: #ffaf87;">'O'</span>) 
+        totalSeconds += <span style="color: #00cdcd;">this</span>-&gt;move(ro , rb, nextPos);     
+      <span style="color: #00cdcd;">else</span>
+        totalSeconds += <span style="color: #00cdcd;">this</span>-&gt;move(rb , ro, nextPos);
     }
-    <span style="color: #00ffff;">return</span> totalSeconds;
+    <span style="color: #00cdcd;">return</span> totalSeconds;
   }
 };
 </pre>
+
 
 
 

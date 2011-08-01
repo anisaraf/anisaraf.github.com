@@ -13,7 +13,7 @@ Data files for the years 2002-2010.
 
    <center>
 <p>
-<img src="/images/h1bvisa.jpg"  alt="/images/h1bvisa.jpg" />
+     <img src="../images/h1bvisa.jpg"  alt="../images/h1bvisa.jpg" />
    </center>
 
 
@@ -30,27 +30,28 @@ text or using <a href="http://www.webyog.com/en/">SQLyog</a> <a href="http://cod
 
 
 
-<pre class="src src-perl"> func getTableSQL($<span style="color: #ffff00;">header</span>, $<span style="color: #ffff00;">tableName</span>, :$<span style="color: #ffff00;">defaultLen</span>=100, :$<span style="color: #ffff00;">engine</span>=<span style="color: #ffff00;">"InnoDB"</span>, :$<span style="color: #ffff00;">dbh</span>=undef) {
-    <span style="color: #ffff00;">my</span> ($<span style="color: #ffff00;">rSql</span>, $<span style="color: #ffff00;">cols</span>);
-    <span style="color: #ffff00;">my</span> $<span style="color: #ffff00;">csv</span> = Text::CSV-&gt;new();
-    <span style="color: #00ffff;">if</span> ($<span style="color: #ffff00;">csv</span>-&gt;parse($<span style="color: #ffff00;">header</span>)) {
-        <span style="color: #00ffff;">foreach</span> ($<span style="color: #ffff00;">csv</span>-&gt;fields()){
-            $<span style="color: #ffff00;">cols</span> .= <span style="color: #ffff00;">"`$_` varchar($defaultLen) DEFAULT NULL, \n"</span>;
+<pre class="src src-perl"> func getTableSQL($<span style="color: #ffd787;">header</span>, $<span style="color: #ffd787;">tableName</span>, :$<span style="color: #ffd787;">defaultLen</span>=100, :$<span style="color: #ffd787;">engine</span>=<span style="color: #ffaf87;">"InnoDB"</span>, :$<span style="color: #ffd787;">dbh</span>=undef) {
+    <span style="color: #87ff87;">my</span> ($<span style="color: #ffd787;">rSql</span>, $<span style="color: #ffd787;">cols</span>);
+    <span style="color: #87ff87;">my</span> $<span style="color: #ffd787;">csv</span> = Text::CSV-&gt;new();
+    <span style="color: #00cdcd;">if</span> ($<span style="color: #ffd787;">csv</span>-&gt;parse($<span style="color: #ffd787;">header</span>)) {
+        <span style="color: #00cdcd;">foreach</span> ($<span style="color: #ffd787;">csv</span>-&gt;fields()){
+            $<span style="color: #ffd787;">cols</span> .= <span style="color: #ffaf87;">"`$_` varchar($defaultLen) DEFAULT NULL, \n"</span>;
         }
-        $<span style="color: #ffff00;">rSql</span> = <span style="color: #ffff00;">"CREATE TABLE `$tablename` ( $cols ) ENGINE=$engine DEFAULT CHARSET=latin1;"</span>;
-        substr $<span style="color: #ffff00;">rSql</span>, rindex($<span style="color: #ffff00;">rSql</span>,<span style="color: #ffff00;">','</span>), 1, <span style="color: #ffff00;">''</span>; <span style="color: #ff0000;">#replace last comma
-</span>    } <span style="color: #00ffff;">else</span> {
-        say <span style="color: #ffff00;">"Failed to parse line:"</span>.$<span style="color: #ffff00;">csv</span>-&gt;error_input;
+        $<span style="color: #ffd787;">rSql</span> = <span style="color: #ffaf87;">"CREATE TABLE `$tablename` ( $cols ) ENGINE=$engine DEFAULT CHARSET=latin1;"</span>;
+        substr $<span style="color: #ffd787;">rSql</span>, rindex($<span style="color: #ffd787;">rSql</span>,<span style="color: #ffaf87;">','</span>), 1, <span style="color: #ffaf87;">''</span>; <span style="color: #ff5f00;">#replace last comma</span>
+    } <span style="color: #00cdcd;">else</span> {
+        say <span style="color: #ffaf87;">"Failed to parse line:"</span>.$<span style="color: #ffd787;">csv</span>-&gt;error_input;
     }
 
-    <span style="color: #00ffff;">if</span>($<span style="color: #ffff00;">dbh</span>) {
-        <span style="color: #00ffff;">return</span> $<span style="color: #ffff00;">dbh</span>-&gt;<span style="color: #00ffff;">do</span>($<span style="color: #ffff00;">rSql</span>);
+    <span style="color: #00cdcd;">if</span>($<span style="color: #ffd787;">dbh</span>) {
+        <span style="color: #00cdcd;">return</span> $<span style="color: #ffd787;">dbh</span>-&gt;<span style="color: #00cdcd;">do</span>($<span style="color: #ffd787;">rSql</span>);
     }
-    <span style="color: #00ffff;">else</span> {
-        <span style="color: #00ffff;">return</span> $<span style="color: #ffff00;">rSql</span>;
+    <span style="color: #00cdcd;">else</span> {
+        <span style="color: #00cdcd;">return</span> $<span style="color: #ffd787;">rSql</span>;
     }
 }
 </pre>
+
 
 
 
@@ -66,7 +67,7 @@ glamorous as Ruby, Python etc. it is kind of awesome in its own way
 
    <center>
 <p>
-<img src="/images/perlbuzz.jpg" alt="http://www.perlbuzz.come" title="www.perlbuzz.com" align="" />
+     <img src="../images/perlbuzz.jpg" alt="http://www.perlbuzz.come" title="www.perlbuzz.com" align="" />
    </center>
 
 Anyway now that I had the tables ready to go I decided to load the
@@ -81,26 +82,30 @@ A quick snapshot of the approximate number of LCA efilings for each year!
 </p>
 
 
+
 <p>
-<img src="/images/h1filings.png"  alt="/images/h1filings.png" />
+<img src="../images/h1filings.png"  alt="../images/h1filings.png" />
+</p>
+
+
    <center>
-</p><table  border="2" cellspacing="0" cellpadding="6" rules="groups" frame="all">
+<table  border="2" cellspacing="0" cellpadding="6" rules="groups" frame="all">
 <caption></caption>
-<colgroup><col align="left" /><col align="right" />
+<colgroup><col class="left" /><col class="right" />
 </colgroup>
 <thead>
-<tr><th scope="col">Year</th><th scope="col">Filings</th></tr>
+<tr><th scope="col" class="left">Year</th><th scope="col" class="right">Filings</th></tr>
 </thead>
 <tbody>
-<tr><td>FY02</td><td>123712</td></tr>
-<tr><td>FY03</td><td>222789</td></tr>
-<tr><td>FY04</td><td>310008</td></tr>
-<tr><td>FY05</td><td>307499</td></tr>
-<tr><td>FY06</td><td>381513</td></tr>
-<tr><td>FY07</td><td>425396</td></tr>
-<tr><td>FY08</td><td>405940</td></tr>
-<tr><td>FY09</td><td>269641</td></tr>
-<tr><td>FY10</td><td>360375</td></tr>
+<tr><td class="left">FY02</td><td class="right">123712</td></tr>
+<tr><td class="left">FY03</td><td class="right">222789</td></tr>
+<tr><td class="left">FY04</td><td class="right">310008</td></tr>
+<tr><td class="left">FY05</td><td class="right">307499</td></tr>
+<tr><td class="left">FY06</td><td class="right">381513</td></tr>
+<tr><td class="left">FY07</td><td class="right">425396</td></tr>
+<tr><td class="left">FY08</td><td class="right">405940</td></tr>
+<tr><td class="left">FY09</td><td class="right">269641</td></tr>
+<tr><td class="left">FY10</td><td class="right">360375</td></tr>
 </tbody>
 </table>
 

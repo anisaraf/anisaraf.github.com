@@ -20,7 +20,7 @@ Data files for the years 2002-2010.
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-     [[/images/h1bvisa.jpg]]
+     [[file:../images/h1bvisa.jpg]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 
@@ -71,7 +71,7 @@ glamorous as Ruby, Python etc. it is kind of awesome in its own way
    <center>
 #+END_HTML:
 #+ATTR_HTML: alt="http://www.perlbuzz.come" title="www.perlbuzz.com" align="" 
-     [[/images/perlbuzz.jpg]]
+     [[file:../images/perlbuzz.jpg]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 
@@ -108,7 +108,7 @@ A quick snapshot of the approximate number of LCA efilings for each year!
 #+results:
 [[file:../images/h1filings.png]]
 
-[[/images/h1filings.png]]
+[[file:../images/h1filings.png]]
 #+begin_src sql :exports none
 	 SELECT TABLE_NAME, TABLE_ROWS from information_schema.Tables where TABLE_NAME LIKE  'FY%';
 #+end_src

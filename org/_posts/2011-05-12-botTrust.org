@@ -75,7 +75,7 @@ the robot was already at the required position.
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-   [[/images/robot.jpg]]
+   [[file:../images/robot.jpg]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 

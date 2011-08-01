@@ -27,7 +27,7 @@ not give up.
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-   [[/images/overwhelmed.gif]]
+   [[file:../images/overwhelmed.gif]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 
@@ -44,7 +44,7 @@ in 15 mins. That comes with a *LOT* of practice!
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-   [[/images/practice.gif]]
+   [[file:../images/practice.gif]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 
@@ -70,7 +70,7 @@ the problem.
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-   [[/images/stopthink.gif]]
+   [[file:../images/stopthink.gif]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 

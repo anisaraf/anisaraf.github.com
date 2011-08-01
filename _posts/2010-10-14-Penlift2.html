@@ -17,25 +17,26 @@ so already
 
 
 
-<pre class="src src-c++"><span class="org-type">vector</span>&lt;Line&gt; <span class="org-variable-name">m_inLines</span>;
-<span class="org-type">set</span>&lt;Point&gt; <span class="org-variable-name">m_points</span>; 
-<span class="org-type">Graph</span>&lt;Point&gt; <span class="org-variable-name">m_graph</span>;
+<pre class="src src-c++"><span style="color: #87ff87;">vector</span>&lt;Line&gt; <span style="color: #ffd787;">m_inLines</span>;
+<span style="color: #87ff87;">set</span>&lt;Point&gt; <span style="color: #ffd787;">m_points</span>; 
+<span style="color: #87ff87;">Graph</span>&lt;Point&gt; <span style="color: #ffd787;">m_graph</span>;
 
 </pre>
 
 
 
+
 <p>
 <b>minLines</b> stores the input data as Line Objects ( we'll explore the
-line class in the next blog post! ) 
+ line class in the next blog post! ) 
 </p>
 <p>
 <b>mpoints</b> stores all the unique points in our line segments - used
-primarily during intersection
+ primarily during intersection
 </p>
 <p>
 <b>mgraph</b> stores the graph formed by all our lines. We'll explore the
-graph class in another blog post as well   
+ graph class in another blog post as well   
 </p>
 </div>
 
@@ -49,17 +50,18 @@ graph class in another blog post as well
 
 
 
-<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">mergeLines</span>(){ 
-  <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>  = 0; i &lt; m_inLines.size(); ++i )
-    <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">j</span> = i+1; j &lt; m_inLines.size(); ++j)
-      <span class="org-keyword">if</span>(m_inLines[i].merge(m_inLines[j], m_inLines[i]))
+<pre class="src src-c++"><span style="color: #87ff87;">void</span> <span style="color: #87ffd7;">PenLift</span>::<span style="color: #87d7ff;">mergeLines</span>(){ 
+  <span style="color: #00cdcd;">for</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">i</span>  = 0; i &lt; m_inLines.size(); ++i )
+    <span style="color: #00cdcd;">for</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">j</span> = i+1; j &lt; m_inLines.size(); ++j)
+      <span style="color: #00cdcd;">if</span>(m_inLines[i].merge(m_inLines[j], m_inLines[i]))
         {
           m_inLines.erase(m_inLines.begin() + j);
           i--;
-          <span class="org-keyword">break</span>;
+          <span style="color: #00cdcd;">break</span>;
         }
 }
 </pre>
+
 
 
 
@@ -93,19 +95,20 @@ me know if you come up with a more efficient way!
 
 
 
-<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">intersectLines</span>(){ 
-  <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>  = 0; i &lt; m_inLines.size(); ++i )
-    <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">j</span> = i+1; j &lt; m_inLines.size(); ++j)
+<pre class="src src-c++"><span style="color: #87ff87;">void</span> <span style="color: #87ffd7;">PenLift</span>::<span style="color: #87d7ff;">intersectLines</span>(){ 
+  <span style="color: #00cdcd;">for</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">i</span>  = 0; i &lt; m_inLines.size(); ++i )
+    <span style="color: #00cdcd;">for</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">j</span> = i+1; j &lt; m_inLines.size(); ++j)
       {
-        <span class="org-type">Point</span> <span class="org-variable-name">newPoint</span>;
-        <span class="org-keyword">if</span>(m_inLines[i].intersection(m_inLines[j], newPoint))
+        <span style="color: #87ff87;">Point</span> <span style="color: #ffd787;">newPoint</span>;
+        <span style="color: #00cdcd;">if</span>(m_inLines[i].intersection(m_inLines[j], newPoint))
           m_points.insert(Point(newPoint));
       }
 
-  <span class="org-keyword">for</span>(<span class="org-constant">set</span>&lt;<span class="org-type">Point</span>&gt;::<span class="org-type">iterator</span> <span class="org-variable-name">it</span> = m_points.begin() ; it != m_points.end() ; ++it)
+  <span style="color: #00cdcd;">for</span>(<span style="color: #87ffd7;">set</span>&lt;<span style="color: #87ff87;">Point</span>&gt;::<span style="color: #87ff87;">iterator</span> <span style="color: #ffd787;">it</span> = m_points.begin() ; it != m_points.end() ; ++it)
     splitLines(*it);
 }
 </pre>
+
 
 
 
@@ -127,15 +130,16 @@ function to split our lines!
 
 
 
-<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">splitLines</span>(<span class="org-keyword">const</span> <span class="org-type">Point</span>&amp; <span class="org-variable-name">point</span>)
+<pre class="src src-c++"><span style="color: #87ff87;">void</span> <span style="color: #87ffd7;">PenLift</span>::<span style="color: #87d7ff;">splitLines</span>(<span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">Point</span>&amp; <span style="color: #ffd787;">point</span>)
 {
-  <span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span> = 0; i &lt; m_inLines.size() ; i++) 
-    <span class="org-keyword">if</span>(point != m_inLines[i].getStart() &amp;&amp; point != m_inLines[i].getEnd() &amp;&amp; m_inLines[i].isPointOnSegment(point)){
+  <span style="color: #00cdcd;">for</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">i</span> = 0; i &lt; m_inLines.size() ; i++) 
+    <span style="color: #00cdcd;">if</span>(point != m_inLines[i].getStart() &amp;&amp; point != m_inLines[i].getEnd() &amp;&amp; m_inLines[i].isPointOnSegment(point)){
       m_inLines.push_back (Line(point, m_inLines[i].getEnd()) );
       m_inLines[i] = Line(point, m_inLines[i].getStart());
     }
 }
 </pre>
+
 
 
 
@@ -162,11 +166,12 @@ are created!
 
 
 
-<pre class="src src-c++"><span class="org-type">void</span> <span class="org-constant">PenLift</span>::<span class="org-function-name">createGraph</span>(){
-  <span class="org-keyword">for</span>(<span class="org-constant">vector</span>&lt;Line&gt;::<span class="org-type">iterator</span> <span class="org-variable-name">it</span> = m_inLines.begin() ; it != m_inLines.end() ; ++it)
+<pre class="src src-c++"><span style="color: #87ff87;">void</span> <span style="color: #87ffd7;">PenLift</span>::<span style="color: #87d7ff;">createGraph</span>(){
+  <span style="color: #00cdcd;">for</span>(<span style="color: #87ffd7;">vector</span>&lt;Line&gt;::<span style="color: #87ff87;">iterator</span> <span style="color: #ffd787;">it</span> = m_inLines.begin() ; it != m_inLines.end() ; ++it)
     m_graph.insertEdge(it-&gt;getStart(), it-&gt;getEnd());
 }
 </pre>
+
 
 
 

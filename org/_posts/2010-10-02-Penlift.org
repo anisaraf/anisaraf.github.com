@@ -32,7 +32,7 @@ title:  TopCoder SRM 144 PenLift
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-     [[/images/penlift.png]]
+   [[file:../images/penlift.png]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 
@@ -78,7 +78,7 @@ title:  TopCoder SRM 144 PenLift
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-   [[/images/stopthink.gif]]
+   [[file:../images/stopthink.gif]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 
@@ -152,7 +152,7 @@ the meantime why don't you get your *hands dirty?*
 #+BEGIN_HTML: 
    <center>
 #+END_HTML: 
-   [[/images/handsdirty.jpg]]
+   [[file:../images/handsdirty.jpg]]
 #+BEGIN_HTML: 
    </center>
 #+END_HTML: 

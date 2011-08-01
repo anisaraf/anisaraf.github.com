@@ -1,16 +1,22 @@
 ---
 layout: post
-title:  TopCoder SRM 488 The Boredom
+title:  TopCoder SRM 488 The BoredomDivTwo
 tags: TopCoder, Advanced Math
 ---
 
 <ul>
 <li id="sec-1">Problem Statement: <a href="http://www.topcoder.com/stat?c=problem_statement&amp;pm=11194&amp;rd=14241">TheBoredomDivTwo</a> (TC-Registration) <a href="http://pastehtml.com/view/1c0se0l.html">TheBoredomDivTwo</a> <br/>
 </li>
+</ul>
+<ul>
 <li id="sec-2">Solution: <a href="http://gist.github.com/709104">TheBoredomDivTwo.cxx</a> <br/>
 </li>
+</ul>
+<ul>
 <li id="sec-3">Used As: Division II Level One <br/>
 </li>
+</ul>
+<ul>
 <li id="sec-4">Categories: Advanced Math, Encryption/Compression <br/>
 
 </li>
@@ -32,21 +38,23 @@ is the code
 
 
 
-<pre class="src src-c++"><span class="org-keyword">class</span> <span class="org-type">TheBoredomDivTwo</span> { 
-<span class="org-keyword">public</span>:
-  <span class="org-type">int</span> <span class="org-function-name">find</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>, <span class="org-type">int</span> <span class="org-variable-name">m</span>, <span class="org-type">int</span> <span class="org-variable-name">j</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>);
+<pre class="src src-c++"><span style="color: #00cdcd;">class</span> <span style="color: #87ff87;">TheBoredomDivTwo</span> { 
+<span style="color: #00cdcd;">public</span>:
+  <span style="color: #87ff87;">int</span> <span style="color: #87d7ff;">find</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">n</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">m</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">j</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">b</span>);
 };
 
-<span class="org-type">int</span> <span class="org-constant">TheBoredomDivTwo</span>::<span class="org-function-name">find</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>, <span class="org-type">int</span> <span class="org-variable-name">m</span>,<span class="org-type">int</span> <span class="org-variable-name">j</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>){
-  <span class="org-type">int</span> <span class="org-variable-name">bored</span> = n;
-  <span class="org-keyword">if</span>( j &gt; n ) bored++;
-  <span class="org-keyword">if</span>( b &gt; n) bored++;
-  <span class="org-keyword">return</span> bored;
+<span style="color: #87ff87;">int</span> <span style="color: #87ffd7;">TheBoredomDivTwo</span>::<span style="color: #87d7ff;">find</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">n</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">m</span>,<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">j</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">b</span>){
+  <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">bored</span> = n;
+  <span style="color: #00cdcd;">if</span>( j &gt; n ) bored++;
+  <span style="color: #00cdcd;">if</span>( b &gt; n) bored++;
+  <span style="color: #00cdcd;">return</span> bored;
 }
 </pre>
 
 
-
+<p>
+ c++
+</p>
 <p>
 Just to make the solution a little more interesting you could also do
 this as a one liner!
@@ -54,16 +62,18 @@ this as a one liner!
 
 
 
-<pre class="src src-c++"><span class="org-keyword">class</span> <span class="org-type">TheBoredomDivTwo</span> { 
-<span class="org-keyword">public</span>:
-  <span class="org-type">int</span> <span class="org-function-name">find</span>(<span class="org-type">int</span> <span class="org-variable-name">n</span>, <span class="org-type">int</span> <span class="org-variable-name">m</span>, <span class="org-type">int</span> <span class="org-variable-name">j</span>, <span class="org-type">int</span> <span class="org-variable-name">b</span>){
-        <span class="org-keyword">return</span> n + (j &gt; n ) + (b &gt; n) ; 
+<pre class="src src-c++"><span style="color: #00cdcd;">class</span> <span style="color: #87ff87;">TheBoredomDivTwo</span> { 
+<span style="color: #00cdcd;">public</span>:
+  <span style="color: #87ff87;">int</span> <span style="color: #87d7ff;">find</span>(<span style="color: #87ff87;">int</span> <span style="color: #ffd787;">n</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">m</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">j</span>, <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">b</span>){
+        <span style="color: #00cdcd;">return</span> n + (j &gt; n ) + (b &gt; n) ; 
    }    
 };      
 </pre>
 
 
-
+<p>
+ c++
+</p>
 <p>
 This problem should convince you that you should give <a href="http://www.topcoder.com/tc">TopCoder</a> a try
 as well. 

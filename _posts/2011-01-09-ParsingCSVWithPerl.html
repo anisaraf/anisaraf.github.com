@@ -20,7 +20,7 @@ hashes would be to use the <a href="http://perldoc.perl.org/functions/split.html
 
    <center>
 <p>
-<img src="/images/lazyProgrammer.jpg"  alt="/images/lazyProgrammer.jpg" />
+     <img src="../images/lazyProgrammer.jpg"  alt="../images/lazyProgrammer.jpg" />
    </center>
 
 Now I was feeling particularly lazy so I decided to use some handy
@@ -31,30 +31,31 @@ write and debug too much code.
 
 
 
-<pre class="src src-perl"><span style="color: #00ffff;">sub</span> <span style="color: #87cefa;">getColums</span>($)
+<pre class="src src-perl"><span style="color: #00cdcd;">sub</span> <span style="color: #87d7ff;">getColums</span>($)
 {
-    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">filename</span>     = shift;
-    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">cols</span>         = shift;
-    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">includeChars</span> = shift || <span style="color: #ffa07a;">'[:digit:]\n.,'</span>;
-    <span style="color: #98fb98;">my</span> @<span style="color: #eedd82; text-decoration: underline;">records</span>      = <span style="color: #ffa07a;">`tail --lines=+3 $fileName |
-                        cut -d ',' -f $cols |
-                        tr -c -d '$includeChars' `</span>;
-    chomp(@<span style="color: #eedd82; text-decoration: underline;">records</span>);
-    <span style="color: #00ffff;">return</span> \@<span style="color: #eedd82; text-decoration: underline;">records</span>;
+    <span style="color: #87ff87;">my</span> $<span style="color: #ffd787;">filename</span>     = shift;
+    <span style="color: #87ff87;">my</span> $<span style="color: #ffd787;">cols</span>         = shift;
+    <span style="color: #87ff87;">my</span> $<span style="color: #ffd787;">includeChars</span> = shift || <span style="color: #ffaf87;">'[:digit:]\n.,'</span>;
+    <span style="color: #87ff87;">my</span> @<span style="color: #ffd787; text-decoration: underline;">records</span>      = <span style="color: #ffaf87;">`tail --lines=+3 $fileName |</span>
+<span style="color: #ffaf87;">                        cut -d ',' -f $cols |</span>
+<span style="color: #ffaf87;">                        tr -c -d '$includeChars' `</span>;
+    chomp(@<span style="color: #ffd787; text-decoration: underline;">records</span>);
+    <span style="color: #00cdcd;">return</span> \@<span style="color: #ffd787; text-decoration: underline;">records</span>;
 }
 
-<span style="color: #00ffff;">sub</span> <span style="color: #87cefa;">getSpreadhsheet</span>
+<span style="color: #00cdcd;">sub</span> <span style="color: #87d7ff;">getSpreadhsheet</span>
 {
-    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">fileName</span> = shift;
-    <span style="color: #98fb98;">my</span> $<span style="color: #eedd82;">hData</span>    = ();
-    $<span style="color: #eedd82;">hData</span>-&gt;{SongMetadata}       = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'1'</span>, <span style="color: #ffa07a;">'[:alnum:]-\n., '</span> );
-    $<span style="color: #eedd82;">hData</span>-&gt;{Melody}             = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'2-4'</span>);
-    $<span style="color: #eedd82;">hData</span>-&gt;{TimeSignature}      = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'5-6'</span>);
-    $<span style="color: #eedd82;">hData</span>-&gt;{Rhythm}             = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'7-14'</span>);
-    $<span style="color: #eedd82;">hData</span>-&gt;{Tempo}              = getColums( $<span style="color: #eedd82;">fileName</span>, <span style="color: #ffa07a;">'15-17'</span>);
+    <span style="color: #87ff87;">my</span> $<span style="color: #ffd787;">fileName</span> = shift;
+    <span style="color: #87ff87;">my</span> $<span style="color: #ffd787;">hData</span>    = ();
+    $<span style="color: #ffd787;">hData</span>-&gt;{SongMetadata}       = getColums( $<span style="color: #ffd787;">fileName</span>, <span style="color: #ffaf87;">'1'</span>, <span style="color: #ffaf87;">'[:alnum:]-\n., '</span> );
+    $<span style="color: #ffd787;">hData</span>-&gt;{Melody}             = getColums( $<span style="color: #ffd787;">fileName</span>, <span style="color: #ffaf87;">'2-4'</span>);
+    $<span style="color: #ffd787;">hData</span>-&gt;{TimeSignature}      = getColums( $<span style="color: #ffd787;">fileName</span>, <span style="color: #ffaf87;">'5-6'</span>);
+    $<span style="color: #ffd787;">hData</span>-&gt;{Rhythm}             = getColums( $<span style="color: #ffd787;">fileName</span>, <span style="color: #ffaf87;">'7-14'</span>);
+    $<span style="color: #ffd787;">hData</span>-&gt;{Tempo}              = getColums( $<span style="color: #ffd787;">fileName</span>, <span style="color: #ffaf87;">'15-17'</span>);
     .....
 }
 </pre>
+
 
 
 
@@ -63,10 +64,11 @@ Lets deconstuct the line where all the magic happens
 </p>
 
 
-<pre class="src src-perl"><span style="color: #98fb98;">my</span> @<span style="color: #eedd82; text-decoration: underline;">records</span> = <span style="color: #ffa07a;">`tail --lines=+3 $fileName | 
-               cut -d ',' -f $cols |
-               tr -c -d '$includeChars' `</span>;
+<pre class="src src-perl"><span style="color: #87ff87;">my</span> @<span style="color: #ffd787; text-decoration: underline;">records</span> = <span style="color: #ffaf87;">`tail --lines=+3 $fileName | </span>
+<span style="color: #ffaf87;">               cut -d ',' -f $cols |</span>
+<span style="color: #ffaf87;">               tr -c -d '$includeChars' `</span>;
 </pre>
+
 
 
 
@@ -101,45 +103,46 @@ Example output:
 </p>
 
 
-<pre class="src src-perl"><span style="color: #ffa07a;">'SongMetadata'</span> =&gt; [
-                   <span style="color: #ffa07a;">'Teri Ore - Singh is King'</span>,
-                   <span style="color: #ffa07a;">'Saawariya - Swades'</span>,
-                   <span style="color: #ffa07a;">'Yaa Ali - Gangster'</span>,
-                   <span style="color: #ffa07a;">'Beedi  - Omkara'</span>,
-                   <span style="color: #ffa07a;">'Behke Behke - Aisha'</span>,
-                   <span style="color: #ffa07a;">'Socha Hai - Rock On'</span>,
-                   <span style="color: #ffa07a;">'Pyar ke pal - KK'</span>,
-                   <span style="color: #ffa07a;">'Bhool Ja - Shaan'</span>,
-                   <span style="color: #ffa07a;">'Duur - Strings'</span>,
-                   <span style="color: #ffa07a;">'Give me some sunshine - 3 idiots'</span>
+<pre class="src src-perl"><span style="color: #ffaf87;">'SongMetadata'</span> =&gt; [
+                   <span style="color: #ffaf87;">'Teri Ore - Singh is King'</span>,
+                   <span style="color: #ffaf87;">'Saawariya - Swades'</span>,
+                   <span style="color: #ffaf87;">'Yaa Ali - Gangster'</span>,
+                   <span style="color: #ffaf87;">'Beedi  - Omkara'</span>,
+                   <span style="color: #ffaf87;">'Behke Behke - Aisha'</span>,
+                   <span style="color: #ffaf87;">'Socha Hai - Rock On'</span>,
+                   <span style="color: #ffaf87;">'Pyar ke pal - KK'</span>,
+                   <span style="color: #ffaf87;">'Bhool Ja - Shaan'</span>,
+                   <span style="color: #ffaf87;">'Duur - Strings'</span>,
+                   <span style="color: #ffaf87;">'Give me some sunshine - 3 idiots'</span>
                   ],
 
-<span style="color: #ffa07a;">'Lyrics'</span> =&gt; [
-              <span style="color: #ffa07a;">'7,0,0,0,0,0'</span>, <span style="color: #ff4500;">#row 1
-</span>              <span style="color: #ffa07a;">'7,0,0,0,0,0'</span>,
-              <span style="color: #ffa07a;">'6,0,8,0,0,4'</span>,
-              <span style="color: #ffa07a;">'6,0,0,0,0,0'</span>,
-              <span style="color: #ffa07a;">'5,5,0,0,0,0'</span>,
-              <span style="color: #ffa07a;">'8,1,0,0,0,0'</span>,
-              <span style="color: #ffa07a;">'8,0,0,0,0,0'</span>,
-              <span style="color: #ffa07a;">'8,0,0,0,0,0'</span>,
-              <span style="color: #ffa07a;">'8,0,0,0,0,0'</span>,
-              <span style="color: #ffa07a;">'7,7,0,0,0,0'</span>  <span style="color: #ff4500;">#row 10
-</span>            ],
-<span style="color: #ffa07a;">'Influences'</span> =&gt; [
-         <span style="color: #ffa07a;">'0,3,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3'</span>,
-         <span style="color: #ffa07a;">'8,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,3,4,0,0,0,2'</span>,
-         <span style="color: #ffa07a;">'0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,6,0,0,0,0,0,0,0,9,8,0,6,0,0,0,0,0'</span>,
-         <span style="color: #ffa07a;">'0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,9'</span>,
-         <span style="color: #ffa07a;">'0,0,0,0,3,0,0,0,0,0,0,0,0,0,7,0,0,0,0,6,0,0,0,0,0,6,0,0,0,0,0,0'</span>,
-         <span style="color: #ffa07a;">'0,0,0,9,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'</span>,
-         <span style="color: #ffa07a;">'0,0,7,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,9,0,0'</span>,
-         <span style="color: #ffa07a;">'0,0,6,0,0,0,0,0,0,0,6,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'</span>,
-         <span style="color: #ffa07a;">'7,0,6,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,7,0,0,0,5,0,0,0,0,0'</span>,
-         <span style="color: #ffa07a;">'0,0,6,5,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,8,0,0'</span>
+<span style="color: #ffaf87;">'Lyrics'</span> =&gt; [
+              <span style="color: #ffaf87;">'7,0,0,0,0,0'</span>, <span style="color: #ff5f00;">#row 1</span>
+              <span style="color: #ffaf87;">'7,0,0,0,0,0'</span>,
+              <span style="color: #ffaf87;">'6,0,8,0,0,4'</span>,
+              <span style="color: #ffaf87;">'6,0,0,0,0,0'</span>,
+              <span style="color: #ffaf87;">'5,5,0,0,0,0'</span>,
+              <span style="color: #ffaf87;">'8,1,0,0,0,0'</span>,
+              <span style="color: #ffaf87;">'8,0,0,0,0,0'</span>,
+              <span style="color: #ffaf87;">'8,0,0,0,0,0'</span>,
+              <span style="color: #ffaf87;">'8,0,0,0,0,0'</span>,
+              <span style="color: #ffaf87;">'7,7,0,0,0,0'</span>  <span style="color: #ff5f00;">#row 10</span>
+            ],
+<span style="color: #ffaf87;">'Influences'</span> =&gt; [
+         <span style="color: #ffaf87;">'0,3,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3'</span>,
+         <span style="color: #ffaf87;">'8,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,3,4,0,0,0,2'</span>,
+         <span style="color: #ffaf87;">'0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,6,0,0,0,0,0,0,0,9,8,0,6,0,0,0,0,0'</span>,
+         <span style="color: #ffaf87;">'0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,9'</span>,
+         <span style="color: #ffaf87;">'0,0,0,0,3,0,0,0,0,0,0,0,0,0,7,0,0,0,0,6,0,0,0,0,0,6,0,0,0,0,0,0'</span>,
+         <span style="color: #ffaf87;">'0,0,0,9,0,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'</span>,
+         <span style="color: #ffaf87;">'0,0,7,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,9,0,0'</span>,
+         <span style="color: #ffaf87;">'0,0,6,0,0,0,0,0,0,0,6,0,0,0,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0'</span>,
+         <span style="color: #ffaf87;">'7,0,6,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,7,0,0,0,5,0,0,0,0,0'</span>,
+         <span style="color: #ffaf87;">'0,0,6,5,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,8,0,0'</span>
        ],
 
 </pre>
+
 
 
 

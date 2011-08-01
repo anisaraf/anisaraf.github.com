@@ -12,8 +12,9 @@ table schema using the following snippet of SQL
 
 
 
-<pre class="src src-sql"><span class="org-keyword">SELECT</span> TABLE_SCHEMA <span class="org-keyword">FROM</span> information_schema.TABLES <span class="org-keyword">WHERE</span> <span class="org-keyword">table_name</span>=<span class="org-string">'&lt;table name&gt;'</span>;
+<pre class="src src-sql"><span style="color: #00cdcd;">SELECT</span> TABLE_SCHEMA <span style="color: #00cdcd;">FROM</span> information_schema.TABLES <span style="color: #00cdcd;">WHERE</span> <span style="color: #00cdcd;">table_name</span>=<span style="color: #ffaf87;">'&lt;table name&gt;'</span>;
 </pre>
+
 
 
 
@@ -25,13 +26,14 @@ the primary key columns in the table
 
 
 
-<pre class="src src-sql"><span class="org-keyword">SELECT</span> t.column_name <span class="org-keyword">FROM</span> information_schema.table_constraints c 
-<span class="org-keyword">JOIN</span> information_schema.key_column_usage t
-<span class="org-keyword">USING</span> (<span class="org-keyword">constraint_name</span>, table_schema, <span class="org-keyword">table_name</span>)
-<span class="org-keyword">WHERE</span> c.constraint_type=<span class="org-string">'PRIMARY KEY'</span>
-<span class="org-keyword">AND</span> c.table_schema=<span class="org-string">'&lt;table schema here&gt;'</span>
-<span class="org-keyword">AND</span> c.table_name=<span class="org-string">'&lt;table name&gt;'</span>;
+<pre class="src src-sql"><span style="color: #00cdcd;">SELECT</span> t.column_name <span style="color: #00cdcd;">FROM</span> information_schema.table_constraints c 
+<span style="color: #00cdcd;">JOIN</span> information_schema.key_column_usage t
+<span style="color: #00cdcd;">USING</span> (<span style="color: #00cdcd;">constraint_name</span>, table_schema, <span style="color: #00cdcd;">table_name</span>)
+<span style="color: #00cdcd;">WHERE</span> c.constraint_type=<span style="color: #ffaf87;">'PRIMARY KEY'</span>
+<span style="color: #00cdcd;">AND</span> c.table_schema=<span style="color: #ffaf87;">'&lt;table schema here&gt;'</span>
+<span style="color: #00cdcd;">AND</span> c.table_name=<span style="color: #ffaf87;">'&lt;table name&gt;'</span>;
 </pre>
+
 
 
 
