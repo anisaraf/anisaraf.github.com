@@ -1,0 +1,142 @@
+#+TITLE:    Trim-mingcode
+#+AUTHOR:    Ani
+#+EMAIL:     anirudhsaraf@gmail.com
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+INFOJS_OPT: view:info toc:t
+#+OPTIONS: H:2 num:t toc:t ^:nil
+#+BEGIN_HTML
+---
+layout: post
+title:  Trim-ming code
+tags: C++, design, trim
+---
+#+END_HTML
+
+The other day, I felt the urge to write some code - and it was around
+2:00 am. I had been struggling with understanding/implementing
+the [[http://www.topcoder.com/tc?module=Static&d1=tutorials&d2=hungarianAlgorithm][Hungarian Algorithm]] for a while, and my brain just wanted to write
+some code already! In order to pacify it - I decided to write some
+simple code to get my juices flowing again. I picked on the trim
+function which is notably missing from C++ standard libraries, and
+relatively simple to understand.
+
+Let's look at the first pass of the code: 
+#+begin_src c
+  string trim(string s) {
+    int start; int end; 
+
+    for(start = 0; start < s.length(); start++) {
+      if(s[start] != ' ') 
+        break;
+    }
+  
+    for(end = s.length() - 1 ; end > 0; end--) {
+      if(s[end] != ' ') 
+        break;
+    }
+  
+    if(start > end) return s;
+    string rString(s.begin() + start, s.begin() + end + 1);
+    return rString;
+  }
+#+end_src
+
+Now the above function works - but just looking at it, you can feel
+that the solution is not elegant. Right off the bat, you notice that
+trim is really a combination of ltrim and rtrim, so you are better off
+creating two separate function (ltrim,rtrim) and composing those to
+form trim. 
+
+Then secondly - you notice that we are dealing with a lot of low level
+array logic. Is that really necessary - you are already in C++ land -
+why treat it as char*'s ? Looking at the [[http://www.cplusplus.com/reference/string/string/][string reference]], some
+functions should jump out at you - find_first_not_of and
+find_last_not_of. We can use those functions in combination with erase
+to get rid of all our if/for logic.
+
+Let's look at the second pass of the solution now
+
+#+begin_src c
+  void ltrim(string& s) {
+    size_t pos = s.find_first_not_of(" ");
+    s.erase(0,pos);
+  }
+  
+  void rtrim(string& s) {
+    size_t pos = s.find_last_not_of(" ");
+    s.erase(pos+1);
+  }
+  
+  void trim(string& s) {
+    ltrim(s);
+    rtrim(s);
+  }
+#+end_src 
+
+Good yet? Maybe - but what if we want to trim say 'a's instead of
+spaces? Out of luck aren't we? If we instead make the hard-coded space
+a parameter we can trim any string we please! The final solution looks
+like this - 
+
+#+begin_src c
+  const string whitespaces(" \f\n\r\t\v");
+  
+  void ltrim(string& s, const string& trim = whitespaces) {
+    size_t pos = s.find_first_not_of(trim);
+    s.erase(0,pos);
+  }
+  
+  void rtrim(string& s, const string& trim = whitespaces) {
+    size_t pos = s.find_last_not_of(trim);
+    s.erase(pos+1);
+  
+  }
+  
+  void trim(string& s, const string& trim = whitespaces) {
+    ltrim(s, trim);
+    rtrim(s, trim);
+  }  
+#+end_src
+
+Isn't the new solution so much more elegant, simpler to understand,
+and extensible at the same time! Therefore, I advocate getting it done
+first, and then re-writing your code ( really - re-writing takes very
+little time while it is still fresh in your head!). Combining this
+technique, you prevent yourself from over-engineering and obsessing
+about perfect code when you don't really know what you are doing, and
+after you have a 'dirty' version, you can literally 'see' a lot of
+things that need to be fixed! 
+
+So this very simple and basic function - trim, taught me some good
+lessons about coding. Needless to say - I never managed to get through
+with figuring out the Hungarian Algorithm, but I feel I learned
+something much better: 
+
+1) Break code into small, modular functions.Yes this can be done while
+   refactoring, instead of in the beginning.
+2) Use existing code/function calls/libraries -recognize when you are
+   doing too much work! After all for software developes laziness
+   seems to be touted as a virtue.
+3) Make things extensible, but don't needlessly over-engineer to begin
+   with. KISS. 
+4) Rewrite code as soon as you write it, when everything is fresh in
+   your head - and everyone will think you are awesome :)
+4) Even simple problems can teach a lot! 
+
+
+#+BEGIN_HTML: 
+   <center>
+#+END_HTML: 
+   [[file:../images/cutting.gif]]
+#+BEGIN_HTML: 
+   </center>
+#+END_HTML: 
+
+*So how do you trim your code?*
+
+
+
+
+
+

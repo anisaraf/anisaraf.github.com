@@ -1,0 +1,163 @@
+---
+layout: post
+title:  Trim-ming code
+tags: C++, design, trim
+---
+
+<p>
+The other day, I felt the urge to write some code - and it was around
+2:00 am. I had been struggling with understanding/implementing
+the <a href="http://www.topcoder.com/tc?module=Static&amp;d1=tutorials&amp;d2=hungarianAlgorithm">Hungarian Algorithm</a> for a while, and my brain just wanted to write
+some code already! In order to pacify it - I decided to write some
+simple code to get my juices flowing again. I picked on the trim
+function which is notably missing from C++ standard libraries, and
+relatively simple to understand.
+</p>
+<p>
+Let's look at the first pass of the code: 
+</p>
+
+
+<pre class="src src-c"><span style="color: #87ff87;">string</span> <span style="color: #87d7ff;">trim</span>(<span style="color: #87ff87;">string</span> <span style="color: #ffd787;">s</span>) {
+  <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">start</span>; <span style="color: #87ff87;">int</span> <span style="color: #ffd787;">end</span>; 
+
+  <span style="color: #00cdcd;">for</span>(start = 0; start &lt; s.length(); start++) {
+    <span style="color: #00cdcd;">if</span>(s[start] != <span style="color: #ffaf87;">' '</span>) 
+      <span style="color: #00cdcd;">break</span>;
+  }
+
+  <span style="color: #00cdcd;">for</span>(end = s.length() - 1 ; end &gt; 0; end--) {
+    <span style="color: #00cdcd;">if</span>(s[end] != <span style="color: #ffaf87;">' '</span>) 
+      <span style="color: #00cdcd;">break</span>;
+  }
+
+  <span style="color: #00cdcd;">if</span>(start &gt; end) <span style="color: #00cdcd;">return</span> s;
+  <span style="color: #87ff87;">string</span> <span style="color: #ffd787;">rString</span>(s.begin() + start, s.begin() + end + 1);
+  <span style="color: #00cdcd;">return</span> rString;
+}
+</pre>
+
+
+
+
+<p>
+Now the above function works - but just looking at it, you can feel
+that the solution is not elegant. Right off the bat, you notice that
+trim is really a combination of ltrim and rtrim, so you are better off
+creating two separate function (ltrim,rtrim) and composing those to
+form trim. 
+</p>
+<p>
+Then secondly - you notice that we are dealing with a lot of low level
+array logic. Is that really necessary - you are already in C++ land -
+why treat it as char*'s ? Looking at the <a href="http://www.cplusplus.com/reference/string/string/">string reference</a>, some
+functions should jump out at you - find_first_not_of and
+find_last_not_of. We can use those functions in combination with erase
+to get rid of all our if/for logic.
+</p>
+<p>
+Let's look at the second pass of the solution now
+</p>
+
+
+
+<pre class="src src-c"><span style="color: #87ff87;">void</span> <span style="color: #87d7ff;">ltrim</span>(string&amp; s) {
+  <span style="color: #87ff87;">size_t</span> <span style="color: #ffd787;">pos</span> = s.find_first_not_of(<span style="color: #ffaf87;">" "</span>);
+  s.erase(0,pos);
+}
+
+<span style="color: #87ff87;">void</span> <span style="color: #87d7ff;">rtrim</span>(string&amp; s) {
+  <span style="color: #87ff87;">size_t</span> <span style="color: #ffd787;">pos</span> = s.find_last_not_of(<span style="color: #ffaf87;">" "</span>);
+  s.erase(pos+1);
+}
+
+<span style="color: #87ff87;">void</span> <span style="color: #87d7ff;">trim</span>(string&amp; s) {
+  ltrim(s);
+  rtrim(s);
+}
+</pre>
+
+
+
+
+<p>
+Good yet? Maybe - but what if we want to trim say 'a's instead of
+spaces? Out of luck aren't we? If we instead make the hard-coded space
+a parameter we can trim any string we please! The final solution looks
+like this - 
+</p>
+
+
+
+<pre class="src src-c"><span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">string</span> <span style="color: #87d7ff;">whitespaces</span>(<span style="color: #ffaf87;">" \f\n\r\t\v"</span>);
+
+<span style="color: #87ff87;">void</span> <span style="color: #87d7ff;">ltrim</span>(string&amp; s, <span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">string</span>&amp; trim = whitespaces) {
+  <span style="color: #87ff87;">size_t</span> <span style="color: #ffd787;">pos</span> = s.find_first_not_of(trim);
+  s.erase(0,pos);
+}
+
+<span style="color: #87ff87;">void</span> <span style="color: #87d7ff;">rtrim</span>(string&amp; s, <span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">string</span>&amp; trim = whitespaces) {
+  <span style="color: #87ff87;">size_t</span> <span style="color: #ffd787;">pos</span> = s.find_last_not_of(trim);
+  s.erase(pos+1);
+
+}
+
+<span style="color: #87ff87;">void</span> <span style="color: #87d7ff;">trim</span>(string&amp; s, <span style="color: #00cdcd;">const</span> <span style="color: #87ff87;">string</span>&amp; trim = whitespaces) {
+  ltrim(s, trim);
+  rtrim(s, trim);
+}  
+</pre>
+
+
+
+
+<p>
+Isn't the new solution so much more elegant, simpler to understand,
+and extensible at the same time! Therefore, I advocate getting it done
+first, and then re-writing your code ( really - re-writing takes very
+little time while it is still fresh in your head!). Combining this
+technique, you prevent yourself from over-engineering and obsessing
+about perfect code when you don't really know what you are doing, and
+after you have a 'dirty' version, you can literally 'see' a lot of
+things that need to be fixed! 
+</p>
+<p>
+So this very simple and basic function - trim, taught me some good
+lessons about coding. Needless to say - I never managed to get through
+with figuring out the Hungarian Algorithm, but I feel I learned
+something much better: 
+</p>
+<ol>
+<li>Break code into small, modular functions.Yes this can be done while
+   refactoring, instead of in the beginning.
+</li>
+<li>Use existing code/function calls/libraries -recognize when you are
+   doing too much work! After all for software developes laziness
+   seems to be touted as a virtue.
+</li>
+<li>Make things extensible, but don't needlessly over-engineer to begin
+   with. KISS. 
+</li>
+<li>Rewrite code as soon as you write it, when everything is fresh in
+   your head - and everyone will think you are awesome :)
+</li>
+<li>Even simple problems can teach a lot! 
+</li>
+</ol>
+
+
+
+
+
+   <center>
+<p>
+   <img src="../images/cutting.gif"  alt="../images/cutting.gif" />
+   </center>
+
+<b>So how do you trim your code?</b>
+</p>
+
+
+
+
+
