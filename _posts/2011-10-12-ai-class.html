@@ -1,0 +1,155 @@
+---
+layout: post
+title:  Auto-updating notes for the stanford ai-class
+tags: ai, stanford, lecture notes
+---
+
+<p>
+I am following the Stanford <a href="http://www.ai-class.com/home/">ai-class</a> online, and using this post for
+keeping track of progress/notes/linke etc. These notes are not cleaned
+up, but a log of real-time notes.
+</p>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1">Lecture Notes </h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1">Welcome to AI </h3>
+<div class="outline-text-3" id="text-1-1">
+
+<ul>
+<li>Senders / Actuators : Environment sends -&gt; agent decides -&gt;
+     actuator interacts with the environment.
+</li>
+<li>Terminology:
+<ul>
+<li>Fully / Partially observable -&gt; full(no memory required) /
+       partial (stores previous data from perception-action cycle)
+       Sensors can see entire state of the env. (Full)
+</li>
+<li>Deterministic / stochastic 
+       1 - outcome is determined by your actions
+       2 - dice throw / randomness stochastic
+</li>
+<li>Discrete / Continuous
+       finite / infinte space of actions/senses
+</li>
+<li>Benign / Adversarial
+       Might be random etc. but not out to get you / games - out to get
+       you (adversial is a lot tougher)
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2">Problem Solving </h3>
+<div class="outline-text-3" id="text-1-2">
+
+<ul>
+<li>Initial State : actions {s} : Result (s,a)  -&gt; s' : Goal Test(s)
+     -&gt; T|F : Path Cost (s-&gt;s'-&gt;s'') -&gt; n [cost of path] : Step cost
+     (s,a,s') -&gt; n
+</li>
+<li>Frontier -&gt; the farthest we have explored ; Unexplored region;
+     Explored region.
+</li>
+<li>Tree Search
+<ul>
+<li>We stop when the solution is explored, not when it is added to
+       the frontier
+</li>
+<li>Breadth-first search
+</li>
+<li>Uniform Cost Search
+</li>
+<li>Depth First Search - efficient on frontier space, not complete,
+       not optimal
+</li>
+<li>A* search = path + heuristic : finds the lowest cost if h never
+       over-estimats the actual cost; A* is optimistic
+</li>
+</ul>
+
+</li>
+<li>auto-generating heuristics by relaxing the problem constraints
+</li>
+<li>Works when:
+<ul>
+<li>Domain must be fully observables 
+</li>
+<li>known - we have to know the set of available actions
+</li>
+<li>discrete - finite number of actions
+</li>
+<li>deterministic - we have to know the results of our actions
+</li>
+<li>static (only our actions can change the world)
+</li>
+</ul>
+
+</li>
+<li>Implementations
+<ul>
+<li>State, action, cost, parent (node)
+</li>
+<li>Linked list representing a path
+</li>
+<li>Frontier -&gt; PriorityQueue(add/remove) + MembershipTest(Set)
+</li>
+<li>Explored -&gt; Add + membership test
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2">Homework Notes </h2>
+<div class="outline-text-2" id="text-2">
+
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">Web Links </h2>
+<div class="outline-text-2" id="text-3">
+
+<ul>
+<li><a href="http://www.reddit.com/r/aiclass">Reddit Discussions</a>
+</li>
+<li><a href="http://www.stanford.edu/class/cs221/progAssignments/PA1/search.html">Programming assignment 1</a>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4">Other </h2>
+<div class="outline-text-2" id="text-4">
+
+
+</div>
+</div>

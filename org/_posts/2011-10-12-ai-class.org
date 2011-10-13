@@ -1,0 +1,82 @@
+#+TITLE:     2011-10-12-ai-class.org
+#+AUTHOR:    Anirudh Saraf
+#+EMAIL:     anirudhsaraf@gmail.com
+#+DATE:      2011-10-13 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:3 \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+#+BEGIN_HTML
+---
+layout: post
+title:  Auto-updating notes for the stanford ai-class
+tags: ai, stanford, lecture notes
+---
+#+END_HTML
+
+I am following the Stanford [[http://www.ai-class.com/home/][ai-class]] online, and using this post for
+keeping track of progress/notes/linke etc. These notes are not cleaned
+up, but a log of real-time notes.
+
+* Lecture Notes
+
+** Welcome to AI
+   + Senders / Actuators : Environment sends -> agent decides ->
+     actuator interacts with the environment.
+   + Terminology:
+     - Fully / Partially observable -> full(no memory required) /
+       partial (stores previous data from perception-action cycle)
+       Sensors can see entire state of the env. (Full)
+     - Deterministic / stochastic 
+       1 - outcome is determined by your actions
+       2 - dice throw / randomness stochastic
+     - Discrete / Continuous
+       finite / infinte space of actions/senses
+     - Benign / Adversarial
+       Might be random etc. but not out to get you / games - out to get
+       you (adversial is a lot tougher)
+
+** Problem Solving
+   + Initial State : actions {s} : Result (s,a)  -> s' : Goal Test(s)
+     -> T|F : Path Cost (s->s'->s'') -> n [cost of path] : Step cost
+     (s,a,s') -> n
+   + Frontier -> the farthest we have explored ; Unexplored region;
+     Explored region.
+   + Tree Search
+     - We stop when the solution is explored, not when it is added to
+       the frontier
+     - Breadth-first search
+     - Uniform Cost Search
+     - Depth First Search - efficient on frontier space, not complete,
+       not optimal
+     - A* search = path + heuristic : finds the lowest cost if h never
+       over-estimats the actual cost; A* is optimistic
+   + auto-generating heuristics by relaxing the problem constraints
+   + Works when:
+     - Domain must be fully observables 
+     - known - we have to know the set of available actions
+     - discrete - finite number of actions
+     - deterministic - we have to know the results of our actions
+     - static (only our actions can change the world)
+   + Implementations
+     - State, action, cost, parent (node)
+     - Linked list representing a path
+     - Frontier -> PriorityQueue(add/remove) + MembershipTest(Set)
+     - Explored -> Add + membership test
+
+
+* Homework Notes
+* Web Links
+  + [[http://www.reddit.com/r/aiclass][Reddit Discussions]]
+  + [[http://www.stanford.edu/class/cs221/progAssignments/PA1/search.html][Programming assignment 1]]
+
+* Other
+
