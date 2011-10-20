@@ -17,14 +17,14 @@
 #+BEGIN_HTML
 ---
 layout: post
-title:  Auto-updating notes for the stanford ai-class
+title:  Personal notes for the stanford ai-class
 tags: ai, stanford, lecture notes
 ---
 #+END_HTML
 
-I am following the Stanford [[http://www.ai-class.com/home/][ai-class]] online, and using this post for
-keeping track of progress/notes/linke etc. These notes are not cleaned
-up, but a log of real-time notes.
+I am following the Stanford [[http://www.ai-class.com][ai-class]] online, and using this post for
+keeping track of progress/notes/links etc. These notes are very rough,
+mostly a personal log of progress...
 
 * Lecture Notes
 
@@ -72,6 +72,22 @@ up, but a log of real-time notes.
      - Frontier -> PriorityQueue(add/remove) + MembershipTest(Set)
      - Explored -> Add + membership test
 
+
+
+** Probability in AI
+   + Total Probability :: P(B) = \sum_{j} P(B|A_j) . P(A_j)
+   + Joint Probability :: P(X.Y) = P(X|Y). P(Y) = P(Y|X).P(X) 
+   + Negation :: P(~X|Y) = 1 - P(X|Y) ; Note P(X|~Y) is not valid.
+   + Bayes Theroem ::
+   \begin{equation}  
+   \begin{align*}
+
+   &P(A | B) = \frac{P(B | A).P(A)}{P(B)} \\
+   &P'(A|B) = P(B|A).P(A) ;  P'(~A|B) = P(B|~A).P(~A) \\
+   &\eta = [P'(A|B) + P'(~A|B)] ^{-1} \\
+   &P(A|B) = \eta P'(A|B) ;   P(A|B) = \eta P'(~A|B) \\
+   \end{align*}
+   \end{equation}
 
 * Homework Notes
 * Web Links
