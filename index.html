@@ -50,7 +50,7 @@ new TWTR.Widget({
     {% endfor %}
   </ul>
 
-{% if site.posts.size > 5 %}
+{% if site.posts.size > 50 %}
   <h4>Older Posts</h4>
   <ul>
   {% for post in site.posts offset: 5 %}
