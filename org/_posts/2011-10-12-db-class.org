@@ -1,0 +1,58 @@
+#+TITLE:     2011-10-12-ai-class.org
+#+AUTHOR:    Anirudh Saraf
+#+EMAIL:     anirudhsaraf@gmail.com
+#+DATE:      2011-10-13 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:3 \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+#+BEGIN_HTML
+---
+layout: post
+title: Personal notes for the stanford db-class
+tags: ai, stanford, lecture notes
+---
+#+END_HTML
+
+I am following the Stanford [[http://www.db-class.com][db-class]] online, and using this post for
+keeping track of progress/notes/links etc. These notes are very rough,
+mostly a personal log of progress...
+
+* Lecture Notes
+** Lecture 1 - Intro to databases
+   + Massive data; Persistent; Safe; Multi-user; Convenient; Convenient
+      (Physical data layout independence; SQL - declarative); Efficient; Reliable
+
+
+  
+   + Data Model - set of records; XML; graph 
+    Schema vs Data ( types/ variables)
+    DDL - Data Definition Language - set up schema
+    DML - Data manipulation (querying / modification)
+** Lecture 2: Relational Model
+   + Be careful of Null values! GPA > 3.5 or GPA <= 3.5 ( doesn't return null values)
+
+** Lecture 2 : Query Relational Databases
+   + Relational Algebra - formal (theory) ; SQL (actual/ implementation)
+
+** XML Data
+   + Tree hierarchy; XSLT (XML -> HTML) ; 
+   + DTD
+   + XSD - Like DTD, data types, typed pointers, checked
+     types(e.g. integers) etc.
+     + XSD written in XML 
+
+* Homework Notes
+* Web Links
+  + [[http://www.reddit.com/r/dbclass][Reddit Discussions]]
+
+* Other
+

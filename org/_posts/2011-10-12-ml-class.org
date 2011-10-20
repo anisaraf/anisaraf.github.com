@@ -1,0 +1,72 @@
+#+TITLE:     2011-10-12-ai-class.org
+#+AUTHOR:    Anirudh Saraf
+#+EMAIL:     anirudhsaraf@gmail.com
+#+DATE:      2011-10-13 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:3 \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+#+BEGIN_HTML
+---
+layout: post
+title:  Personal notes for the stanford ml-class
+tags: ai, stanford, lecture notes
+---
+#+END_HTML
+
+
+I am following the Stanford [[http://www.ml-class.com][ml-class]] online, and using this post for
+keeping track of progress/notes/links etc. These notes are very rough,
+mostly a personal log of progress...
+
+* Lecture Notes
+** I. Introduction
+   + Database Mining / Application that can't be programed by hand
+        / Self-customizing programs (recommendations)
+   + ability to learn without being explicitly programmed 
+   + Supervised Learningq
+     + Given some right answers
+     + Regression
+     + Classification - discrete value output/ feature (attibutes on
+       which we are classifying)
+   + Unsupervised Learning
+     + No correct answers given
+     + Clustering
+   
+** Linear  
+   + Linear regression with one variable / univariate linear
+     regression : hypothesis is a linear function!
+   + h(x) = \theta_0 + \theta_1.x 
+   + Chose parameters so that h(x) satisfies the training set.
+   + Squared error cost fuction J(\theta_0, \theta_1)  = min \sum[h(x) - y]^2
+** Gradient descent 
+   + alpha too small - gradient descent is slow
+   + alpha is too large - might miss minimum and never converge
+   + as we approach min - derivitative decreases so our step size is
+     automatically decreasing
+** Linear regression in one varioable
+   + Apply gradient descent to minimize cost function
+   + Cons function is always a convex function, and therefore the
+     function has only one global optimium (which is why gradient
+     descent works!)
+   + Batch gradient descent ( uses all of the training data)
+   + Global equation method - numerical way to solve gradient descent
+   
+
+
+** Matrix Inverse / Transpose
+   + If A has an inverse (only sq matrices) AA^{-1} = A^{-1}A = I
+* Homework Notes
+* Web Links
+  + [[http://www.reddit.com/r/mlclass][Reddit Discussions]]
+
+* Other
+
