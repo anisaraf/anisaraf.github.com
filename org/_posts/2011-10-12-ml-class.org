@@ -1,5 +1,5 @@
-#+TITLE:     2011-10-12-ai-class.org
 #+AUTHOR:    Anirudh Saraf
+#+TITLE:     2011-10-12-ai-class.org
 #+EMAIL:     anirudhsaraf@gmail.com
 #+DATE:      2011-10-13 Thu
 #+DESCRIPTION:
@@ -64,6 +64,101 @@ mostly a personal log of progress...
 
 ** Matrix Inverse / Transpose
    + If A has an inverse (only sq matrices) AA^{-1} = A^{-1}A = I
+
+** Linear Regression with Multiple Variables
+   + Mutliple features / multivariate linear regression
+     n = number of features; x^{(i)} = input features of i^{th} training example.
+   + h (x) = \theta_0 x_0 + \theta_1 x_1 + \theta_2 x_2 + ... \theta_n
+     x_n
+     define: x_0 = 1 = \theta_{T}x
+   + Cost function - J(\theta_0, \theta_1, ... , \theta_n) = 1/2m
+     \sum (h_{\theta}(x^{(i)}) - y^{(i)})^2
+   + Gradient Descent : 
+     \theta_j := \theta_j - \alpha (partial derivate) J(\theta)
+   + Feature Scaling
+     - Make features on the same scale, causes faster convergence due
+       to more circular contours. Get feature into -1 <= x_i <= 1
+     - Mean normalization x_i = x_i - \mu_i 
+   + How to choose \alpha
+     - Gradient desent not working - use smaller \alpha.
+     - For sufficiently small \alpha J(\theta) would decrease on every iteration
+     - Too small \alpha can be too slow
+     - Plot J(theat) v/s #iterations
+   + Polynomial Regression : similar idea - except polynomial function
+     for hypothesis - feature scaling can become a problem sometimes
+   + Normal Equation ::
+     - Solve for \theta analytically instead of
+       iteratively (Gradient descent)
+     - Take derivatives and minimize
+     - min \theta = (X^T.X)^{-1}X^T y [x = feature matrix (m x n+1)]
+     - Feature scaling is irrelevant here
+     - Disadvantages
+       + slow for large n (features) O(n^3) for matrix computations
+       + n = 1000 (doable); n=10,000 kind of slow; n = 10^6 (no go)
+       + Doesnt work for all algorithms (we'll see later)
+   + Normal Equation and invertibility (advanced)
+     - What if X^TX is non-invertible? [Octave pinv vs inv]
+     - Some Causes
+       - Redundant features i.e. linearly dependant features x_1 =
+         \theta x_2
+       - Too many features (m <= n) [Delete some features, use regularization]
+   + Octave notes
+     - 
+
+** Logistic Regression
+   + Classification (Spam/Not Spam etc. )
+   + Binary classification
+     + Run linear regression and use threshold as h_\theta (x) = 0.5?
+     + Linear regression doesn't work very well since the straigh line
+       fit varies when applied to classification problem
+     + Logistic Regression 0 <= h\theta (x) <= 1
+     + h\theta (x) = g(\theta^T x) ; g(z) = 1 / 1 + e^{-z}
+     + asymtotoes at zero/one (Sigmoid function/ logistic function)
+     + Decision Boundary
+     + How to chose \theta - cost function
+     + cost function needs to be convex - linear regression cost
+       square function won't work with the new h(\theta)
+     + Cost(h_\theta(x), y) = -log(h_\theta(x)) if y = 1;
+       -log(1-h_\theta(x)) y=0
+     + Cost = 0 if y = 1 h\theta(x) ; cost = infinity P(y =
+       1|x;\theta) = 0, but y=1. We penalize wrong answers by large costs.
+     + Cost(h_\theta(x),y) = -y . log(h_\theta(x)) - (1-y)log(1-h_\theta(x))
+     + J(\theta) = i/m ( \sum cost())
+     + Advanced optimization
+       - Conjugate gradient; BFGS; L-BFGS
+       - No need to pick \alpha; converge faster; more complex
+       - fminunc(@costfunction, initialTheta, options) - ocatave
+         function to minimize
+     + Multiclass Classification
+       - Email folder/tagging (y = small number of discrete values)
+       - Train a logistic regression classifer for each class i to
+         predict the probability that y = i;
+       - Run all three classifies, and pick the max probability
+
+** Overfitting
+
+   + Higher order polynomial trying to fit training data
+   + Reduce number of features; model selecion algorithm
+   + Regularization
+     + Keep all features; reduce mag/values of parameters \theta_j
+     + Lots of features contibuting to prediction y
+     + Penalize and make \theta_3 and \theta_4 small
+     + ex. cost + 1000\theta_3^2 ...
+     + essentially we end up with quadratic function
+     + If we have small values for parameters
+       - 'Simpler' hypothesis
+       - Less pront to overfitting
+     + Modify cost function to + \lamda \sum_{i=1} \theta_j ^2 (don't
+       regularize \theta_0 by convention)
+     + new gd = \theta_j (1- (\alpha * \labda) / m) - \alpha / m (cost
+       function ... ) ; reduces \theta_j since 1-.. < 1
+     + For normal method using regularization gaurantees invertibility
+       of the matrix! (pinv/ inv in octave...)
+     + Logistic regularization:
+       - overfitting with lots of features etc.
+       - add the normal regularization penalizer
+       - 
+
 * Homework Notes
 * Web Links
   + [[http://www.reddit.com/r/mlclass][Reddit Discussions]]

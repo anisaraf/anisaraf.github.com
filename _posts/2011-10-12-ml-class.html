@@ -1,151 +1,66 @@
----
-layout: post
-title:  Personal notes for the stanford ml-class
-tags: ai, stanford, lecture notes
----
-
-
-<p>
-I am following the Stanford <a href="http://www.ml-class.com">ml-class</a> online, and using this post for
-keeping track of progress/notes/links etc. These notes are very rough,
-mostly a personal log of progress&hellip;
-</p>
-
-<div id="outline-container-1" class="outline-2">
-<h2 id="sec-1">Lecture Notes </h2>
-<div class="outline-text-2" id="text-1">
-
-
-</div>
-
-<div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1">I. Introduction </h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1">Logistic Regression </h3>
+<div class="outline-text-3" id="text-1">
 
 <ul>
-<li>Database Mining / Application that can't be programed by hand
-        / Self-customizing programs (recommendations)
+<li>Classification (Spam/Not Spam etc. )
 </li>
-<li>ability to learn without being explicitly programmed 
-</li>
-<li>Supervised Learningq
+<li>Binary classification
 <ul>
-<li>Given some right answers
+<li>Run linear regression and use threshold as h<sub>&theta;</sub> (x) = 0.5?
 </li>
-<li>Regression
+<li>Linear regression doesn't work very well since the straigh line
+       fit varies when applied to classification problem
 </li>
-<li>Classification - discrete value output/ feature (attibutes on
-       which we are classifying)
+<li>Logistic Regression 0 &lt;= h&theta; (x) &lt;= 1
+</li>
+<li>h&theta; (x) = g(&theta;<sup>T</sup> x) ; g(z) = 1 / 1 + e<sup>-z</sup>
+</li>
+<li>asymtotoes at zero/one (Sigmoid function/ logistic function)
+</li>
+<li>Decision Boundary
+</li>
+<li>How to chose &theta; - cost function
+</li>
+<li>cost function needs to be convex - linear regression cost
+       square function won't work with the new h(&theta;)
+</li>
+<li>Cost(h<sub>&theta;</sub>(x), y) = -log(h<sub>&theta;</sub>(x)) if y = 1;
+       -log(1-h<sub>&theta;</sub>(x)) y=0
+</li>
+<li>Cost = 0 if y = 1 h&theta;(x) ; cost = infinity P(y =
+       1|x;&theta;) = 0, but y=1. We penalize wrong answers by large costs.
+</li>
+<li>Cost(h<sub>&theta;</sub>(x),y) = -y . log(h<sub>&theta;</sub>(x)) - (1-y)log(1-h<sub>&theta;</sub>(x))
+</li>
+<li>J(&theta;) = i/m ( &sum; cost())
+</li>
+<li>Advanced optimization
+<ul>
+<li>Conjugate gradient; BFGS; L-BFGS
+</li>
+<li>No need to pick &alpha;; converge faster; more complex
+</li>
+<li>fminunc(@costfunction, initialTheta, options) - ocatave
+         function to minimize
 </li>
 </ul>
 
 </li>
-<li>Unsupervised Learning
+<li>Multiclass Classification
 <ul>
-<li>No correct answers given
+<li>Email folder/tagging (y = small number of discrete values)
 </li>
-<li>Clustering
+<li>Train a logistic regression classifer for each class i to
+         predict the probability that y = i;
+</li>
+<li>Run all three classifies, and pick the max probability
 </li>
 </ul>
 
 </li>
 </ul>
 
-
-</div>
-
-</div>
-
-<div id="outline-container-1-2" class="outline-3">
-<h3 id="sec-1-2">Linear </h3>
-<div class="outline-text-3" id="text-1-2">
-
-<ul>
-<li>Linear regression with one variable / univariate linear
-     regression : hypothesis is a linear function!
-</li>
-<li>h(x) = &theta;<sub>0</sub> + &theta;<sub>1</sub>.x 
-</li>
-<li>Chose parameters so that h(x) satisfies the training set.
-</li>
-<li>Squared error cost fuction J(&theta;<sub>0</sub>, &theta;<sub>1</sub>)  = min &sum;[h(x) - y]<sup>2</sup>
-</li>
-</ul>
-
-</div>
-
-</div>
-
-<div id="outline-container-1-3" class="outline-3">
-<h3 id="sec-1-3">Gradient descent </h3>
-<div class="outline-text-3" id="text-1-3">
-
-<ul>
-<li>alpha too small - gradient descent is slow
-</li>
-<li>alpha is too large - might miss minimum and never converge
-</li>
-<li>as we approach min - derivitative decreases so our step size is
-     automatically decreasing
-</li>
-</ul>
-
-</div>
-
-</div>
-
-<div id="outline-container-1-4" class="outline-3">
-<h3 id="sec-1-4">Linear regression in one varioable </h3>
-<div class="outline-text-3" id="text-1-4">
-
-<ul>
-<li>Apply gradient descent to minimize cost function
-</li>
-<li>Cons function is always a convex function, and therefore the
-     function has only one global optimium (which is why gradient
-     descent works!)
-</li>
-<li>Batch gradient descent ( uses all of the training data)
-</li>
-<li>Global equation method - numerical way to solve gradient descent
-</li>
-</ul>
-
-
-
-
-</div>
-
-</div>
-
-<div id="outline-container-1-5" class="outline-3">
-<h3 id="sec-1-5">Matrix Inverse / Transpose </h3>
-<div class="outline-text-3" id="text-1-5">
-
-<ul>
-<li>If A has an inverse (only sq matrices) AA<sup>-1</sup> = A<sup>-1</sup>A = I
-</li>
-</ul>
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-2" class="outline-2">
-<h2 id="sec-2">Homework Notes </h2>
-<div class="outline-text-2" id="text-2">
-
-</div>
-
-</div>
-
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3">Web Links </h2>
-<div class="outline-text-2" id="text-3">
-
-<ul>
-<li><a href="http://www.reddit.com/r/mlclass">Reddit Discussions</a>
 </li>
 </ul>
 
@@ -154,10 +69,61 @@ mostly a personal log of progress&hellip;
 
 </div>
 
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4">Other </h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-2" class="outline-3">
+<h3 id="sec-2">Overfitting </h3>
+<div class="outline-text-3" id="text-2">
 
+
+<ul>
+<li>Higher order polynomial trying to fit training data
+</li>
+<li>Reduce number of features; model selecion algorithm
+</li>
+<li>Regularization
+<ul>
+<li>Keep all features; reduce mag/values of parameters &theta;<sub>j</sub>
+</li>
+<li>Lots of features contibuting to prediction y
+</li>
+<li>Penalize and make &theta;<sub>3</sub> and &theta;<sub>4</sub> small
+</li>
+<li>ex. cost + 1000&theta;<sub>3</sub><sup>2</sup> &hellip;
+</li>
+<li>essentially we end up with quadratic function
+</li>
+<li>If we have small values for parameters
+<ul>
+<li>'Simpler' hypothesis
+</li>
+<li>Less pront to overfitting
+</li>
+</ul>
+
+</li>
+<li>Modify cost function to + \lamda &sum;<sub>i=1</sub> &theta;<sub>j</sub> <sup>2</sup> (don't
+       regularize &theta;<sub>0</sub> by convention)
+</li>
+<li>new gd = &theta;<sub>j</sub> (1- (&alpha; * \labda) / m) - &alpha; / m (cost
+       function &hellip; ) ; reduces &theta;<sub>j</sub> since 1-.. &lt; 1
+</li>
+<li>For normal method using regularization gaurantees invertibility
+       of the matrix! (pinv/ inv in octave&hellip;)
+</li>
+<li>Logistic regularization:
+<ul>
+<li>overfitting with lots of features etc.
+</li>
+<li>add the normal regularization penalizer
+</li>
+<li>
+</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
 
 </div>
 </div>

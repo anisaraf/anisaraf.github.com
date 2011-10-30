@@ -133,7 +133,11 @@ mostly a personal log of progress&hellip;
 </dd>
 <dt>Negation</dt><dd>P(~X|Y) = 1 - P(X|Y) ; Note P(X|~Y) is not valid.
 </dd>
-<dt>Bayes Theroem</dt><dd>
+</dl>
+
+<p>.   + Conditional Probability :: P(A | B) = P(A &cap; B) / P(B)
+</p><dl>
+<dt>Bayes Theroem</dt><dd>Links conditional prob. to it's inverse.
 </dd>
 </dl>
 
@@ -144,10 +148,134 @@ mostly a personal log of progress&hellip;
    &P'(A|B) = P(B|A).P(A) ;  P'(~A|B) = P(B|~A).P(~A) \\
    &\eta = [P'(A|B) + P'(~A|B)] ^{-1} \\
    &P(A|B) = \eta P'(A|B) ;   P(A|B) = \eta P'(~A|B) \\
+
    \end{align*}
    \end{equation}
 
-</p></div>
+</p><dl>
+<dt>Solving using the normalized equation</dt><dd>
+<ul>
+<li>Given: P(C) = 0.01; P( + | C) = 0.9;P( + | ~C) = 0.2 
+</li>
+<li>Find P( C | ++) = 
+</li>
+</ul>
+
+</dd>
+</dl>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="right" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Hidden</th><th scope="col" class="left">Priori</th><th scope="col" class="left">+</th><th scope="col" class="left">+</th><th scope="col" class="right">Normalized</th><th scope="col" class="left">Ans.</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">C</td><td class="left">0.01</td><td class="left">0.9</td><td class="left">0.9</td><td class="right">.0081</td><td class="left">.0081/.0477 = 0.16981132</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">~C</td><td class="left">0.99</td><td class="left">0.2</td><td class="left">0.2</td><td class="right">.0396</td><td class="left">.0396/.0477 =  0.83018868</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td><td class="right">0.0477</td><td class="left"></td></tr>
+</tbody>
+</table>
+
+
+<dl>
+<dt>Conditionally independant</dt><dd>P(T<sub>2</sub> | CT<sub>1</sub>) =  P(T<sub>2</sub> | C) 
+        This does not imply that T<sub>1</sub> and T<sub>2</sub> are independant if we
+        don't know C! 
+
+<p>
+        \begin{equation}
+        \begin{align*}
+        P(+_1 \big| +_2) &= P(+_2 \big| +_1,C)P(C \big| +_1) + P(+_2 \big|
+        +_1, \neg C).P(\neg C \big| +_1) \\
+
+        &=P(+_2 \big| C). P(C \big| +_1) + P(+_2 \big| \neg C).P( \neg
+        C \big| +_1)
+
+        \end{align*}
+        \end{equation}
+</p></dd>
+<dt>Absolute and Conditional</dt><dd>
+<p>
+        \begin{equation}
+        A \perp B \implies A \perp B \big| C ? False 
+        \end{equation}
+
+        \begin{equation}
+        A \perp B \big| C \implies A \perp B ? False 
+        \end{equation}
+
+</p></dd>
+<dt>Confounding Cause</dt><dd>
+</dd>
+</dl>
+
+<p>   Two hidden (Sunny, Raise) -&gt; one observable(Happy)
+   P(R|S) = P(R) { Raise and sunny are independant!}
+</p>
+<p>
+   Explain Away: 
+   P(R|HS) = Now, being happy (effect) can be explained by it being
+   sunny), hence the probabilty of P(R|HS) &lt; P(R | H)!
+</p>
+<dl>
+<dt>Bayes Network</dt><dd>Reduces the number of probabilities requried to
+                      describe the network. Each node needs only the
+                      incoming arcs. Each node requires 2<sup>k</sup>
+                      probabilities where k = number of incoming arcs.
+</dd>
+<dt>D-Separation</dt><dd>If we know a node, anything downstream of the
+                     node, is renderd independant of anything upstream
+                     of the node. 
+</dd>
+</dl>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4">Probabilistic Inference </h3>
+<div class="outline-text-3" id="text-1-4">
+
+<ul>
+<li>Evidence - input; Query - output
+</li>
+<li>P(Q<sub>1</sub> , Q<sub>2</sub> &hellip; | E<sub>1</sub> = e<sub>1</sub>, &hellip; )
+</li>
+<li>Most likely explanation: argmax<sub>q</sub> P(Q<sub>1</sub> = q<sub>1</sub> , Q<sub>2</sub> =q<sub>2</sub> &hellip; | E<sub>1</sub> = e<sub>1</sub>, &hellip; )
+</li>
+<li>Not restricted in one direction: Mix-match query/evidence variable
+</li>
+<li>Inference on Bayes Net (e,a = hidden)
+<ul>
+<li>Enumeration P(+b| +j, +m) = P(+b,+j,+m)/ P(+j,+m);
+       \Sum<sub>e</sub> \Sum<sub>a</sub> P(+b,+j,+m)
+</li>
+<li>Maximize independance of variables
+</li>
+<li>Most efficient went network flows from causes to effects
+</li>
+<li>Variable Elimination (NP hard in general; but faster then enumeration)
+<ul>
+<li>Break into smaller networks
+</li>
+<li>Joining Factors - chose two factors and combine them together
+</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
+
+</div>
 </div>
 
 </div>
@@ -166,6 +294,26 @@ mostly a personal log of progress&hellip;
 
 <ul>
 <li><a href="http://www.reddit.com/r/aiclass">Reddit Discussions</a>
+<ul>
+<li><a href="http://www.reddit.com/r/aiclass/comments/ljcdt/im_confused_on_notation_of_conditional/">Notation of conditional prob. with multiple variables P(A|B,C,D,E)</a>
+<ul>
+<li>In general, you can simplify any expression to P(X|Y,Z) (or
+        even P(X|Y)) by setting X, Y, and Z as desired. It can be
+        proven that:
+</li>
+<li>P(X|Y,Z) = P(X,Y|Z)/P(Y|Z)
+        implying that any intersection of sets (represented here by Y)
+        can be moved to the right or left of the | by either multiplying or
+        dividing by P(Y|Z).
+</li>
+<li>This lets you deal with arbitrary conditionals, like if you
+        take X=A∩B, Y=C∩E∩G, and Z=D∩F, then this shows that: P(A,B|C,D,E,F,G) = P(A,B,C,E,G|D,F) / P(C,E,G|D,F)
+</li>
+</ul>
+
+</li>
+</ul>
+
 </li>
 <li><a href="http://www.stanford.edu/class/cs221/progAssignments/PA1/search.html">Programming assignment 1</a>
 </li>

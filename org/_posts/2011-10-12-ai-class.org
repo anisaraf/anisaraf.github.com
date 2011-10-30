@@ -78,7 +78,8 @@ mostly a personal log of progress...
    + Total Probability :: P(B) = \sum_{j} P(B|A_j) . P(A_j)
    + Joint Probability :: P(X.Y) = P(X|Y). P(Y) = P(Y|X).P(X) 
    + Negation :: P(~X|Y) = 1 - P(X|Y) ; Note P(X|~Y) is not valid.
-   + Bayes Theroem ::
+.   + Conditional Probability :: P(A | B) = P(A \cap B) / P(B)
+   + Bayes Theroem :: Links conditional prob. to it's inverse.
    \begin{equation}  
    \begin{align*}
 
@@ -86,12 +87,86 @@ mostly a personal log of progress...
    &P'(A|B) = P(B|A).P(A) ;  P'(~A|B) = P(B|~A).P(~A) \\
    &\eta = [P'(A|B) + P'(~A|B)] ^{-1} \\
    &P(A|B) = \eta P'(A|B) ;   P(A|B) = \eta P'(~A|B) \\
+
    \end{align*}
    \end{equation}
 
+   - Solving using the normalized equation :: 
+     - Given: P(C) = 0.01; P( + | C) = 0.9;P( + | ~C) = 0.2 
+     - Find P( C | ++) = 
+   | Hidden | Priori |   + |   + | Normalized | Ans.                      |
+   |--------+--------+-----+-----+------------+---------------------------|
+   | C      |   0.01 | 0.9 | 0.9 |      .0081 | .0081/.0477 = 0.16981132  |
+   |--------+--------+-----+-----+------------+---------------------------|
+   | ~C     |   0.99 | 0.2 | 0.2 |      .0396 | .0396/.0477 =  0.83018868 |
+   |--------+--------+-----+-----+------------+---------------------------|
+   |        |        |     |     |     0.0477 |                           |
+   #+TBLFM: $5=@-2$5 + @-1$5::$6=$5/@4$5
+
+   + Conditionally independant :: P(T_2 | CT_1) =  P(T_2 | C) 
+	This does not imply that T_1 and T_2 are independant if we
+        don't know C! 
+
+	\begin{equation}
+	\begin{align*}
+	P(+_1 \big| +_2) &= P(+_2 \big| +_1,C)P(C \big| +_1) + P(+_2 \big|
+        +_1, \neg C).P(\neg C \big| +_1) \\
+
+	&=P(+_2 \big| C). P(C \big| +_1) + P(+_2 \big| \neg C).P( \neg
+        C \big| +_1)
+
+	\end{align*}
+	\end{equation}
+   + Absolute and Conditional :: 
+	\begin{equation}
+	A \perp B \implies A \perp B \big| C ? False 
+	\end{equation}
+
+	\begin{equation}
+	A \perp B \big| C \implies A \perp B ? False 
+	\end{equation}
+
+   + Confounding Cause :: 
+   Two hidden (Sunny, Raise) -> one observable(Happy)
+   P(R|S) = P(R) { Raise and sunny are independant!}
+
+   Explain Away: 
+   P(R|HS) = Now, being happy (effect) can be explained by it being
+   sunny), hence the probabilty of P(R|HS) < P(R | H)!
+	
+   + Bayes Network :: Reduces the number of probabilities requried to
+                      describe the network. Each node needs only the
+                      incoming arcs. Each node requires 2^k
+                      probabilities where k = number of incoming arcs.
+   + D-Separation :: If we know a node, anything downstream of the
+                     node, is renderd independant of anything upstream
+                     of the node. 
+** Probabilistic Inference
+   + Evidence - input; Query - output
+   + P(Q_1 , Q_2 ... | E_1 = e_1, ... )
+   + Most likely explanation: argmax_q P(Q_1 = q_1 , Q_2 =q_2 ... | E_1 = e_1, ... )
+   + Not restricted in one direction: Mix-match query/evidence variable
+   + Inference on Bayes Net (e,a = hidden)
+     - Enumeration P(+b| +j, +m) = P(+b,+j,+m)/ P(+j,+m);
+       \Sum_e \Sum_a P(+b,+j,+m)
+     - Maximize independance of variables
+     - Most efficient went network flows from causes to effects
+     - Variable Elimination (NP hard in general; but faster then enumeration)
+       - Break into smaller networks
+       - Joining Factors - chose two factors and combine them together
 * Homework Notes
 * Web Links
   + [[http://www.reddit.com/r/aiclass][Reddit Discussions]]
+    + [[http://www.reddit.com/r/aiclass/comments/ljcdt/im_confused_on_notation_of_conditional/][Notation of conditional prob. with multiple variables P(A|B,C,D,E)]]
+      + In general, you can simplify any expression to P(X|Y,Z) (or
+        even P(X|Y)) by setting X, Y, and Z as desired. It can be
+        proven that:
+      - P(X|Y,Z) = P(X,Y|Z)/P(Y|Z)
+        implying that any intersection of sets (represented here by Y)
+        can be moved to the right or left of the | by either multiplying or
+        dividing by P(Y|Z).
+      - This lets you deal with arbitrary conditionals, like if you
+        take X=A∩B, Y=C∩E∩G, and Z=D∩F, then this shows that: P(A,B|C,D,E,F,G) = P(A,B,C,E,G|D,F) / P(C,E,G|D,F)
   + [[http://www.stanford.edu/class/cs221/progAssignments/PA1/search.html][Programming assignment 1]]
 
 * Other

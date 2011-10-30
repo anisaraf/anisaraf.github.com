@@ -26,6 +26,7 @@ I am following the Stanford [[http://www.db-class.com][db-class]] online, and us
 keeping track of progress/notes/links etc. These notes are very rough,
 mostly a personal log of progress...
 
+* Homework Notes
 * Lecture Notes
 ** Lecture 1 - Intro to databases
    + Massive data; Persistent; Safe; Multi-user; Convenient; Convenient
@@ -50,7 +51,42 @@ mostly a personal log of progress...
      types(e.g. integers) etc.
      + XSD written in XML 
 
-* Homework Notes
+** Relational Algebra
+   + \sigma _{condition} (Expression) [select rows]
+   + Relational Algebra based on sets = removes duplicates (contrary
+     to SQL - multisets)
+   + Cross-product combine two relations
+   + Natural Join - filtered crossproduct on common attributes and eliminates
+     the duplicate attribute.
+   + theta join \sigma_{\theta} (Expr1 <natural join> Expr2) [ joins
+     in sql]
+   + Union [Vertical]
+   + Difference
+   + Intersection [ doesn't add expressive power]
+   + Rename operator \rho disambiguation in self-joins
+
+** SQL
+   + Union: select cName as name from College union select sName as
+     name from Student; (union eliminates duplicates)
+   + union all : retains duplicates
+   + intersect : students whos applied to both CS and EE
+     select xx where major = 'EE' intersect select ... where major = 'CS'
+   + except : applied to CS but not EE (difference operator)
+     + select ... where CS except select ... where EE
+   + Subqueries in where clause
+     - Select sName from student where sId in (select sId from Apply
+       where major = 'CS') equivalent to
+     - Select DISTINCT sName from Student,Apply where student.id =
+       apply.id and major = 'CS'
+     - DISTINCT is needed to eliminate students who applied to
+       multiple CS programs from showing up multiple times
+     - Replicate except with where in / not in
+     - Exists
+     - all (whether value has a relationship with all elements in the subquery)
+       - select sName, GPA from Student where GPA >= all (select GPA
+         from Student); [student with highest GPA]
+     - any [ satisfy with any one element in the set]
+     - 
 * Web Links
   + [[http://www.reddit.com/r/dbclass][Reddit Discussions]]
 
