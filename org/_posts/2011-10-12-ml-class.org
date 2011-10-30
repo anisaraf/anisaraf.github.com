@@ -104,7 +104,6 @@ mostly a personal log of progress...
        - Too many features (m <= n) [Delete some features, use regularization]
    + Octave notes
      - 
-
 ** Logistic Regression
    + Classification (Spam/Not Spam etc. )
    + Binary classification
