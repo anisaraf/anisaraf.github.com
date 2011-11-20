@@ -156,7 +156,11 @@ mostly a personal log of progress...
      + Logistic regularization:
        - overfitting with lots of features etc.
        - add the normal regularization penalizer
-       - 
+** Neural Networks Representation
+   + Non - linear hypotheses
+     Linear regression is problematic with lots of features for
+     non-linear classifiers
+   + 
 
 * Homework Notes
 * Web Links

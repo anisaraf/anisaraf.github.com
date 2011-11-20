@@ -154,6 +154,22 @@ mostly a personal log of progress...
      - Variable Elimination (NP hard in general; but faster then enumeration)
        - Break into smaller networks
        - Joining Factors - chose two factors and combine them together
+
+** Machine Learning
+
+   + Learn models from data
+   + What? parameters, structure, hidden concepts
+   + What From? supervised, unsupervised, reinforcement learning
+   + What For? prediction, diagnostics, summarization
+   + How? passive active online offline
+   + Output? Classification regression
+   + Details? generative, descriminative
+   + Supervised Learning
+     + Occam's razon : Everything else eing equal - chose the least
+       complex method
+     + Maximum Likelihood: 
+** 
+
 * Homework Notes
 * Web Links
   + [[http://www.reddit.com/r/aiclass][Reddit Discussions]]
