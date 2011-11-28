@@ -1,61 +1,20 @@
----
-layout: post
-title: Personal notes for the stanford db-class
-tags: ai, stanford, lecture notes
----
-
-<p>
-I am following the Stanford <a href="http://www.db-class.com">db-class</a> online, and using this post for
-keeping track of progress/notes/links etc. These notes are very rough,
-mostly a personal log of progress&hellip;
-</p>
-
-<div id="outline-container-1" class="outline-2">
-<h2 id="sec-1">Homework Notes </h2>
-<div class="outline-text-2" id="text-1">
-
-</div>
-
-</div>
-
-<div id="outline-container-2" class="outline-2">
-<h2 id="sec-2">Lecture Notes </h2>
-<div class="outline-text-2" id="text-2">
-
-
-</div>
-
-<div id="outline-container-2-1" class="outline-3">
-<h3 id="sec-2-1">Lecture 1 - Intro to databases </h3>
-<div class="outline-text-3" id="text-2-1">
+<div id="outline-container-1" class="outline-3">
+<h3 id="sec-1">Null Values </h3>
+<div class="outline-text-3" id="text-1">
 
 <ul>
-<li>Massive data; Persistent; Safe; Multi-user; Convenient; Convenient
-      (Physical data layout independence; SQL - declarative); Efficient; Reliable
+<li>undefined/unknown values
 </li>
-</ul>
-
-
-
-
-<ul>
-<li>Data Model - set of records; XML; graph 
-    Schema vs Data ( types/ variables)
-    DDL - Data Definition Language - set up schema
-    DML - Data manipulation (querying / modification)
+<li>select sID, sName, GPA from Student where GPA &gt; 3.5 or GPA &lt;= 3.5 or GPA is null;
 </li>
-</ul>
-
-</div>
-
-</div>
-
-<div id="outline-container-2-2" class="outline-3">
-<h3 id="sec-2-2">Lecture 2: Relational Model </h3>
-<div class="outline-text-3" id="text-2-2">
-
-<ul>
-<li>Be careful of Null values! GPA &gt; 3.5 or GPA &lt;= 3.5 ( doesn't return null values)
+<li>Null values are not picked up by mathematical constructs! We need
+     the GPA is null to pick up null values
+</li>
+<li>count(distinct GPA) doesn't pick up null values!
+</li>
+<li>select distinct GPA from Student does pick up the null!
+</li>
+<li>Be careful of unexpected behaviors about nulls
 </li>
 </ul>
 
@@ -64,33 +23,30 @@ mostly a personal log of progress&hellip;
 
 </div>
 
-<div id="outline-container-2-3" class="outline-3">
-<h3 id="sec-2-3">Lecture 2 : Query Relational Databases </h3>
-<div class="outline-text-3" id="text-2-3">
+<div id="outline-container-2" class="outline-3">
+<h3 id="sec-2">Modifications </h3>
+<div class="outline-text-3" id="text-2">
+
 
 <ul>
-<li>Relational Algebra - formal (theory) ; SQL (actual/ implementation)
+<li>Insert Into Table values (A<sub>1</sub>, &hellip; A<sub>n</sub>)
 </li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-2-4" class="outline-3">
-<h3 id="sec-2-4">XML Data </h3>
-<div class="outline-text-3" id="text-2-4">
-
+<li>Insert Into Table select values (insert's from another table)
+</li>
+<li>Delete from Table where Condition
+</li>
+<li>Update Table Set Attr=Expression WHERE Condition
+</li>
+<li>You can't specify target table 'Apply' for update in FROM clause;
+     Some systems allow you to select from the table you are
+     deleting(Postgres) while some systems don't allow it!
+</li>
+<li>Way around it is to create a temporary table and then use that to
+     delete things.
 <ul>
-<li>Tree hierarchy; XSLT (XML -&gt; HTML) ; 
+<li>create temporary table a1 select sID from Apply group by sID having count(distinct major) &gt; 2;
 </li>
-<li>DTD
-</li>
-<li>XSD - Like DTD, data types, typed pointers, checked
-     types(e.g. integers) etc.
-<ul>
-<li>XSD written in XML 
+<li>delete from Apply where sID in (select sID from a1);
 </li>
 </ul>
 
@@ -102,114 +58,98 @@ mostly a personal log of progress&hellip;
 
 </div>
 
-<div id="outline-container-2-5" class="outline-3">
-<h3 id="sec-2-5">Relational Algebra </h3>
-<div class="outline-text-3" id="text-2-5">
+<div id="outline-container-3" class="outline-3">
+<h3 id="sec-3">Relation Design Theory </h3>
+<div class="outline-text-3" id="text-3">
 
-<ul>
-<li>&sigma; <sub>condition</sub> (Expression) [select rows]
-</li>
-<li>Relational Algebra based on sets = removes duplicates (contrary
-     to SQL - multisets)
-</li>
-<li>Cross-product combine two relations
-</li>
-<li>Natural Join - filtered crossproduct on common attributes and eliminates
-     the duplicate attribute.
-</li>
-<li>theta join &sigma;<sub>&theta;</sub> (Expr1 &lt;natural join&gt; Expr2) [ joins
-     in sql]
-</li>
-<li>Union [Vertical]
-</li>
-<li>Difference
-</li>
-<li>Intersection [ doesn't add expressive power]
-</li>
-<li>Rename operator &rho; disambiguation in self-joins
-</li>
-</ul>
 
 
 </div>
 
-</div>
-
-<div id="outline-container-2-6" class="outline-3">
-<h3 id="sec-2-6">SQL </h3>
-<div class="outline-text-3" id="text-2-6">
+<div id="outline-container-3-1" class="outline-4">
+<h4 id="sec-3-1">Overview </h4>
+<div class="outline-text-4" id="text-3-1">
 
 <ul>
-<li>Union: select cName as name from College union select sName as
-     name from Student; (union eliminates duplicates)
+<li>How to design schemas
 </li>
-<li>union all : retains duplicates
-</li>
-<li>intersect : students whos applied to both CS and EE
-     select xx where major = 'EE' intersect select &hellip; where major = 'CS'
-</li>
-<li>except : applied to CS but not EE (difference operator)
+<li>Design 'anomalies'
 <ul>
-<li>select &hellip; where CS except select &hellip; where EE
+<li>Redundancy (how many times do we capture a tuple)
+</li>
+<li>Update anomaly (you can update facts differently in different places)
+</li>
+<li>Deletion anomaly (inadvertently delete someone in the database)
 </li>
 </ul>
 
 </li>
-<li>Subqueries in where clause
+<li>Design by decomposition
 <ul>
-<li>Select sName from student where sId in (select sId from Apply
-       where major = 'CS') equivalent to
+<li>Start with mega relations
 </li>
-<li>Select DISTINCT sName from Student,Apply where student.id =
-       apply.id and major = 'CS'
+<li>Decompose into smaller, better relations
 </li>
-<li>DISTINCT is needed to eliminate students who applied to
-       multiple CS programs from showing up multiple times
+<li>Can do decomposition automatically by specifying properties
 </li>
-<li>Replicate except with where in / not in
+</ul>
+
 </li>
-<li>Exists
-</li>
-<li>all (whether value has a relationship with all elements in the subquery)
+<li>Properties and Normal Forms
 <ul>
-<li>select sName, GPA from Student where GPA &gt;= all (select GPA
-         from Student); [student with highest GPA]
+<li>Functional dependencies -&gt; Boyce-Codd Normal Form
+</li>
+<li>Multivalued dependencies -&gt; fourth normal form (Stricter)
 </li>
 </ul>
 
 </li>
-<li>any [ satisfy with any one element in the set]
-</li>
-<li>
-</li>
-</ul>
-
-</li>
-</ul>
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-3" class="outline-2">
-<h2 id="sec-3">Web Links </h2>
-<div class="outline-text-2" id="text-3">
-
+<li>Example: Apply(SSN, sName, cName)
 <ul>
-<li><a href="http://www.reddit.com/r/dbclass">Reddit Discussions</a>
+<li>Redundancy, UPdate and delete anamolies (SSN-sName pair)
+</li>
+<li>Functional Dependency SSN -&gt; sName
+<ul>
+<li>Same SSN always has same sName
+</li>
+<li>Should store this info only once
 </li>
 </ul>
 
+</li>
+<li>BCNF if A -&gt; B then A is a key!
+</li>
+<li>Decompose Student(SSN,sName), Apply(SSN,cName); it's a key!
+</li>
+<li>Multivalued Dependencies and 4NF
+<ul>
+<li>Apply(SSN, cName, HS)
+</li>
+<li>Multiplicative effect for HS (C * H tuples)
+</li>
+<li>No functional dependencies, so BCNF not addressed
+</li>
+<li>Multivalued dependency SSN -&gt;&gt; cName (implies SSN -&gt;&gt; HS)
+<ul>
+<li>Given SSN has every combination of cName with HS
+</li>
+<li>Should store each cName and each HS for an SSN once
+</li>
+</ul>
+
+</li>
+<li>4NF: If A -&gt;&gt; B then A is a key
+</li>
+<li>Decompose: Apply (SSN, cName) HighSchool (SSN, HS) [C + H tuples]
+</li>
+</ul>
+
+</li>
+</ul>
+
+</li>
+</ul>
 
 </div>
-
-</div>
-
-<div id="outline-container-4" class="outline-2">
-<h2 id="sec-4">Other </h2>
-<div class="outline-text-2" id="text-4">
-
-
 </div>
 </div>
