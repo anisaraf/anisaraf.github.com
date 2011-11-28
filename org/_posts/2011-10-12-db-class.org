@@ -28,7 +28,7 @@ mostly a personal log of progress...
 
 * Homework Notes
 * Lecture Notes
-** Lecture 1 - Intro to databases
+** Lecture 1: Intro to databases
    + Massive data; Persistent; Safe; Multi-user; Convenient; Convenient
       (Physical data layout independence; SQL - declarative); Efficient; Reliable
 
@@ -86,7 +86,6 @@ mostly a personal log of progress...
        - select sName, GPA from Student where GPA >= all (select GPA
          from Student); [student with highest GPA]
      - any [ satisfy with any one element in the set]
-     - 
 
    + Aggregation
      - min, max, sum, avg, count
@@ -164,7 +163,7 @@ mostly a personal log of progress...
 	  - Should store each cName and each HS for an SSN once
 	- 4NF: If A ->> B then A is a key
 	- Decompose: Apply (SSN, cName) HighSchool (SSN, HS) [C + H tuples]
-
+	  
 * Web Links
   + [[http://www.reddit.com/r/dbclass][Reddit Discussions]]
 
