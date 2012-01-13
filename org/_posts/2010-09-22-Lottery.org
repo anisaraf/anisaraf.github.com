@@ -43,7 +43,7 @@ to parse the string.
 #+END_SRC c++
 
 
-Yes its as simple as that ! Now on to calculating the Odds.
+Yes its as simple as that! Now on to calculating the Odds.
 
 ** Calculating Odds:
 The key thing to note here is that we need to be using unsigned long
