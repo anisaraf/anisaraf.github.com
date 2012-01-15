@@ -25,7 +25,7 @@ file grows and grows, till it becomes impossible to manage.
 #+END_HTML: 
 
 The best tip I picked up over the web was to use [[http://orgmode.org/][org-mode]], along with
-[[%20http://orgmode.org/worg/org-contrib/babel/][org-babel]] to organize my .emacs file! Org-babel essentially allows you
+[[http://orgmode.org/worg/org-contrib/babel/][org-babel]] to organize my .emacs file! Org-babel essentially allows you
 to do [[http://en.wikipedia.org/wiki/Literate_programming][literate programming]] in org-mode! For any emacs newbie/tinkerer,
 if you copy-paste a lot of customizations from different places on the
 web I would highly recommend doing this, since this will make it very easy
