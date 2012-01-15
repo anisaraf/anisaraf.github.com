@@ -1,0 +1,66 @@
+---
+layout: post
+title:  Manging your .emacs file
+tags: emacs
+---
+
+<p>
+As every emacs tinkerer knows, over time, your .emacs configuration
+file grows and grows, till it becomes impossible to manage. 
+</p>
+
+
+   <center>
+<p>
+   <img src="../images/haphazard.jpg"  alt="../images/haphazard.jpg" />
+   </center>
+
+The best tip I picked up over the web was to use <a href="http://orgmode.org/">org-mode</a>, along with
+<a href="#http-orgmode.org-worg-org-contrib-babel">org-babel</a> to organize my .emacs file! Org-babel essentially allows you
+to do <a href="http://en.wikipedia.org/wiki/Literate_programming">literate programming</a> in org-mode! For any emacs newbie/tinkerer,
+if you copy-paste a lot of customizations from different places on the
+web I would highly recommend doing this, since this will make it very easy
+to customize your emacs over time and across different machines!
+</p>
+<p>
+The snippet below is what I have in my .emacs
+</p>
+
+
+<pre class="example">;; add the locations of emacs-org/ other extenstions
+(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/org-7.01h/lisp")
+(require 'cl)
+
+;; set-up org babel
+(setq org-babel-load-languages '((emacs-lisp . t)))
+(setq org-confirm-babel-evaluate nil)
+(require 'org-install)
+(require 'org)
+
+;; load neatly organized org file!
+(org-babel-load-file "~/org/emacs-config.org")
+</pre>
+
+
+
+
+<p>
+And then each new customization goes in my emacs-config.org
+in the following format&hellip;
+</p>
+
+
+   <center>
+<p>
+   <img src="../images/emacs-config.png"  alt="../images/emacs-config.png" />
+   </center>
+
+This allows me to use collect different enhancements/configs from
+across various places, and keep my .emacs organized into neat
+sections using org-mode! Even if you don't have too much in your .emacs right now, over
+time you will always find new things to add to it, so I highly
+recommend getting started with this setup before it's too late.
+</p>
+
+

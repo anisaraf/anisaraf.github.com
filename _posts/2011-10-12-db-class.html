@@ -386,6 +386,202 @@ mostly a personal log of progress&hellip;
 
 
 </div>
+
+</div>
+
+<div id="outline-container-2-9-2" class="outline-4">
+<h4 id="sec-2-9-2">Functional dependencies </h4>
+<div class="outline-text-4" id="text-2-9-2">
+
+<ul>
+<li>Useful for compression/ reasoning about queries / generalization
+      of keys
+</li>
+<li>A -&gt; B (if a values are same then b values are also same)
+</li>
+<li>Implies A is key, so we can't have two rows with same A and B
+</li>
+<li>Splitting Rule
+<ul>
+<li>A -&gt; B1, B2 etc.. then A -&gt; B1, A -&gt; B2
+</li>
+<li>Applies only to RHS not LHS
+</li>
+</ul>
+
+</li>
+<li>Combining Rule (combine RHS)
+</li>
+<li>A -&gt; B then A -&gt; A \intersection B ; A -&gt; A \union B
+</li>
+<li>Transitive rule is valid
+</li>
+<li>Closure of attributes - determines all attributes functionally
+      determined by the LHS for which we are seeking closure; Add rhs's to the lhs and continue till
+      nothing left to add
+</li>
+<li>Closure of attributes allows you to find keys!
+</li>
+<li>Compute cloure of A and if = all attributes then A is a key
+</li>
+<li>To find all keys consider every subset in increasing size order
+      till we have a complete closure
+</li>
+<li>Does S2 follow from S1
+<ul>
+<li>Compute closure A based on S ; check if B in Set or
+</li>
+<li>Armstrong's axioms
+</li>
+</ul>
+
+</li>
+<li>Eventuall we want the minimal set of completely non-trivial FDs
+      such that all FDs follow from the dependencies in this set!
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-9-3" class="outline-4">
+<h4 id="sec-2-9-3">Boyce-Codd Normal Form </h4>
+<div class="outline-text-4" id="text-2-9-3">
+
+<ul>
+<li>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-9-4" class="outline-4">
+<h4 id="sec-2-9-4">MVD &amp; 4NF </h4>
+<div class="outline-text-4" id="text-2-9-4">
+
+<ul>
+<li>Separation of indenpendant facts
+</li>
+<li>
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-10" class="outline-3">
+<h3 id="sec-2-10">Triggers and constraints </h3>
+<div class="outline-text-3" id="text-2-10">
+
+<ul>
+<li>not null; primary key etc.
+</li>
+<li>Can only have one 'primary key'; can have cmpound primary key -
+     which is different from multiple primary keys.
+</li>
+<li>null doesn't count as unique - you can get multiple values for
+     unique constraint; bu usually not for primary keys
+</li>
+<li>check constraint - pretty cool but doesn't work in MySql
+</li>
+<li>check assertion - not implemented in mySql
+</li>
+<li>
+</li>
+<li>
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-2-10-1" class="outline-4">
+<h4 id="sec-2-10-1">Referential Ingtegrit </h4>
+<div class="outline-text-4" id="text-2-10-1">
+
+<ul>
+<li>from R.A to S.B
+</li>
+<li>A is called the foreign key
+</li>
+<li>B is usually required to be unique/primary
+</li>
+<li>Multi-attribut is allowed.
+</li>
+<li>Violating modifications
+<ul>
+<li>Insert into R
+</li>
+<li>Delete from S
+</li>
+<li>Update R.A/S.B
+</li>
+</ul>
+
+</li>
+<li>If Insert into R/Update R.A -&gt; if violation then error
+</li>
+<li>If Deltete/Update from S then special actions possible!
+<ul>
+<li>Restrict, Set Null, Cascade
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-10-2" class="outline-4">
+<h4 id="sec-2-10-2">Triggers </h4>
+<div class="outline-text-4" id="text-2-10-2">
+
+<ul>
+<li>Move monitoring into RDMS
+</li>
+<li>Has repar logic
+</li>
+<li>Create Trigger name Before|After|Instead of events (insert,
+      delte update of cols on T) [For Each Row?] &lt;- run it once for
+      each affected row or once?
+</li>
+<li>old row as ; new row as ; old table as ; new table as
+      (referencing variables) Row level trigger will trigger after
+      each affected row, table level at table level.
+</li>
+<li>Tricky issues:
+<ul>
+<li>Row level va Statement level
+</li>
+<li>Multiple triggers at the same time
+</li>
+<li>Chained,cycles, self-triggering, nested triggers
+</li>
+<li>Conditions in when vs. as part of action
+</li>
+<li>Implementations vary significantly
+</li>
+<li>Non-deterministic final states!
+</li>
+<li>
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
 </div>
 </div>
 
