@@ -1,0 +1,89 @@
+#+TITLE:     Software as a Service class
+#+AUTHOR:    Anirudh Saraf
+#+EMAIL:     anirudhsaraf@gmail.com
+#+DATE:      2011-10-13 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:3 \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+#+BEGIN_HTML
+---
+layout: post
+title: Personal notes for coursera's SaaS class
+tags: software,design, lecture notes
+---
+#+END_HTML
+
+I am following coursera's [[https://www.coursera.org/saas/class/index][saas-class]]  online, and using this post for
+keeping track of progress/notes/links etc. These notes are very rough,
+mostly a personal log of progress...
+
+* Lecture notes
+** Engineering Software is Different from Engineering Hardware (02/25)
+*** Legacy code: old SW meet customer's needs, but difficult to evolve due to design elegance
+*** Waterfall vs Agile
+    - Requirements analysis and specification
+    - Architectural design
+    - Implementation
+    - Verfication
+    - Operations and Maintenance
+    - Works well for important software with specs
+    - Plan to throw one away - you are going to anyway ;)
+    - If a problem has no solution, it may not be a problem, but a
+      fact, not to be solved, but to be coped with over time.(Peres's Law)
+    - Individuals and interactions over processes & tools
+    - Working software over comprehensive documentation
+    - Customer collaboration over contract negotiation
+    - Responding to change over following a plan
+    - Embrace change as a fact of life
+*** Assurance
+    - Verification - Did you build the thing *right*
+    - Validation - Did you build the *right* thing
+    - Testing - Exhaustive testing infeasible
+    - Use Automation, Coverage, Regression testing, Integration
+      testing, Test Driven Design
+*** Productivity
+    - Clarity via conciseness
+      + Syntax: short and easier to read
+      + Raise the level of abstraction
+    - Synthesis
+      + Automatic code generation
+    - Reuse
+      + Procedures and functions
+      + Standardized Libraries
+      + OOP
+      + Design Patterns
+    - Automation and tools
+      + Replace tedious manual tasks with automation to save time,
+        improve accuracy
+      + Concerns (Dependability/ UI)
+      + IMPORTANT SKILL - LEARN NEW TOOLS ALL THE TIME
+*** Sotware as a service
+    - SaaS delivers SW & data as a service
+    - No install worries
+    - No data loss
+    - Easy for groups to interact with same data
+    - No compatibility hassles for developers
+    - 1 copy - easier upgrades/features
+*** SOA
+    - SW architecture where all components are designed to be services
+    - Apps composed of interoperable services
+    - [[ http://news.ycombinator.com/item?id=3101876][Steve Yeggi's SOA rant]]
+*** Cloud computing, fallacies, pitfalls
+    - Communication 
+    - Scalability
+    - Dependability
+    - Cluster - commodity hardware
+    - Utility Computing / Public Cloud Computing
+    - AWS - 42nd fastest computer in the world @ $700/hr!
+** SaaS Architecture
+
+* Web Links

@@ -1,0 +1,187 @@
+#+TITLE:     2011-10-12-ai-class.org
+#+AUTHOR:    Anirudh Saraf
+#+EMAIL:     anirudhsaraf@gmail.com
+#+DATE:      2011-10-13 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:3 \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+#+BEGIN_HTML
+---
+layout: post
+title: Personal notes - common lisp
+tags: ai, stanford, lecture notes
+---
+#+END_HTML
+
+As a die-hard emacs fan (this blog runs out of emacs! - with a little
+help from github), I quickly realized that to gain the most out of my
+editor I needed to stop hacking on lisp and take a structured approach
+to learning it. Keeping this post to keep track of some common/emacs
+lisp notes as I learn about the language! 
+
+I am using this [[http://www.gigamonkeys.com/book/][free book]] to learn!
+
+
+* Notes
+** List:
+   + '(a b c d)
+   + '(this list has (a list inside of it))
+   + '() empty list
+   + Text between double quotation marks--even sentences or
+     paragraphs--is also an atom.  Here is an example: 
+    '(this list includes "text between quotation marks.")
+
+** set/setq
+   + (setq trees '(pine fir oak maple)
+           herbivores '(gazelle antelope zebra))
+   + setq can be used to set multiple values
+   + automatically quotes the first argument etc.
+   + Counter
+     (setq counter 0)                ; Let's call this the initializer.
+     (setq counter (+ counter 1))    ; This is the incrementer.
+     counter                         ; This is the counter.
+ 
+** Buffer functions
+   + (buffer-name); (buffer-file-name); (current-buffer); (other-buffer)
+   + (point) (point-min) (point-max)
+   + (with-current-buffer) (set-buffer)
+
+** Functions
+   + (defun FUNCTION-NAME (ARGUMENTS...)
+  "OPTIONAL-DOCUMENTATION..."
+  (interactive ARGUMENT-PASSING-INFO)     ; optional
+  BODY...)
+   + (defun multiply-by-seven (number)
+  "Multiply NUMBER by seven."
+  (* 7 number))
+
+   + Interactive functions don't display the return value after
+     evaluation.Called mainly for their side-effects
+   + `(interactive "p")', is a list of
+  two elements.  The `"p"' tells Emacs to pass the prefix argument to the
+  function and use its value for the argument of the function.
+
+** Special Forms
+   + defun
+   + let - local variables; default value of nil
+   + let* binds the values sequentially so you can refer to earlier variables
+   + if 
+     (if TRUE-OR-FALSE-TEST
+         ACTION-TO-CARRY-OUT-IF-THE-TEST-RETURNS-TRUE
+       ACTION-TO-CARRY-OUT-IF-THE-TEST-RETURNS-FALSE)
+   + save-excursion; returns point and mark and current-buffer to the state they were in
+     before execution of the function
+   +    An `or' function can have any number of arguments.  It evaluates
+each argument in turn and returns the value of the first of its
+arguments that is not `nil'.  Also, and this is a crucial feature of
+`or', it does not evaluate any subsequent arguments after returning the
+first non-`nil' value.
+
+
+** List functions
+   - car: first element of the list; non-destructive
+   - cdr: rest of the list
+   - (cons 'pine '(fir oak maple)) ; creates a new list - non-destructive
+   - (lenght ()) -> length of the list
+   - (nthcdr 1 '(pint fir oak maple)) -> (fir oak maple)
+   - (nth 1 '()) -> returns nth element of the list
+   - (setcar animals 'hippopotamus) -> changes the list by setting the first element
+   - (setcdr animals '()) -> changes the rest of the list
+   
+** Random Info
+
+   + nil, (), false
+   + C-u C-x C-e 
+     (message "insert his text here")"insert his text here"
+   + (search-forward)
+
+
+
+** progn
+   - (progn
+       BODY...) : returns the value from the last evaluated expression
+     throwing away intermediate return values.
+
+
+
+* Common Lisp:
+** Compiling
+   - Use C-c C-c in slime to install defun
+   - Use C-c C-k to compile and load file 
+     (load (compile-file "hello.cl"))
+** Chapter 2:
+   - (list :a 1 :b 2 :c 3)
+   - (getf (list) :a)
+   - 
+
+** Chapter 4: functions
+   - required params
+   - optional params (a b &optional c d)
+     - default values: &optional (c 10) (d 20)
+     - can refer to earlier arguments as well so (c a) c = a if not supplied!
+     - check if default value (c 10 c-supplied-p)
+   - variable params: (.... &rest values) -> values = list of params
+   - Keyword params - (&key a b c) -> after required, optiona and rest
+     params. Like optional params, but not positional
+   - (function name) ; gets function object #'name
+
+** Collections 
+
+   + (make-array 5 :fill-pointer 0 :adjustable t) ==> #()
+   + VECTOR-PUSH-EXTEND
+   + (make-array 5 :fill-pointer 0 :adjustable t :element-type
+     'character)  "" resizable string!
+   + has a BIT vector as well
+   + (length x) (elt x 3)
+   + (setf (elt *x* 0) 10) set value!
+   + Functions for operating on sequences
+     Name       Requirned Arguments           Returns
+     COUNT      Item and sequence            Number of times item appears in sequence
+     FIND       Item and sequence            Item or NIL
+     POSITION   Item and sequence            Index into sequence or NIL
+     REMOVE     Item and sequence            Sequence with instances of item removed
+     SUBSTITUTE New item, item, and sequence Sequence with instances
+     of item replaced with new item
+     (count 1 #(1 2 1 2 3 1 2 3 4))         ==> 3
+      (remove 1 #(1 2 1 2 3 1 2 3 4))        ==> #(2 2 3 2 3 4)
+      (remove 1 '(1 2 1 2 3 1 2 3 4))        ==> (2 2 3 2 3 4)
+      (remove #\a "foobarbaz")               ==> "foobrbz"
+      (substitute 10 1 #(1 2 1 2 3 1 2 3 4)) ==> #(10 2 10 2 3 10 2 3 4)
+      (substitute 10 1 '(1 2 1 2 3 1 2 3 4)) ==> (10 2 10 2 3 10 2 3 4)
+      (substitute #\x #\b "foobarbaz")       ==> "fooxarxaz"
+      (find 1 #(1 2 1 2 3 1 2 3 4))          ==> 1
+      (find 10 #(1 2 1 2 3 1 2 3 4))         ==> NIL
+      (position 1 #(1 2 1 2 3 1 2 3 4))      ==> 0
+   + Named arguments for functions 
+     Argument  Meaning                                                                                                               Default
+        :test     Two-argument function used to compare item (or value extracted by :key function) to element.                          EQL
+	:key      One-argument function to extract key value from actual sequence element. NIL means use element as is.                 NIL
+	:start    Starting index (inclusive) of subsequence.                                                                            0
+	:end      Ending index (exclusive) of subsequence. NIL indicates end of sequence.                                               NIL
+	:from-end If true, the sequence will be traversed in reverse order, from end to start.                                          NIL
+	:count    Number indicating the number of elements to remove or substitute or NIL to indicate all (REMOVE and SUBSTITUTE only). NIL
+   + Append -if and -if-not ; takes a function instead of item
+   + (remove-duplicates #(1 2 3 1)) => (1 2 3)
+   + copy-seq, reverse, concatenate
+     (concatenate 'list #(1 2 3) '(4 5 6))      ==> (1 2 3 4 5 6)
+   + (sort (vector "foo" "bar" "baz") #'string<) ==> #("bar" "baz" "foo")
+     stable-sort
+     (setf my-sequence (sort my-sequence #'string<))
+   + (merge 'vector #(1 3 5) #(2 4 6) #'<) ==> #(1 2 3 4 5 6)
+   + (setf (subseq *x* 3 6) "xx")   ; new value too short, only two characters changed
+     *x* ==> "fooxxcbaz"
+   + fill seq value :start :end
+   + position, search, mismatch
+   + EVERY, SOME, NOTANY, NOTEVERY
+   + MAP, MAP-INTO, REDUCE
+   + GETHASH, REMHASH, CLRHASH, MAPHASH
+   + (maphash #'(lambda (k v) (format t "~a => ~a~%" k v)) *h*)
