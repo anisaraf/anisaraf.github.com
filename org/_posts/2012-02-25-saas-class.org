@@ -76,7 +76,7 @@ mostly a personal log of progress...
 *** SOA
     - SW architecture where all components are designed to be services
     - Apps composed of interoperable services
-    - [[ http://news.ycombinator.com/item?id=3101876][Steve Yeggi's SOA rant]]
+    - [[http://news.ycombinator.com/item?id=3101876][Steve Yeggi - SOA rant]]
 *** Cloud computing, fallacies, pitfalls
     - Communication 
     - Scalability
@@ -85,5 +85,62 @@ mostly a personal log of progress...
     - Utility Computing / Public Cloud Computing
     - AWS - 42nd fastest computer in the world @ $700/hr!
 ** SaaS Architecture
-
+*** Web as a Client-Server System; TCP/IP Intro
+    - Internet: request/reply oriented
+    - Client/Server v-s Peer-to-Peer(bittorrent) architecture
+    - Localhost - 127.0.0.1
+    - IP - no-gaurantee, best-effort service
+    - TCP - makes IP reliable by detecting "dropped" packets
+    - TCP ports allow multiple TCP apps on same computer
+    - DNS - maps names to IP addresses
+    - HTTP - ASCII based request/reply protocol
+    - Protocol versions & status code; Response Header and Response Body
+    - nc -l <portnumber>
+    - HTTP is stateless! Cookies to the rescue
+    - Per-user state: customization/ click tracking etc.
+*** 3-tiered Shared-Nothing Architecture and Scaling
+    - map URI to correct function
+    - pass arguments etc.
+    - invoke program on server/storage etc.
+    - Presentation layer/ App Layer/ Database layer
+    - Developer environment vs medium-scale deployment vs
+      large-scale deployment
+    - Sharding v/s Replicate data
+*** Model-View-Controller Architecture
+    - separate organization of data (Model) with presentation(UI)
+      using a controller
+    - View 'indirectly' interacts with Model
+    - Each entity has a model, controller & set of views
+    - Establishing connections between different views?
+    - Models often talk to each other!
+    - Alternatives
+      - Page Controller  <Each view has a controller>
+      - Front Controller <One Controller>
+      - Template View (PHP) <No controller - embeded PHP>
+*** Models, Databases and ActiveRecord
+    - How to represent persisted object in storage
+    - In-Memory vs In-Storage?
+    - CRUD -> serialize / deserealize
+    - ActiveRecord : every model knows how to CRUD itself
+    - Rails Models store data in RDBMS
+    - Each model in its own table, each row is an instance of the model
+    - Alternative: DataMapper -> each model defines its own
+      CRUD. Google App Engine. No RDMS -> easier to scale?. Difficult
+      to map relationships without models
+*** Controllers, Routes and RESTfulness
+    - Route maps <HTTP request, URI> to controlloer action
+    - Rails routing:
+      + Map URI -> method
+      + Easily create <URI> calls
+      + Parse parameters passed to URI
+      + CRUD routes
+      + REST (Representation State Transfer)
+      + Each URI has all the information it needs to render its view
+*** Templates, Views and HAML
+    - Views -> markup with interpolation
+    - Template View Pattern: HAML + closure
+    - Alternate: Transform View pattern
+    - You can put code in view, but you shouldn't. HAML makes it
+      intentionally awkward.
 * Web Links
+** [[http://beta.saasbook.info/]]

@@ -174,7 +174,7 @@ mostly a personal log of progress&hellip;
 </li>
 <li>Apps composed of interoperable services
 </li>
-<li>[[ [[http://news.ycombinator.com/item?id=3101876][Steve][http://news.ycombinator.com/item?id=3101876][Steve]] Yeggi's SOA rant]]
+<li><a href="http://news.ycombinator.com/item?id=3101876">Steve Yeggi - SOA rant</a>
 </li>
 </ul>
 
@@ -212,6 +212,174 @@ mostly a personal log of progress&hellip;
 
 
 </div>
+
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Web as a Client-Server System; TCP/IP Intro </h4>
+<div class="outline-text-4" id="text-1-2-1">
+
+<ul>
+<li>Internet: request/reply oriented
+</li>
+<li>Client/Server v-s Peer-to-Peer(bittorrent) architecture
+</li>
+<li>Localhost - 127.0.0.1
+</li>
+<li>IP - no-gaurantee, best-effort service
+</li>
+<li>TCP - makes IP reliable by detecting "dropped" packets
+</li>
+<li>TCP ports allow multiple TCP apps on same computer
+</li>
+<li>DNS - maps names to IP addresses
+</li>
+<li>HTTP - ASCII based request/reply protocol
+</li>
+<li>Protocol versions &amp; status code; Response Header and Response Body
+</li>
+<li>nc -l &lt;portnumber&gt;
+</li>
+<li>HTTP is stateless! Cookies to the rescue
+</li>
+<li>Per-user state: customization/ click tracking etc.
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">3-tiered Shared-Nothing Architecture and Scaling </h4>
+<div class="outline-text-4" id="text-1-2-2">
+
+<ul>
+<li>map URI to correct function
+</li>
+<li>pass arguments etc.
+</li>
+<li>invoke program on server/storage etc.
+</li>
+<li>Presentation layer/ App Layer/ Database layer
+</li>
+<li>Developer environment vs medium-scale deployment vs
+      large-scale deployment
+</li>
+<li>Sharding v/s Replicate data
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Model-View-Controller Architecture </h4>
+<div class="outline-text-4" id="text-1-2-3">
+
+<ul>
+<li>separate organization of data (Model) with presentation(UI)
+      using a controller
+</li>
+<li>View 'indirectly' interacts with Model
+</li>
+<li>Each entity has a model, controller &amp; set of views
+</li>
+<li>Establishing connections between different views?
+</li>
+<li>Models often talk to each other!
+</li>
+<li>Alternatives
+<ul>
+<li>Page Controller  &lt;Each view has a controller&gt;
+</li>
+<li>Front Controller &lt;One Controller&gt;
+</li>
+<li>Template View (PHP) &lt;No controller - embeded PHP&gt;
+</li>
+</ul>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Models, Databases and ActiveRecord </h4>
+<div class="outline-text-4" id="text-1-2-4">
+
+<ul>
+<li>How to represent persisted object in storage
+</li>
+<li>In-Memory vs In-Storage?
+</li>
+<li>CRUD -&gt; serialize / deserealize
+</li>
+<li>ActiveRecord : every model knows how to CRUD itself
+</li>
+<li>Rails Models store data in RDBMS
+</li>
+<li>Each model in its own table, each row is an instance of the model
+</li>
+<li>Alternative: DataMapper -&gt; each model defines its own
+      CRUD. Google App Engine. No RDMS -&gt; easier to scale?. Difficult
+      to map relationships without models
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5">Controllers, Routes and RESTfulness </h4>
+<div class="outline-text-4" id="text-1-2-5">
+
+<ul>
+<li>Route maps &lt;HTTP request, URI&gt; to controlloer action
+</li>
+<li>Rails routing:
+<ul>
+<li>Map URI -&gt; method
+</li>
+<li>Easily create &lt;URI&gt; calls
+</li>
+<li>Parse parameters passed to URI
+</li>
+<li>CRUD routes
+</li>
+<li>REST (Representation State Transfer)
+</li>
+<li>Each URI has all the information it needs to render its view
+</li>
+</ul>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6">Templates, Views and HAML </h4>
+<div class="outline-text-4" id="text-1-2-6">
+
+<ul>
+<li>Views -&gt; markup with interpolation
+</li>
+<li>Template View Pattern: HAML + closure
+</li>
+<li>Alternate: Transform View pattern
+</li>
+<li>You can put code in view, but you shouldn't. HAML makes it
+      intentionally awkward.
+</li>
+</ul>
+
+</div>
+</div>
 </div>
 
 </div>
@@ -220,5 +388,13 @@ mostly a personal log of progress&hellip;
 <h2 id="sec-2">Web Links </h2>
 <div class="outline-text-2" id="text-2">
 
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><a href="http://beta.saasbook.info/">http://beta.saasbook.info/</a> </h3>
+<div class="outline-text-3" id="text-2-1">
+
+</div>
 </div>
 </div>
