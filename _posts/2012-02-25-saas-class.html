@@ -378,6 +378,203 @@ mostly a personal log of progress&hellip;
 </li>
 </ul>
 
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3">Ruby and Rails Basics </h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+</div>
+
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Ruby 101 </h4>
+<div class="outline-text-4" id="text-1-3-1">
+
+<ul>
+<li>Interpreted
+</li>
+<li>Object-Oriented
+<ul>
+<li>Every operation is a method call
+</li>
+</ul>
+
+</li>
+<li>Dynamically types - objects have types but variables don't
+</li>
+<li>Dynamic
+<ul>
+<li>add, modify code at runtime
+</li>
+<li>reflection
+</li>
+</ul>
+
+</li>
+<li>Naming conventions
+<ul>
+<li>ClassNames
+</li>
+<li>methods &amp; variables use snake<sub>case</sub> (?!)
+</li>
+<li>CONSTANTS(scoped) &amp; $GLOBALS
+</li>
+<li>symbols: immutable string whose value is itsemlf
+<ul>
+<li>:rails.to<sub>s</sub> == "rails"
+          "rails".to_sym == :rails
+          :rails == "rails" =&gt; false
+</li>
+<li>A symbol specifices that it is one of a fixed set of
+          strings, and not a random string
+</li>
+</ul>
+
+</li>
+<li>There are no declarations
+<ul>
+<li>local variables myst be assigned before use
+</li>
+<li>instance &amp; class variables ==nil until assigned
+</li>
+<li>OK x=3; x = 'foo'
+</li>
+<li>Array -&gt; no type x = [1, 'two', :three]
+</li>
+<li>Hash: w = {'a' =&gt; 1, :b=&gt;[2,3]}
+</li>
+</ul>
+
+</li>
+<li>Methods -&gt; everything passed by reference
+</li>
+<li><a href="http://rubular.com">http://rubular.com</a> for your regex needs
+</li>
+<li>regex syntax is simiar to perl
+</li>
+</ul>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Ruby Objects and Methods </h4>
+<div class="outline-text-4" id="text-1-3-2">
+
+<ul>
+<li>Even integers and nil are true objects
+</li>
+<li>my<sub>str</sub>.length =&gt; my<sub>str</sub>.send(:length)
+</li>
+<li>"implicit conversion" is not in the type system but in the
+      instance methods! Whoever is the receiver of the method decides
+      what to do with it.
+</li>
+<li>a.b means -&gt; call method b on object a! ALWAYS
+</li>
+<li>&lt;&lt; destructively modifies its receivers
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">OOP in Ruby </h4>
+<div class="outline-text-4" id="text-1-3-3">
+
+<ul>
+<li>class SavingsAccount &lt; Account #inheritance
+</li>
+<li>constructor: initialize
+</li>
+<li>@balance -&gt; instance variable
+</li>
+<li>need to define getter/setter def balance, def balance= {special syntax}
+</li>
+<li>@@bank<sub>name</sub> #class (static) variable
+</li>
+<li>def self.bank<sub>name</sub> {self -&gt; class(static) method name}
+</li>
+<li>A class is an instance of Class!
+</li>
+<li>attr<sub>accessor</sub> :balance {easier to create a simple getter/setters}
+</li>
+<li>no multi-inheritance (mix-in!)
+</li>
+<li>everything is a method call!
+</li>
+<li>most "operators" actually instance methods
+</li>
+<li>destructive methods have ! at the end
+</li>
+<li>? after a method call means it returns a boolean and has NO side effects
+</li>
+<li>! after a method call means it modifies the object it is called on OR the parameters passed in. This seems to be inconsistent at best.
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Ruby Metaprogramming </h4>
+<div class="outline-text-4" id="text-1-3-4">
+
+<ul>
+<li>acct.deposit(euro<sub>to</sub><sub>dollars</sub>(100))? Nope - lets do it in an
+      awesome way
+</li>
+<li>acct.deposit(20.euros)! Open Numeric class and define euros
+      class Numeric; def euros; self * 1.3 ; end
+</li>
+<li>method<sub>missing</sub>! -&gt; if you try to do a method that doesn't exist
+</li>
+<li>gets "name of the method" and "params"
+</li>
+<li>if method<sub>id</sub>.to<sub>s</sub> == 'euro'
+        self.send('euros')
+      else 
+        super  #default
+</li>
+<li>how about more currencies? Use a hash and method<sub>missing</sub> to do
+      some cool stuff ;)
+</li>
+<li>You can "reopen" any calss at any time and add stuff to it!
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">Ruby blocks, iterators, functional idioms </h4>
+<div class="outline-text-4" id="text-1-3-5">
+
+<ul>
+<li>If you are iterating with an index, you are probably doing it wrong!
+</li>
+<li>my<sub>array</sub>.each do |elt| &hellip; end
+</li>
+<li>each class kind of handles it's own iteration
+</li>
+<li>Expression Orientation
+</li>
+</ul>
+
 </div>
 </div>
 </div>

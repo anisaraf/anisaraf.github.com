@@ -142,5 +142,77 @@ mostly a personal log of progress...
     - Alternate: Transform View pattern
     - You can put code in view, but you shouldn't. HAML makes it
       intentionally awkward.
+
+** Ruby and Rails Basics
+*** Ruby 101
+    - Interpreted
+    - Object-Oriented
+      - Every operation is a method call
+    - Dynamically types - objects have types but variables don't
+    - Dynamic
+      - add, modify code at runtime
+      - reflection
+    - Naming conventions
+      - ClassNames
+      - methods & variables use snake_case (?!)
+      - CONSTANTS(scoped) & $GLOBALS
+      - symbols: immutable string whose value is itsemlf
+	- :rails.to_s == "rails"
+	  "rails".to_sym == :rails
+	  :rails == "rails" => false
+	- A symbol specifices that it is one of a fixed set of
+          strings, and not a random string
+      - There are no declarations
+	- local variables myst be assigned before use
+	- instance & class variables ==nil until assigned
+	- OK x=3; x = 'foo'
+	- Array -> no type x = [1, 'two', :three]
+	- Hash: w = {'a' => 1, :b=>[2,3]}
+      - Methods -> everything passed by reference
+      - http://rubular.com for your regex needs
+      - regex syntax is simiar to perl
+*** Ruby Objects and Methods
+    - Even integers and nil are true objects
+    - my_str.length => my_str.send(:length)
+    - "implicit conversion" is not in the type system but in the
+      instance methods! Whoever is the receiver of the method decides
+      what to do with it.
+    - a.b means -> call method b on object a! ALWAYS
+    - << destructively modifies its receivers
+*** OOP in Ruby
+    - class SavingsAccount < Account #inheritance
+    - constructor: initialize
+    - @balance -> instance variable
+    - need to define getter/setter def balance, def balance= {special syntax}
+    - @@bank_name #class (static) variable
+    - def self.bank_name {self -> class(static) method name}
+    - A class is an instance of Class!
+    - attr_accessor :balance {easier to create a simple getter/setters}
+    - no multi-inheritance (mix-in!)
+    - everything is a method call!
+    - most "operators" actually instance methods
+    - destructive methods have ! at the end
+    - ? after a method call means it returns a boolean and has NO side effects
+    - ! after a method call means it modifies the object it is called on OR the parameters passed in. This seems to be inconsistent at best.
+*** Ruby Metaprogramming
+    - acct.deposit(euro_to_dollars(100))? Nope - lets do it in an
+      awesome way
+    - acct.deposit(20.euros)! Open Numeric class and define euros
+      class Numeric; def euros; self * 1.3 ; end
+    - method_missing! -> if you try to do a method that doesn't exist
+    - gets "name of the method" and "params"
+    - if method_id.to_s == 'euro'
+        self.send('euros')
+      else 
+        super  #default
+    - how about more currencies? Use a hash and method_missing to do
+      some cool stuff ;)
+    - You can "reopen" any calss at any time and add stuff to it!
+      
+*** Ruby blocks, iterators, functional idioms
+    - If you are iterating with an index, you are probably doing it wrong!
+    - my_array.each do |elt| ... end
+    - each class kind of handles it's own iteration
+    - Expression Orientation
 * Web Links
 ** [[http://beta.saasbook.info/]]
