@@ -575,6 +575,7 @@ mostly a personal log of progress&hellip;
 </li>
 </ul>
 
+
 </div>
 </div>
 </div>
@@ -582,15 +583,195 @@ mostly a personal log of progress&hellip;
 </div>
 
 <div id="outline-container-2" class="outline-2">
-<h2 id="sec-2">Web Links </h2>
+<h2 id="sec-2">Homework </h2>
 <div class="outline-text-2" id="text-2">
 
 
 </div>
 
 <div id="outline-container-2-1" class="outline-3">
-<h3 id="sec-2-1"><a href="http://beta.saasbook.info/">http://beta.saasbook.info/</a> </h3>
+<h3 id="sec-2-1">Assignment 1 </h3>
 <div class="outline-text-3" id="text-2-1">
+
+<p><a href="http://spark-university.s3.amazonaws.com/berkeley-saas/homework/hw1.pdf">Instructions</a>
+</p>
+</div>
+
+<div id="outline-container-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1">Part 1: fun with strings </h4>
+<div class="outline-text-4" id="text-2-1-1">
+
+
+
+
+
+<pre class="example">def palindrome?(str)
+  x = str.downcase.gsub(/\W/, "")
+  return x.reverse == x
+end
+</pre>
+
+
+
+
+
+<pre class="example">require 'pp'
+def count_words(str)
+   counts = Hash.new(0)
+   str.downcase.gsub(/\W/," ").scan(/\b\S+/) {|key| counts[key] = counts[key] + 1 }
+  return counts;
+end 
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2">Part 2: Rock, Paper, Scissors </h4>
+<div class="outline-text-4" id="text-2-1-2">
+
+
+
+
+
+<pre class="example">require 'pp'
+class WrongNumberOfPlayersError &lt; StandardError ;end
+class NoSuchStrategyError &lt; StandardError ;end
+
+def rps_game_winner(game)
+  raise WrongNumberOfPlayersError unless game.length == 2
+  game.each {|player, move| raise NoSuchStrategyError unless move =~ /(p|s|r)/i }
+  rules = {:s =&gt; :r, :p =&gt; :s, :r =&gt; :p}
+  :player1 = 0; :player2=1; :name=0; :strategy = 1
+  case game[:player1][:strategy].downcase.to_sym
+  when game[:player2][:strategy].downcase.to_sym
+      return game[:player1]
+  when rules[game[:player2][:strategy].downcase.to_sym]
+    return game[:player1]
+  else
+    return game[:player2]
+  end
+end
+
+ pp rps_game_winner([ [ "Armando", "S" ], [ "Dave", "P" ] ])  
+</pre>
+
+
+<p>
+ ruby
+</p>
+<p>
+The logic here is to flatten the whole array, and pick four elements
+at a time and play the game. We keep doing this iteratively till we
+are only left with two elements and thus know the winners!
+</p>
+
+
+
+<pre class="example">require 'enumerator'
+def rps_tournament_winner(tournament)
+  tournament = tournament.flatten
+  while tournament.length &gt; 2 do
+    tournament = tournament.each_slice(4).map { |p1,s1,p2,s2| rps_game_winner [[p1,s1],[p2,s2]] }.flatten
+  end
+  return tournament
+end
+
+# participants = [
+#                 [[ ["Armando", "P"], ["Dave", "S"] ], [["Richard", "R"], ["Michael", "S"]]],
+#                 [[ ["Allen", "S"], ["Omer", "P"] ], [ ["David E.", "R"], ["Richard X.", "P"]]]
+#                ]
+# pp participants
+# pp rps_tournament_winner(participants)
+# pp participants
+
+
+</pre>
+
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-2-1-3" class="outline-4">
+<h4 id="sec-2-1-3">Part 3 </h4>
+<div class="outline-text-4" id="text-2-1-3">
+
+
+
+
+<pre class="example">def combine_anagrams(words)
+  results = Hash.new([]);
+  words.each {|word| results[word.downcase.split(//).sort.join] += [word]}
+  return results.values;
+end
+
+#pp combine_anagrams(['cars', 'for', 'potatoes', 'racs', 'four','scar', 'creams', 'scream']);    
+</pre>
+
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3">Web Links </h2>
+<div class="outline-text-2" id="text-3">
+
+
+</div>
+
+<div id="outline-container-3-1" class="outline-3">
+<h3 id="sec-3-1"><a href="http://beta.saasbook.info/">http://beta.saasbook.info/</a> </h3>
+<div class="outline-text-3" id="text-3-1">
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3-2" class="outline-3">
+<h3 id="sec-3-2">Emacs Tips </h3>
+<div class="outline-text-3" id="text-3-2">
+
+<ul>
+<li>Copy url at point  (C-c C-x C-w)
+</li>
+<li><a href="http://www.emacswiki.org/emacs/auto-indent-mode.el">EmacsWiki: auto-indent-mode.el</a>
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-3" class="outline-3">
+<h3 id="sec-3-3">Ruby tips </h3>
+<div class="outline-text-3" id="text-3-3">
+
+<ul>
+<li><a href="http://www.ruby-forum.com/topic/76083">Iterating over an array n element at a time</a>
+</li>
+<li><a href="http://stackoverflow.com/questions/1230279/how-to-chunk-an-array-in-ruby">How to chunk an array in Ruby - Stack Overflow </a>
+</li>
+<li><a href="http://www.skorks.com/2009/08/how-a-ruby-case-statement-works-and-what-you-can-do-with-it/">How A Ruby Case Statement Works And What You Can Do With It</a>
+</li>
+<li><a href="http://stackoverflow.com/questions/5575172/doing-each-in-ruby-how-to-place-a-br-every-n-items">Doing each in Ruby, how to place a br every n items - Stack Overflow</a>
+</li>
+<li><a href="http://blog.jayfields.com/2008/03/ruby-inject.html">Jay Fields' Thoughts - Ruby: inject</a> - This is essentially a foldl
+</li>
+</ul>
+
 
 </div>
 </div>

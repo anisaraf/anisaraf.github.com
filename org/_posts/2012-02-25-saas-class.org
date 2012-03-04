@@ -214,5 +214,99 @@ mostly a personal log of progress...
     - my_array.each do |elt| ... end
     - each class kind of handles it's own iteration
     - Expression Orientation
+
+* Homework
+** Assignment 1
+[[http://spark-university.s3.amazonaws.com/berkeley-saas/homework/hw1.pdf][Instructions]]
+*** Part 1: fun with strings
+
+#+begin_src ruby  :tangle /Users/asaraf/Documents/github/PublicCode/coursera/saas/part1.rb
+  def palindrome?(str)
+    x = str.downcase.gsub(/\W/, "")
+    return x.reverse == x
+  end
+#+end_src
+
+#+begin_src ruby  :tangle /Users/asaraf/Documents/github/PublicCode/coursera/saas/part1.rb 
+  require 'pp'
+  def count_words(str)
+     counts = Hash.new(0)
+     str.downcase.gsub(/\W/," ").scan(/\b\S+/) {|key| counts[key] = counts[key] + 1 }
+    return counts;
+  end 
+#+end_src
+
+*** Part 2: Rock, Paper, Scissors
+
+#+begin_src ruby :tangle /Users/asaraf/Documents/github/PublicCode/coursera/saas/part2.rb
+  require 'pp'
+  class WrongNumberOfPlayersError < StandardError ;end
+  class NoSuchStrategyError < StandardError ;end
+  
+  def rps_game_winner(game)
+    raise WrongNumberOfPlayersError unless game.length == 2
+    game.each {|player, move| raise NoSuchStrategyError unless move =~ /(p|s|r)/i }
+    rules = {:s => :r, :p => :s, :r => :p}
+    :player1 = 0; :player2=1; :name=0; :strategy = 1
+    case game[:player1][:strategy].downcase.to_sym
+    when game[:player2][:strategy].downcase.to_sym
+        return game[:player1]
+    when rules[game[:player2][:strategy].downcase.to_sym]
+      return game[:player1]
+    else
+      return game[:player2]
+    end
+  end
+  
+   pp rps_game_winner([ [ "Armando", "S" ], [ "Dave", "P" ] ])  
+#+END_SRC ruby
+
+The logic here is to flatten the whole array, and pick four elements
+at a time and play the game. We keep doing this iteratively till we
+are only left with two elements and thus know the winners!
+
+#+begin_src ruby :tangle /Users/asaraf/Documents/github/PublicCode/coursera/saas/part2.rb
+  require 'enumerator'
+  def rps_tournament_winner(tournament)
+    tournament = tournament.flatten
+    while tournament.length > 2 do
+      tournament = tournament.each_slice(4).map { |p1,s1,p2,s2| rps_game_winner [[p1,s1],[p2,s2]] }.flatten
+    end
+    return tournament
+  end
+   
+  # participants = [
+  #                 [[ ["Armando", "P"], ["Dave", "S"] ], [["Richard", "R"], ["Michael", "S"]]],
+  #                 [[ ["Allen", "S"], ["Omer", "P"] ], [ ["David E.", "R"], ["Richard X.", "P"]]]
+  #                ]
+  # pp participants
+  # pp rps_tournament_winner(participants)
+  # pp participants
+   
+    
+#+end_src
+
+*** Part 3
+#+begin_src ruby :tangle /Users/asaraf/Documents/github/PublicCode/coursera/saas/part3.rb
+def combine_anagrams(words)
+  results = Hash.new([]);
+  words.each {|word| results[word.downcase.split(//).sort.join] += [word]}
+  return results.values;
+end
+
+#pp combine_anagrams(['cars', 'for', 'potatoes', 'racs', 'four','scar', 'creams', 'scream']);    
+#+end_src
+
 * Web Links
 ** [[http://beta.saasbook.info/]]
+
+** Emacs Tips
+- Copy url at point  (C-c C-x C-w)
+- [[http://www.emacswiki.org/emacs/auto-indent-mode.el][EmacsWiki: auto-indent-mode.el]]
+** Ruby tips
+- [[http://www.ruby-forum.com/topic/76083][Iterating over an array n element at a time]]
+- [[http://stackoverflow.com/questions/1230279/how-to-chunk-an-array-in-ruby][How to chunk an array in Ruby - Stack Overflow ]]
+- [[http://www.skorks.com/2009/08/how-a-ruby-case-statement-works-and-what-you-can-do-with-it/][How A Ruby Case Statement Works And What You Can Do With It]]
+- [[http://stackoverflow.com/questions/5575172/doing-each-in-ruby-how-to-place-a-br-every-n-items][Doing each in Ruby, how to place a br every n items - Stack Overflow]]
+- [[http://blog.jayfields.com/2008/03/ruby-inject.html][Jay Fields' Thoughts - Ruby: inject]] - This is essentially a foldl
+

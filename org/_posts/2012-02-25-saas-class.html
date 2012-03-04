@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
+<head>
+<title>Software as a Service class</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2011-10-13 Thu"/>
+<meta name="author" content="Anirudh Saraf"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript" src="http://orgmode.org/org-info.js"></script>
+<script type="text/javascript" >
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "3");
+org_html_manager.set("LINK_HOME", "");
+org_html_manager.set("LINK_UP", "");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "1");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+<h1 class="title">Software as a Service class</h1>
+</div>
+
+<div id="content">
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 Part 2: Rock, Paper, Scissors </a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-4">
+<h4 id="sec-1"><span class="section-number-4">1</span> Part 2: Rock, Paper, Scissors </h4>
+<div class="outline-text-4" id="text-1">
+
+
+
+
+
+<pre class="example">require 'pp'
+class WrongNumberOfPlayersError &lt; StandardError ;end
+class NoSuchStrategyError &lt; StandardError ;end
+
+def rps_game_winner(game)
+  raise WrongNumberOfPlayersError unless game.length == 2
+  game.each {|player, move| raise NoSuchStrategyError unless move =~ /(p|s|r)/i }
+  rules = {:s =&gt; :r, :p =&gt; :s, :r =&gt; :p}
+  :player1 = 0; :player2=1; :name=0; :strategy = 1
+  case game[:player1][:strategy].downcase.to_sym
+  when game[:player2][:strategy].downcase.to_sym
+      return game[:player1]
+  when rules[game[:player2][:strategy].downcase.to_sym]
+    return game[:player1]
+  else
+    return game[:player2]
+  end
+end
+
+ pp rps_game_winner([ [ "Armando", "S" ], [ "Dave", "P" ] ])  
+</pre>
+
+
+
+
+<p>
+The logic here is to flatten the whole array, and pick four elements
+at a time and play the game. We keep doing this iteratively till we
+are only left with two elements and thus know the winners!
+</p>
+
+
+
+<pre class="example">require 'enumerator'
+def rps_tournament_winner(tournament)
+  tournament = tournament.flatten
+  while tournament.length &gt; 2 do
+    tournament = tournament.each_slice(4).map { |p1,s1,p2,s2| rps_game_winner [[p1,s1],[p2,s2]] }.flatten
+  end
+  return tournament
+end
+
+# participants = [
+#                 [[ ["Armando", "P"], ["Dave", "S"] ], [["Richard", "R"], ["Michael", "S"]]],
+#                 [[ ["Allen", "S"], ["Omer", "P"] ], [ ["David E.", "R"], ["Richard X.", "P"]]]
+#                ]
+# pp participants
+# pp rps_tournament_winner(participants)
+# pp participants
+
+
+</pre>
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2011-10-13 Thu</p>
+<p class="author">Author: Anirudh Saraf</p>
+<p class="creator">Org version 7.6 with Emacs version 23</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
