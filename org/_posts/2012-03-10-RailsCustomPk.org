@@ -1,0 +1,66 @@
+#+TITLE:  Creating custom primary key with Rails
+#+AUTHOR:    Ani
+#+EMAIL:     anirudhsaraf@gmail.com
+#+STARTUP: showall indent
+#+STARTUP: hidestars
+#+INFOJS_OPT: view:info toc:t
+#+OPTIONS: H:2 num:t toc:t
+#+BEGIN_HTML
+---
+layout: post
+title: Creating custom Primary Keys in Rails
+tags: Ruby, Rails, MySQL
+---
+#+END_HTML
+
+Having recently discovered Ruby/Rails, I decided to explore Rail's integration with legacy
+databases so that I could write one-off scripts to manipulate our
+databases with it (while learning ruby/rails at the same time!). One of the first things I ran into was the need to generate
+custom primary keys (can't use auto-incrementing keys!). A little bit
+of googling around led me to this simple solution
+
+#+begin_src ruby
+require 'active_record/connection_adapters/abstract_mysql_adapter'
+require 'mysql2'
+
+module  ActiveRecord
+  module ConnectionAdapters
+    class Mysql2Adapter < AbstractMysqlAdapter
+      @tn
+      def prefetch_primary_key?(table_name)
+        @tn = table_name
+        true
+      end
+      
+      def next_sequence_value(sequence_name)
+        id = select_value("SELECT id from #{@tn} ORDER BY id DESC LIMIT 1",'id')
+        id+1;
+      end
+    end
+  end
+end
+#+end_src
+
+Defining the prefetch_primary_key function tells the rails framework
+to call next_sequence_value to get the primary key. You can set the
+value of sequence_name in your models using  set_sequence_name. Since
+I was essentially 'implementing' auto-increment I simply decided to
+store the table_name and use that instead of setting the sequence_name
+in all my models. Obviously this is not a very robust/production ready
+solution/thread safe etc., but for those who are just 'hacking'
+around, this is a handy technique if you need to generate your own
+primary key ids. 
+
+And a quick tip to see what the ORM is generating if you are simply
+exploring your models -
+
+#+begin_example ruby
+logger = Logger.new(STDOUT)
+ActiveRecord::Base.logger = logger
+ActiveResource::Base.logger = logger
+#+end_example
+
+This will conviniently log all the SQL statements that your ORM is
+issuing.Happy Hacking!
+
+Ref:  http://ar.rubyonrails.org/classes/ActiveRecord/Base.html

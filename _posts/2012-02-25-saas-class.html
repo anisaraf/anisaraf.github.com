@@ -577,6 +577,196 @@ mostly a personal log of progress&hellip;
 
 
 </div>
+
+</div>
+
+<div id="outline-container-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6">Mixins and Duck Typing </h4>
+<div class="outline-text-4" id="text-1-3-6">
+
+<ul>
+<li>Duck Typing - similar to java interfaces
+</li>
+<li>ruby really doesn't care about types as long as the objects have the
+  appropriate methods
+</li>
+<li>Modules - can't instantiate it (like abstract classes
+  somewhat). Used for namespacing/ Mixins etc.
+</li>
+<li>include MyModule (simiar to #include in C++)
+</li>
+<li>checks A -&gt; mixin modules -&gt; method<sub>missing</sub> -&gt; punts to super class
+</li>
+<li>Example enumerable! - assumes you can respond to each and provides a
+  whole bunch of methods like any, collect, find, etc.
+</li>
+<li>Read documentation to figure out what methods needs to be
+  implemented for a Mixin to work
+</li>
+<li>File.open('file').select {|s| s=~/aeiou/}! Uses IO#each and String#&lt;=&gt;
+</li>
+<li>Modules reuse behaviors - Enumerable, Comparable
+</li>
+<li>Classes reuse implementation!
+</li>
+<li>Prefer composition over inheritance! (Mixin vs inheritance)
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-7" class="outline-4">
+<h4 id="sec-1-3-7">Yield </h4>
+<div class="outline-text-4" id="text-1-3-7">
+
+<ul>
+<li>Blocks (anonymous lambda)
+</li>
+<li>Ruby -&gt; here is some code to apply to every element, go handle your
+  own iteration. Contrast with java world of creating iterators etc.
+</li>
+<li>yield! closures! yummy :)
+</li>
+<li>Blocks are closures! They carry their environments
+</li>
+<li>Duck Typing, Blocks, Iterators, Closures, Annoymous lamdas
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-8" class="outline-4">
+<h4 id="sec-1-3-8">Databases &amp; Migrations </h4>
+<div class="outline-text-4" id="text-1-3-8">
+
+<ul>
+<li>Database is golden! Rails provides 3 databases dev/production and
+  test environments each have own DB!!!!
+</li>
+<li>How to make changes to DB? Rails solution - migration - script
+  describing changes, portable across DB types (mysql, postgres etc!)
+</li>
+<li>Can identify each migration, and some migrations can even be
+  rolledback
+</li>
+<li>Can version your migrations - holy moly!
+</li>
+<li>Theme: don't do it - automate it!
+</li>
+<li>rails generate migration &ndash; def up; def down (rollback!)
+</li>
+<li>rake db:migrate (Apply migration to development)
+</li>
+<li>Production (heroku): heroku rake db:migrate
+</li>
+<li>Rails maintains a record of which migrations have been applied -
+  running migrations is idempotent :)
+</li>
+<li>Augumenting app functionality -&gt; add models, view, controller
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-9" class="outline-4">
+<h4 id="sec-1-3-9">ActiveRecord Basics </h4>
+<div class="outline-text-4" id="text-1-3-9">
+
+<ul>
+<li>Subclass from ActiveRecord::Base
+</li>
+<li>connects to a model
+</li>
+<li>Makes CRUD simple simple simple
+</li>
+<li>Database table name derived from Models name Movie-&gt;movies
+</li>
+<li>Database table column names are getters/setters
+<ul>
+<li>differs from attr<sub>reader</sub>; a lot of stuff goes on under the hood
+</li>
+</ul>
+
+</li>
+<li>Creating <code>/</code> save/ save or save! (! throws exception if operation fails)
+</li>
+<li>Create = new + save
+</li>
+<li>new<sub>record</sub>? -&gt; works with id to determine if record exists etc.
+</li>
+<li>Movie.where("rating='PG'"); allows prepared statements as well
+</li>
+<li>where can be chained together efficiently
+</li>
+<li>Defrencing happens when defreneced - allows efficient chaining :)
+</li>
+<li>find<sub>*</sub>  allows finding by attributes; find<sub>all</sub><sub>by</sub><sub>rating</sub>,
+  find<sub>by</sub><sub>rating</sub> etc.
+</li>
+<li>All find<sub>by</sub> methods are safe, unless you bang them ;)
+</li>
+<li>Update: modify attributes and save, or update<sub>attributes</sub>
+</li>
+<li>Transaction operations - either all are updated or none
+</li>
+<li>Destroy - destroy an instance method
+</li>
+<li>m.destroy &lt;-&gt; AR object is destroyed, but you can access the
+    read-only copy (can't modify it)
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-10" class="outline-4">
+<h4 id="sec-1-3-10">Controllers and Views </h4>
+<div class="outline-text-4" id="text-1-3-10">
+
+<ul>
+<li>Create route in config/routes.rb
+</li>
+<li>Add the action in the appropriate *<sub>controller</sub>.rb
+</li>
+<li>Ensure there is a corresponding view!
+</li>
+<li>Model -&gt; methods to get/manipulate data
+</li>
+<li>Controller -&gt; get data from Model, make available to view
+</li>
+<li>Instance variables in controller are available in the view
+</li>
+<li>By default view is app/views/&lt;class&gt;/&lt;method&gt;.haml
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-11" class="outline-4">
+<h4 id="sec-1-3-11">Debugging </h4>
+<div class="outline-text-4" id="text-1-3-11">
+
+<ul>
+<li>Print statements doesn't work as well in SaaS ;)
+</li>
+<li>LOGGING!
+</li>
+<li>
+</li>
+</ul>
+
+
+
+</div>
 </div>
 </div>
 

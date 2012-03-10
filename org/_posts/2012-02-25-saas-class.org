@@ -215,6 +215,79 @@ mostly a personal log of progress...
     - each class kind of handles it's own iteration
     - Expression Orientation
 
+*** Mixins and Duck Typing
+- Duck Typing - similar to java interfaces
+- ruby really doesn't care about types as long as the objects have the
+  appropriate methods
+- Modules - can't instantiate it (like abstract classes
+  somewhat). Used for namespacing/ Mixins etc.
+- include MyModule (simiar to #include in C++)
+- checks A -> mixin modules -> method_missing -> punts to super class
+- Example enumerable! - assumes you can respond to each and provides a
+  whole bunch of methods like any, collect, find, etc.
+- Read documentation to figure out what methods needs to be
+  implemented for a Mixin to work
+- File.open('file').select {|s| s=~/aeiou/}! Uses IO#each and String#<=>
+- Modules reuse behaviors - Enumerable, Comparable
+- Classes reuse implementation!
+- Prefer composition over inheritance! (Mixin vs inheritance)
+*** Yield
+- Blocks (anonymous lambda)
+- Ruby -> here is some code to apply to every element, go handle your
+  own iteration. Contrast with java world of creating iterators etc.
+- yield! closures! yummy :)
+- Blocks are closures! They carry their environments
+- Duck Typing, Blocks, Iterators, Closures, Annoymous lamdas
+*** Databases & Migrations
+- Database is golden! Rails provides 3 databases dev/production and
+  test environments each have own DB!!!!
+- How to make changes to DB? Rails solution - migration - script
+  describing changes, portable across DB types (mysql, postgres etc!)
+- Can identify each migration, and some migrations can even be
+  rolledback
+- Can version your migrations - holy moly!
+- Theme: don't do it - automate it!
+- rails generate migration -- def up; def down (rollback!)
+- rake db:migrate (Apply migration to development)
+- Production (heroku): heroku rake db:migrate
+- Rails maintains a record of which migrations have been applied -
+  running migrations is idempotent :)
+- Augumenting app functionality -> add models, view, controller
+*** ActiveRecord Basics
+- Subclass from ActiveRecord::Base
+- connects to a model
+- Makes CRUD simple simple simple
+- Database table name derived from Models name Movie->movies
+- Database table column names are getters/setters
+  - differs from attr_reader; a lot of stuff goes on under the hood
+- Creating =/= save/ save or save! (! throws exception if operation fails)
+- Create = new + save
+- new_record? -> works with id to determine if record exists etc.
+- Movie.where("rating='PG'"); allows prepared statements as well
+- where can be chained together efficiently
+- Defrencing happens when defreneced - allows efficient chaining :)
+- find_*  allows finding by attributes; find_all_by_rating,
+  find_by_rating etc.
+- All find_by methods are safe, unless you bang them ;)
+- Update: modify attributes and save, or update_attributes
+- Transaction operations - either all are updated or none
+- Destroy - destroy an instance method
+- m.destroy <-> AR object is destroyed, but you can access the
+    read-only copy (can't modify it)
+*** Controllers and Views
+- Create route in config/routes.rb
+- Add the action in the appropriate *_controller.rb
+- Ensure there is a corresponding view!
+- Model -> methods to get/manipulate data
+- Controller -> get data from Model, make available to view
+- Instance variables in controller are available in the view
+- By default view is app/views/<class>/<method>.haml
+*** Debugging
+- Print statements doesn't work as well in SaaS ;)
+- LOGGING!
+- 
+  
+  
 * Homework
 ** Assignment 1
 [[http://spark-university.s3.amazonaws.com/berkeley-saas/homework/hw1.pdf][Instructions]]
