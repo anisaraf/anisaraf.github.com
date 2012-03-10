@@ -39,11 +39,11 @@ end
 
 
 <p>
-Defining the prefetch<sub>primary</sub><sub>key</sub> function tells the rails framework
-to call next<sub>sequence</sub><sub>value</sub> to get the primary key. You can set the
-value of sequence<sub>name</sub> in your models using  set<sub>sequence</sub><sub>name</sub>. Since
+Defining the prefetch_primary_key function tells the rails framework
+to call next_sequence_value to get the primary key. You can set the
+value of sequence_name in your models using  set_sequence_name. Since
 I was essentially 'implementing' auto-increment I simply decided to
-store the table<sub>name</sub> and use that instead of setting the sequence<sub>name</sub>
+store the table_name and use that instead of setting the sequence_name
 in all my models. Obviously this is not a very robust/production ready
 solution/thread safe etc., but for those who are just 'hacking'
 around, this is a handy technique if you need to generate your own
